@@ -1,0 +1,171 @@
+# Study Mode
+- id: '1600589105104'
+  alias: Study
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.study_mode
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.away_mode
+      state: 'off'
+  action:
+  - scene: scene.study
+  - service: homeassistant.turn_off
+    data: {}
+    entity_id:
+    - input_boolean.sleep_mode
+    - input_boolean.game_mode
+  mode: restart
+# Game Mode  
+- id: '1600589225737'
+  alias: Game
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.game_mode
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.away_mode
+      state: 'off'
+  action:
+  - scene: scene.game
+  - service: homeassistant.turn_off
+    data: {}
+    entity_id:
+    - input_boolean.study_mode
+    - input_boolean.sleep_mode
+  mode: restart
+# Sleep Mode  
+- id: '1600590060785'
+  alias: Sleep
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.sleep_mode
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.away_mode
+      state: 'off'
+  action:
+  - scene: scene.scene_sleep
+  - service: homeassistant.turn_off
+    data: {}
+    entity_id:
+    - input_boolean.study_mode
+    - input_boolean.game_mode
+  mode: restart
+# Away Mode  
+- id: '1600591421096'
+  alias: Away
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: device_tracker.life360_changjun
+    from: home
+    to: not_home
+  condition:
+  - condition: state
+    entity_id: sensor.icangjunyi_iphone_connection_type
+    state: Cellular
+  action:
+  - service: homeassistant.turn_on
+    data: {}
+    entity_id: input_boolean.away_mode
+  - scene: scene.scene_away
+  - service: notify.mobile_app_icangjunyi_iphone
+    data:
+      message: You just left home. Have a good day! :)
+  mode: restart
+# Return  
+- id: '1600591711153'
+  alias: Return
+  description: Activate once when return
+  trigger:
+  - platform: state
+    entity_id: device_tracker.life360_changjun
+    from: not_home
+    to: home
+  condition:
+  - condition: state
+    entity_id: scene.scene_away
+    state: 'on'
+  action:
+  - service: homeassistant.turn_off
+    data: {}
+    entity_id: input_boolean.away_mode
+  - service: notify.mobile_app_icangjunyi_iphone
+    data:
+      message: Welcome Home! :)
+  mode: single
+# Light Control while Home  
+- id: '1600595404501'
+  alias: Home_light
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: de4cb5ea035c45edb598b6248f7f1c61
+    entity_id: binary_sensor.motion_sensor_occupancy
+    domain: binary_sensor
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.home_mode
+      state: 'on'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.game_mode
+        state: 'off'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.study_mode
+        state: 'off'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.sleep_mode
+        state: 'off'
+  action:
+  - type: turn_on
+    device_id: e517ecf3d35c4a76b89c4923ba76aa5b
+    entity_id: switch.light_switch_switch_l2
+    domain: switch
+  mode: restart
+# turn off input_booleans  
+- id: '1600599118233'
+  alias: Shutdown input_booleans
+  description: ''
+  trigger:
+  - platform: event
+    event_type: call_service
+    event_data:
+      service_data:
+        entity_id:
+        - scene.shut_down
+      domain: scene
+      service: turn_on
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id:
+    - input_boolean.sleep_mode
+    - input_boolean.game_mode
+    - input_boolean.study_mode
+  mode: single

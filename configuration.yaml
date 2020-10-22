@@ -1,0 +1,141 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+http:
+  base_url: https://ha.stansign.duckdns.org
+
+lovelace:
+  mode: yaml
+
+frontend:
+  themes: !include themes.yaml
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+input_boolean: !include booleans.yaml
+automation: !include automations.yaml
+
+discovery:
+  ignore:
+    - yeelight
+yeelight:
+  devices:
+    192.168.0.6:
+      name: Xiaomi Desk Strip
+      save_on_change: true
+      
+      # Free Memory
+sensor:
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'date_time_utc'
+      - 'date_time_iso'
+      - 'time_date'
+      - 'time_utc'
+      - 'beat'
+
+  - platform: steam_online
+    api_key: 86AF8DF0E151A052F49E134A5477BE84
+    accounts:
+      - '76561198086996983'
+      - '76561198086267709'
+      - '76561198074838957'
+
+  - platform: authenticated
+
+  - platform: command_line
+    name: Supervisor updates
+    command: 'curl http://supervisor/supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ''{"newest_version":.data.version_latest,"current_version":.data.version,"addons":[.data.addons[] | select(.version != .installed)]}'''
+    value_template: "{{ value_json.addons | length }}"
+    json_attributes:
+      - newest_version
+      - current_version
+      - addons
+
+  - platform: systemmonitor
+    resources:
+          - type: disk_use_percent
+            arg: /home
+          - type: memory_use_percent
+          - type: memory_use
+          - type: swap_use
+          - type: swap_free
+          - type: swap_use_percent
+          - type: load_1m
+          - type: load_5m
+          - type: load_15m
+          - type: memory_free
+          - type: last_boot
+          - type: processor_use
+          - type: network_in
+            arg: eth0
+          - type: network_out
+            arg: eth0
+          - type: ipv4_address
+            arg: eth0
+          - type: throughput_network_in
+            arg: eth0
+          - type: throughput_network_out
+            arg: eth0
+          - type: processor_use
+
+  - platform: avanza_stock
+    stock:
+      - id: 1107939
+        name: Velodyne
+        shares: 24
+        purchase_price: 26.9163
+      - id: 3323
+        name: Apple
+      - id: 4478
+        name: NVIDIA
+      - id: 1128927
+        name: Luminar
+      - id: 238449
+        name: Tesla
+        shares: 3
+        purchase_price: 443.0667
+    monitored_conditions:
+      - change
+      - changePercent
+      - highestPrice
+      - lastPrice
+      - lowestPrice
+      - marketTrades
+      - tickerSymbol
+      - totalVolumeTraded
+      - totalValueTraded
+  - platform: uptime
+    name: Hassio uptime
+    unit_of_measurement: minutes
+
+  - platform: version
+    source: hassio
+
+  - platform: dnsip
+
+  - platform: naver_weather
+    name: Weather
+    area: 'weather'
+
+weather:
+  - platform: naver_weather
+    area: 'weather'
+    sensor_use: 'Y'
+
+browser_mod:
+
+homeassistant:
+  customize:
+    sensor.nvidia:
+      entity_picture: /local/image/nvidia.png?
+    sensor.velodyne:
+      entity_picture: /local/image/velodyne.png?

@@ -1,0 +1,6 @@
+button_theme1:
+  state:
+    - styles:
+        icon:
+          color: rgb(255, 255, 255)
+        color: rgb(120, 120, 120)

@@ -1,0 +1,367 @@
+- id: scene_study_mode
+  name: Scene_Study
+  entities:
+    light.desk_bulb_light:
+      brightness: 253
+      hs_color:
+      - 0
+      - 0.392
+      rgb_color:
+      - 255
+      - 254
+      - 254
+      xy_color:
+      - 0.324
+      - 0.329
+      color:
+        x: 0.323
+        y: 0.329
+      linkquality: 84
+      state: 'on'
+      update_available: false
+      friendly_name: Desk Bulb light
+      supported_features: 57
+    light.xiaomi_desk_strip:
+      min_mireds: 153
+      max_mireds: 588
+      effect_list:
+      - Strobe color
+      - Police
+      - Christmas
+      - RGB
+      - Random Loop
+      - Fast Random Loop
+      - LSD
+      - Slowdown
+      - Disco
+      - Strobe epilepsy!
+      - Alarm
+      - Police2
+      - WhatsApp
+      - Facebook
+      - Twitter
+      - Slow Temp
+      - Stop
+      brightness: 255
+      color_temp: 153
+      hs_color:
+      - 48
+      - 1.961
+      rgb_color:
+      - 255
+      - 253
+      - 249
+      xy_color:
+      - 0.328
+      - 0.333
+      flowing: false
+      friendly_name: Xiaomi Desk Strip
+      supported_features: 63
+      state: 'on'
+    light.monitor_strip_light:
+      min_mireds: 153
+      max_mireds: 500
+      brightness: 252
+      color_temp: 144
+      hs_color:
+      - 216.923
+      - 5.098
+      rgb_color:
+      - 242
+      - 247
+      - 255
+      xy_color:
+      - 0.312
+      - 0.321
+      color:
+        x: 0.312
+        y: 0.322
+      linkquality: 110
+      state: 'on'
+      friendly_name: Monitor Strip light
+      supported_features: 59
+  icon: mdi:lead-pencil
+- id: scene_game_mode
+  name: Scene_Game
+  entities:
+    light.desk_bulb_light:
+      brightness: 253
+      hs_color:
+      - 298.979
+      - 92.157
+      rgb_color:
+      - 251
+      - 19
+      - 255
+      xy_color:
+      - 0.38
+      - 0.154
+      color:
+        x: 0.381
+        y: 0.154
+      linkquality: 84
+      state: 'on'
+      update_available: false
+      friendly_name: Desk Bulb light
+      supported_features: 57
+    light.xiaomi_desk_strip:
+      min_mireds: 153
+      max_mireds: 588
+      effect_list:
+      - Strobe color
+      - Police
+      - Christmas
+      - RGB
+      - Random Loop
+      - Fast Random Loop
+      - LSD
+      - Slowdown
+      - Disco
+      - Strobe epilepsy!
+      - Alarm
+      - Police2
+      - WhatsApp
+      - Facebook
+      - Twitter
+      - Slow Temp
+      - Stop
+      brightness: 255
+      color_temp: 153
+      hs_color:
+      - 195.294
+      - 100
+      rgb_color:
+      - 0
+      - 190
+      - 255
+      xy_color:
+      - 0.146
+      - 0.237
+      flowing: false
+      friendly_name: Xiaomi Desk Strip
+      supported_features: 63
+      state: 'on'
+    light.monitor_strip_light:
+      min_mireds: 153
+      max_mireds: 500
+      brightness: 254
+      color_temp: 44
+      hs_color:
+      - 299.754
+      - 95.686
+      rgb_color:
+      - 253
+      - 11
+      - 255
+      xy_color:
+      - 0.383
+      - 0.154
+      color:
+        x: 0.385
+        y: 0.155
+      linkquality: 110
+      state: 'on'
+      friendly_name: Monitor Strip light
+      supported_features: 59
+    switch.light_switch_switch_l1:
+      linkquality: 110
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Balcony
+      state: 'off'
+    switch.light_switch_switch_l2:
+      linkquality: 110
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Room
+      state: 'off'
+  icon: mdi:gamepad-variant
+- id: scene_sleep_mode
+  name: Scene_Sleep
+  entities:
+    light.desk_bulb_light:
+      brightness: 0
+      color:
+        x: 0.38
+        y: 0.154
+      linkquality: 84
+      state: 'off'
+      update_available: false
+      friendly_name: Desk Bulb light
+      supported_features: 57
+    light.xiaomi_desk_strip:
+      min_mireds: 153
+      max_mireds: 588
+      effect_list:
+      - Strobe color
+      - Police
+      - Christmas
+      - RGB
+      - Random Loop
+      - Fast Random Loop
+      - LSD
+      - Slowdown
+      - Disco
+      - Strobe epilepsy!
+      - Alarm
+      - Police2
+      - WhatsApp
+      - Facebook
+      - Twitter
+      - Slow Temp
+      - Stop
+      flowing: false
+      friendly_name: Xiaomi Desk Strip
+      supported_features: 63
+      state: 'off'
+    light.monitor_strip_light:
+      min_mireds: 153
+      max_mireds: 500
+      brightness: 0
+      color:
+        x: 0.383
+        y: 0.154
+      color_temp: 46
+      linkquality: 110
+      state: 'off'
+      friendly_name: Monitor Strip light
+      supported_features: 59
+    switch.light_switch_switch_l1:
+      linkquality: 110
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Balcony
+      state: 'off'
+    switch.light_switch_switch_l2:
+      linkquality: 110
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Room
+      state: 'off'
+  icon: mdi:power-sleep
+- id: scene_away_mode
+  name: Scene_Away
+  entities:
+    light.desk_bulb_light:
+      brightness: 0
+      color:
+        x: 0.447
+        y: 0.406
+      linkquality: 84
+      state: 'off'
+      update_available: false
+      friendly_name: Desk Bulb light
+      supported_features: 57
+    light.xiaomi_desk_strip:
+      min_mireds: 153
+      max_mireds: 588
+      effect_list:
+      - Strobe color
+      - Police
+      - Christmas
+      - RGB
+      - Random Loop
+      - Fast Random Loop
+      - LSD
+      - Slowdown
+      - Disco
+      - Strobe epilepsy!
+      - Alarm
+      - Police2
+      - WhatsApp
+      - Facebook
+      - Twitter
+      - Slow Temp
+      - Stop
+      flowing: false
+      friendly_name: Xiaomi Desk Strip
+      supported_features: 63
+      state: 'off'
+    switch.light_switch_switch_l1:
+      linkquality: 110
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Balcony
+      state: 'off'
+    switch.light_switch_switch_l2:
+      linkquality: 110
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Room
+      state: 'off'
+    light.monitor_strip_light:
+      min_mireds: 153
+      max_mireds: 500
+      brightness: 0
+      color:
+        x: 0.313059507478705
+        y: 0.323172994053855
+      color_temp: 153
+      linkquality: 110
+      state: 'off'
+      friendly_name: Monitor Strip light
+      supported_features: 59
+  icon: mdi:account-arrow-right
+- id: scene_all_off
+  name: Scene_Shut Down
+  entities:
+    light.desk_bulb_light:
+      brightness: 0
+      color:
+        x: 0.324
+        y: 0.329
+      linkquality: 84
+      state: 'off'
+      update_available: false
+      friendly_name: Desk Bulb light
+      supported_features: 57
+    light.xiaomi_desk_strip:
+      min_mireds: 153
+      max_mireds: 588
+      effect_list:
+      - Strobe color
+      - Police
+      - Christmas
+      - RGB
+      - Random Loop
+      - Fast Random Loop
+      - LSD
+      - Slowdown
+      - Disco
+      - Strobe epilepsy!
+      - Alarm
+      - Police2
+      - WhatsApp
+      - Facebook
+      - Twitter
+      - Slow Temp
+      - Stop
+      flowing: false
+      friendly_name: Xiaomi Desk Strip
+      supported_features: 63
+      state: 'off'
+    light.monitor_strip_light:
+      min_mireds: 153
+      max_mireds: 500
+      brightness: 0
+      color:
+        x: 0.312
+        y: 0.321
+      color_temp: 140
+      linkquality: 110
+      state: 'off'
+      friendly_name: Monitor Strip light
+      supported_features: 59
+    switch.light_switch_switch_l1:
+      linkquality: 118
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Balcony
+      state: 'off'
+    switch.light_switch_switch_l2:
+      linkquality: 118
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Room
+      state: 'off'
+  icon: mdi:lightbulb-off

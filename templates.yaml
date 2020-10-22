@@ -1,0 +1,16 @@
+base:
+  aspect_ratio: 2/3
+  show_state: true
+  show_icon: false
+  tap_action:
+    action: toggle
+    haptic: light
+  styles:
+    state:
+      [bottom: 8%, left: 8%, position: absolute, font-size: 11px]
+    card: 
+      [font-family: SF Display, letter-spacing: 0.05vw, font-weight: 300, color: 'white', font-size: 1.34vw]
+    
+light:
+  template: ['base']
+

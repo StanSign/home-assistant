@@ -1,0 +1,8 @@
+pc_off:
+  alias: PC - Off
+  sequence:
+  - data:
+      command: shutdown
+      device_id: PC
+    service: joaoapps_join.join_devices_send_tasker
+  mode: single

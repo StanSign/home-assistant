@@ -1,0 +1,10 @@
+home-assistant_v2.db
+home-assistant.log
+/.storage
+/.cloud
+/tts
+/deps
+.ip_authenticated.yaml
+aircast.xml
+home-assistant.code-workspace
+secrets.yaml
