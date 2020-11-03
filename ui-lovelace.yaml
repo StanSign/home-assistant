@@ -27,6 +27,33 @@ resources:
     type: module
   - url: /hacsfiles/battery-state-card/battery-state-card.js
     type: module
+  - url: /hacsfiles/lovelace-hui-element/hui-element.js
+    type: module
+  - url: /hacsfiles/light-popup-card/light-popup-card.js
+    type: module
+  - url: /hacsfiles/light-entity-card/light-entity-card.js
+    type: module
+
+preload_cards:
+  [map, iframe, markdown]
+preload_rows:
+  [input-select-entity]
+
+anchors:
+  ⚓₁: &title
+    entity: sensor.placeholder
+    tap_action:
+      action: none
+    hold_action:
+      action: none
+    type: state-label
+  ⚓₂: &title-style
+    color: '#bcbebf'
+    font-family: SF Text
+    font-size: 2.4vw
+    font-weight: 500
+    max-width: 1px
+    cursor: default
 
 button_card_templates: !include button_templates.yaml
 
@@ -36,20 +63,6 @@ custom_field_component_color: &custom_field_component_color white
 custom_field_font_size: &custom_field_font_size 11px
 card_background_color_on: &card_bg_color_on '#4E86D3'
 sidebar_background_color: &sidebar_color '#484d61'
-
-custom_header:
-  tab_icons_and_text: true
-  compact_mode: true
-  disable_sidebar: false
-  hide_header: false
-  background: var(--app-header-background-color)
-  elements_color: var(--app-header-text-color)
-  active_tab_color: *custom_field_component_color
-  tab_indicator_color: *custom_field_component_color
-  tab_icons:
-    0: mdi:home
-  tab_text:
-    home: " "
 
 views:
     # View tab title.
@@ -575,72 +588,6 @@ views:
                           if (entity.state=='on')
                             return '<ha-icon icon="mdi:led-strip-variant" style="width: 20px; height: 20px;">'        
                             return '<ha-icon icon="mdi:led-strip-variant" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'On';
-                            return 'Off';
-                        ]]]
-                      color: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:square-rounded" style="width: 15px; height: 15px;">'
-                        ]]]
-                    tap_action:
-                      action: toggle
-                    hold_action:
-                      action: more-info
-                      
-              - type: 'horizontal-stack'
-                cards:
-                ######################## MONITOR STRIP ############################
-                  - type: 'custom:button-card'
-                    entity: light.monitor_strip_light
-                    show_icon: false
-                    show_name: false
-                    size: 20%
-                    style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('light.monitor_strip_light', 'on') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                    styles:
-                      card:
-                        - height: 80px
-                      icon:
-                        - color: *custom_field_component_color
-                      custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                        color:
-                          - top: *custom_field_gap
-                          - right: *custom_field_gap
-                          - position: absolute
-                          - color: |
-                              [[[
-                                var color = states['light.monitor_strip_light'].attributes.rgb_color;
-                                return 'rgba(' + color + ', 0.7)';
-                              ]]]
-                    custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:television" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:television" style="width: 20px; height: 20px;">'
                         ]]]
                       state: |
                         [[[
@@ -1458,80 +1405,95 @@ views:
               - entity: sensor.icangjunyi_ipad_2_battery_level
                 name: iPad
 
-          - type: 'custom:swipe-card'
-            cards:
-              - align_icon: left
-                align_state: center
-                entities:
-                  - sensor.apple
-                animate: true
-                hour24: true
-                font_size: 75
-                line_width: 5
-                icon: 'mdi:apple'
-                name: Apple
-                show:
-                  fill: false
-                  extrema: true
-                hours_to_show: 8
-                points_per_hour: 6
-                type: 'custom:mini-graph-card'
+          
 
-              - align_icon: left
-                align_state: center
-                entities:
-                  - sensor.nvidia
-                animate: true
-                hour24: true
-                font_size: 75
-                line_width: 5
-                icon: 'mdi:developer-board'
-                name: NVIDIA
-                show:
-                  fill: false
-                  icon: true
-                  extrema: true
-                hours_to_show: 8
-                points_per_hour: 6
-                type: 'custom:mini-graph-card'
-
-              - align_icon: left
-                align_state: center
-                entities:
-                  - sensor.velodyne
-                animate: true
-                hour24: true
-                font_size: 75
-                line_width: 5
-                icon: 'mdi:radar'
-                name: Velodyne
-                show:
-                  fill: false
-                  icon: true
-                  extrema: true
-                hours_to_show: 8
-                points_per_hour: 6
-                type: 'custom:mini-graph-card'
-
-              - align_icon: left
-                align_state: center
-                entities:
-                  - sensor.tesla
-                animate: true
-                hour24: true
-                font_size: 75
-                line_width: 5
-                icon: 'mdi:alpha-t'
-                name: Tesla
-                show:
-                  fill: false
-                  extrema: true
-                hours_to_show: 8
-                points_per_hour: 6
-                type: 'custom:mini-graph-card'
-
-
+# ================================================================= #
+#                                                                   #
+#                         L O V E L A C E                           #
+#                                                                   #
+# ================================================================= #
 
   - title: Test
     panel: true
-    cards: !include ui-lovelace_new.yaml
+    cards: 
+      - type: 'custom:layout-card'
+        layout: vertical
+        column_num: 5
+        column_width: 20%
+        cards:
+
+          #   C O L U M N 1   #
+          # ===================================================== #
+          #                                                       #
+          #                       L I G H T                       #
+          #                                                       #
+          # ===================================================== #
+
+          - type: 'vertical-stack'
+            cards:
+              - type: 'horizontal-stack'
+                cards:
+
+                  # ==================================== #
+                  #                                      #
+                  #               DESK BULB              #
+                  #                                      #
+                  # ==================================== #
+
+                  - type: 'custom:button-card'
+                    entity: light.desk_bulb_light
+                    name: Desk Bulb
+                    custom_fields:
+                      icon_hue: &icon_hue >
+                        [[[ const state = entity.state === 'on' ? 'animate' : null;
+                        return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
+                        <path fill="#9da0a2" d="M27.4 47.3h-4.9s-.7.1-.7.8.4.9.7.9h4.9c.3 0 .7-.1.7-.9s-.7-.8-.7-.8zm3.3-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-3H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9s-.9-.8-.9-.8zm5.2-23.2c-3.3-5.3-7-5.6-10.9-5.6-3.8 0-8.4.4-10.9 5.6-.1.1-.1.3.1.7.4.8 3.3 7.2 3.2 18.8 0 1.1-.1 1.6 0 1.7 0 .1 0 .7 1.1.7h13c1 0 1-.5 1.1-.7v-1.7c-.1-11.6 2.8-18 3.2-18.8.1-.4.1-.5.1-.7"/>
+                        <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M14.1 15.3c3.4-.3 7-.4 10.9-.4 3.8 0 7.5.2 10.9.4.4-.4.7-.8.9-1.1C39 8.5 38.9 6.5 38.9 6c-.2-4.4-8.4-5-12.1-5h0-3.4c-3.7 0-12 .5-12.1 5 0 .5-.1 2.5 2.1 8.2 0 .3.3.8.7 1.1z"/></svg>`; ]]]
+                    styles: &icon_hue_styles
+                      custom_fields:
+                        icon_hue:
+                          [top: 11%, left: 4.5%, width: 3.05vw, position: absolute]
+                    template: light
+
+                  # ==================================== #
+                  #                                      #
+                  #              DESK STRIP              #
+                  #                                      #
+                  # ==================================== #
+
+                  - type: 'custom:button-card'
+                    entity: light.xiaomi_desk_strip
+                    name: Desk Strip
+                    custom_fields:
+                      icon_strip: &icon_strip >
+                        [[[ const state = entity.state === 'on' ? 'animate' : null;
+                        return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
+                        <path fill="#9da0a2" d="M2.45,40.21l-1.73,1.73c-0.56,0.56-0.56,1.46,0,2.02l5.33,5.33c0.56,0.56,1.46,0.56,2.02,0l1.73-1.73L2.45,40.21z M46.86,10.49l1.73-1.73c0.56-0.56,0.56-1.46,0-2.02l-5.33-5.33c-0.56-0.56-1.46-0.56-2.02,0l-1.73,1.73L46.86,10.49z M0,50 M50,0"/>
+                        <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M36.31,34.99c-0.56-0.56-1.46-0.56-2.02,0c-0.56,0.56-0.56,1.46,0,2.02l3.04,3.04c0.28,0.28,0.64,0.42,1.01,0.42c1.26,0,1.91-1.53,1.01-2.44L36.31,34.99z M31.14,39.02c-0.27-0.74-1.09-1.12-1.83-0.85c-0.74,0.27-1.12,1.09-0.85,1.83l1.47,4.05c0.21,0.58,0.76,0.94,1.34,0.94c0.98,0,1.68-0.98,1.34-1.92L31.14,39.02z M43.34,30.63l-4.04-1.47c-0.74-0.27-1.56,0.11-1.83,0.85c-0.27,0.74,0.11,1.56,0.85,1.83l4.04,1.47c0.74,0.27,1.56-0.11,1.83-0.85C44.46,31.72,44.08,30.9,43.34,30.63z M12.99,15.71c0.56,0.56,1.46,0.56,2.02,0s0.56-1.46,0-2.02l-3.04-3.04c-0.56-0.56-1.46-0.56-2.02,0c-0.56,0.56-0.56,1.46,0,2.02L12.99,15.71z M18.16,11.68c0.27,0.74,1.09,1.12,1.83,0.85c0.74-0.27,1.12-1.09,0.85-1.83l-1.47-4.05c-0.27-0.74-1.09-1.12-1.83-0.85c-0.74,0.27-1.12,1.09-0.85,1.83L18.16,11.68z M5.96,20.07c4.36,1.59,4.19,1.56,4.53,1.56c0.58,0,1.13-0.36,1.34-0.94c0.27-0.74-0.11-1.56-0.85-1.83l-4.04-1.47c-0.74-0.27-1.56,0.11-1.83,0.85C4.84,18.98,5.22,19.8,5.96,20.07z M37.49,5.16c-1.64-0.98-3.8-0.76-5.22,0.65L5.11,32.98c-1.44,1.44-1.61,3.59-0.66,5.2l7.36,7.36c1.65,0.98,3.8,0.75,5.21-0.66l27.16-27.16c1.44-1.44,1.62-3.6,0.65-5.21C37.47,5.14,37.5,5.15,37.49,5.16L37.49,5.16z M0,0 M50,50"/></svg>`; ]]]
+                    styles: &icon_strip_styles
+                      custom_fields:
+                        icon_strip:
+                          [top: 9%, left: 9%, width: 3.05vw, position: absolute]
+                    template: light
+
+          #   C O L U M N 2   # 
+          - type: 'custom:gap-card'
+          #   C O L U M N 3   # 
+          - type: 'custom:gap-card'
+          #   C O L U M N 4   # 
+          - type: 'custom:gap-card'
+          #   C O L U M N 5   # 
+          - type: 'vertical-stack'
+            cards:
+              - type: 'horizontal-stack'
+                cards:
+                  
+                  # ==================================== #
+                  #                                      #
+                  #               S T U D Y              #
+                  #                                      #
+                  # ==================================== #
+                  - type: 'custom:button-card'
+                    entity: input_boolean.study_mode
+                    name: Study
+                    template: base

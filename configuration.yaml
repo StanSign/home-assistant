@@ -87,32 +87,6 @@ sensor:
             arg: eth0
           - type: processor_use
 
-  - platform: avanza_stock
-    stock:
-      - id: 1107939
-        name: Velodyne
-        shares: 24
-        purchase_price: 26.9163
-      - id: 3323
-        name: Apple
-      - id: 4478
-        name: NVIDIA
-      - id: 1128927
-        name: Luminar
-      - id: 238449
-        name: Tesla
-        shares: 3
-        purchase_price: 443.0667
-    monitored_conditions:
-      - change
-      - changePercent
-      - highestPrice
-      - lastPrice
-      - lowestPrice
-      - marketTrades
-      - tickerSymbol
-      - totalVolumeTraded
-      - totalValueTraded
   - platform: uptime
     name: Hassio uptime
     unit_of_measurement: minutes
@@ -132,10 +106,3 @@ weather:
     sensor_use: 'Y'
 
 browser_mod:
-
-homeassistant:
-  customize:
-    sensor.nvidia:
-      entity_picture: /local/image/nvidia.png?
-    sensor.velodyne:
-      entity_picture: /local/image/velodyne.png?
