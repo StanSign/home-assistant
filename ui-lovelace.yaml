@@ -1455,6 +1455,11 @@ views:
                           [top: 11%, left: 4.5%, width: 3.05vw, position: absolute]
                     template: light
 
+                  - type: 'custom:gap-card'
+
+              - type: 'horizontal-stack'
+                cards:
+
                   # ==================================== #
                   #                                      #
                   #              DESK STRIP              #
@@ -1474,6 +1479,14 @@ views:
                       custom_fields:
                         icon_strip:
                           [top: 9%, left: 9%, width: 3.05vw, position: absolute]
+                    template: light
+
+                  - type: 'custom:button-card'
+                    entity: light.under_desk_strip_light
+                    name: Desk Strip
+                    custom_fields:
+                      icon_strip: *icon_strip
+                    styles: *icon_strip_styles
                     template: light
 
           #   C O L U M N 2   # 
