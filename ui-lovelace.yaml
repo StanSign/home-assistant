@@ -1489,7 +1489,7 @@ views:
 
                   - type: 'custom:button-card'
                     entity: light.under_desk_strip_light
-                    name: Desk Strip
+                    name: Under Desk Strip
                     custom_fields:
                       icon_strip: *icon_strip
                     styles: *icon_strip_styles
