@@ -1481,6 +1481,12 @@ views:
                           [top: 9%, left: 9%, width: 3.05vw, position: absolute]
                     template: light
 
+                  # ========================================== #
+                  #                                            #
+                  #              UNDER DESK STRIP              #
+                  #                                            #
+                  # ========================================== #
+
                   - type: 'custom:button-card'
                     entity: light.under_desk_strip_light
                     name: Desk Strip
@@ -1506,7 +1512,44 @@ views:
                   #               S T U D Y              #
                   #                                      #
                   # ==================================== #
+
                   - type: 'custom:button-card'
                     entity: input_boolean.study_mode
                     name: Study
+                    template: base
+
+                  # ==================================== #
+                  #                                      #
+                  #                G A M E               #
+                  #                                      #
+                  # ==================================== #
+
+                  - type: 'custom:button-card'
+                    entity: input_boolean.game_mode
+                    name: Game
+                    template: base
+
+              - type: 'horizontal-stack'
+                cards:
+
+                  # ==================================== #
+                  #                                      #
+                  #               S L E E P              #
+                  #                                      #
+                  # ==================================== #
+
+                  - type: 'custom:button-card'
+                    entity: input_boolean.sleep_mode
+                    name: Sleep
+                    template: base
+
+                  # ==================================== #
+                  #                                      #
+                  #                A W A Y               #
+                  #                                      #
+                  # ==================================== #
+
+                  - type: 'custom:button-card'
+                    entity: input_boolean.away_mode
+                    name: Away
                     template: base
