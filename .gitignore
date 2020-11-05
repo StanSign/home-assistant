@@ -4,6 +4,7 @@ home-assistant.log
 /.cloud
 /tts
 /deps
+/www
 .ip_authenticated.yaml
 aircast.xml
 home-assistant.code-workspace
