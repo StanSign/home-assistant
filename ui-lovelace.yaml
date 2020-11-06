@@ -1596,6 +1596,64 @@ views:
             cards:
               - type: 'horizontal-stack'
                 cards:
+
+                  # ==================================== #
+                  #                                      #
+                  #                A W A Y               #
+                  #                                      #
+                  # ==================================== #
+
+                  - type: 'custom:button-card'
+                    entity: input_boolean.away_mode
+                    name: "[[[ return entity.state === 'on' ? 'Away' : 'Home'; ]]]"
+                    custom_fields:
+                      away_home: >
+                        [[[ const pin = entity.state === 'on' ? 'pinaway' : 'pinaway reverse'; const state = entity.state === 'on' ? 'away' : 'away reverse';
+                        return `<svg viewBox="0 0 50 50"><style>.pinaway{animation: pinaway .7s cubic-bezier(.25,.46,.45,.94) both;}.away{animation: away .7s; cubic-bezier(.25,.46,.45,.94); transform-origin: center 20px; animation-fill-mode: both;}.reverse{animation-direction: reverse;}@keyframes pinaway{0%{fill:#2196F3}100%{fill:#9da0a2}}@keyframes away{0%{transform:rotate(0); fill:#FFFFFF}100%{transform:rotate(90deg); fill:#323536}}</style>
+                        <path class="${pin}" d="M0,0 M50,50 M43,19c0,12.48-16.25,28.87-16.94,29.56C25.77,48.85,25.38,49,25,49c-0.38,0-0.77-0.15-1.06-0.44 C23.25,47.87,7,31.48,7,19C7,9.07,15.07,1,25,1S43,9.07,43,19z M0,0 M50,50"/>
+                        <path class="${state}" d="M0,0 M50,50 M33.92,18c-0.21,0.6-0.78,1-1.42,1H31v7.5c0,0.83-0.67,1.5-1.5,1.5h-9c-0.83,0-1.5-0.67-1.5-1.5V19h-1.5c-0.64,0-1.21-0.4-1.42-1s-0.02-1.27,0.48-1.67l7.5-6c0.55-0.44,1.33-0.44,1.88,0l7.5,6C33.94,16.73,34.13,17.4,33.92,18z M0,0 M50,50"/></svg>`; ]]]
+                    styles:
+                      name: [top: 74%, left: 8%, line-height: 2vw, position: absolute]
+                      card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.3)', font-size: 1.7em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
+                      custom_fields:
+                        away_home:
+                          [top: 11%, left: 5%, width: 3.1vw, position: absolute]
+                    aspect_ratio: 1/1
+                    show_state: false
+                    show_icon: false
+                    state:
+                      - value: 'off'
+                        styles:
+                          card: [background-color: 'rgba(255, 255, 255, 0.8)']
+                          name: [color: 'rgba(0, 0, 0, 0.6)']
+                          state: [color: 'rgba(0, 0, 0, 0.6)']
+                    tap_action:
+                      action: toggle
+                      haptic: light
+
+                  # ==================================== #
+                  #                                      #
+                  #               S L E E P              #
+                  #                                      #
+                  # ==================================== #
+
+                  - type: 'custom:button-card'
+                    entity: input_boolean.sleep_mode
+                    name: Sleep
+                    custom_fields:
+                      good_night: >
+                        [[[ const state = entity.state === 'on' ? 'sleep' : 'awake';
+                        return `<svg viewBox="0 0 50 50"><style>.sleep{animation:sleep 1s cubic-bezier(.25,.46,.45,.94) both;}.awake{animation: awake 1s;}@keyframes sleep{0%{transform:translateZ(-80px);opacity:0}40%{transform:translateZ(0);opacity:1}50%{opacity:.5}60%{opacity:0}65%{opacity:1}75%{opacity:.5}90%{opacity:}100%{opacity:0.5}100%{opacity:1}}@keyframes awake{0%{fill:#9E8CFA}100%{fill:#9DA0A2}}</style>
+                        <path class="${state}" d="M34.88,37.58c-9.7,0-17.56-7.86-17.56-17.56c0-6.06,3.07-11.4,7.74-14.56c-0.54-0.04-1.09-0.06-1.64-0.06c-12.32,0-22.3,9.99-22.3,22.3S11.1,50,23.42,50c9.9,0,18.29-6.45,21.21-15.38C41.84,36.49,38.49,37.58,34.88,37.58z M0,0 M50,50"/></svg>`; ]]]
+                    styles:
+                      custom_fields:
+                        good_night:
+                          [top: 9%, left: 9%, width: 3.05vw, position: absolute,
+                          fill: "[[[ return entity.state === 'on' ? '#9E8CFA' : '#9DA0A2'; ]]]"]
+                    template: mode
+
+              - type: 'horizontal-stack'
+                cards:
                   
                   # ==================================== #
                   #                                      #
@@ -1607,12 +1665,12 @@ views:
                     entity: input_boolean.study_mode
                     name: Study
                     custom_fields: 
-                      icon_study: &study_mode >
+                      icon_study: >
                         [[[ const state = entity.state === 'on' ? 'study' : null; const idle = entity.state === 'on' ? 'idle' : null;
                         return `<svg viewBox="0 0 50 50"><style>.study{animation: study 1.2s cubic-bezier(.36,.07,.57,.99) both;}.idle{animation: idle 1.2s cubic-bezier(.36,.07,.57,.99) both;}@keyframes study{0%{transform:rotate(0deg);transform-origin:50% 0;fill:#9da0a2}10%{transform:rotate(2deg);fill:#484357}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}100%{transform:rotate(0deg);transform-origin:50% 0;fill:#484357}}@keyframes idle{0%,100%{transform:rotate(0deg);transform-origin:50% 0}10%{transform:rotate(2deg)}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}}</style>
                         <g class="${state}"><path d="M13.41,36.11c1.44,1.64,2.58,3.57,2.89,5.13l29.5-28.22l0.03,0.03c0,0,0.05-0.05,0.09-0.15l0,0l0,0c0.18-0.42,0.27-1.81-3.1-5.34c-3.37-3.52-4.76-3.49-5.19-3.34l-0.06-0.07L8.14,32.31C9.67,32.7,11.68,34.12,13.41,36.11z M0,0 M50,50"/><path d="M3.29,43.52c-0.14,0.11-0.45,0.81-0.18,1.12c0.11,0.12,0.29,0.17,0.48,0.17c0.29,0,0.59-0.1,0.67-0.17 l1.27-1.07c0.01-0.01,0.01-0.02,0.02-0.03c0.1-0.13,0-0.45-0.25-0.73c-0.2-0.23-0.43-0.37-0.59-0.39c-0.01,0-0.02-0.01-0.03-0.01c-0.05,0-0.09,0.01-0.12,0.04L3.29,43.52z M0,0 M50,50"/></g>
                         <path class="${idle}" fill="#9da0a2" d="M4.75,41.65c0.54,0.04,0.97,0.46,1.14,0.65c0.34,0.39,0.52,0.83,0.49,1.21c0,0,0,0.01,0,0.01l5.19-0.61 l1.13-0.13l1.52-0.18c0.09,0.02,0.19,0.04,0.27,0.04c0.11,0,0.25-0.02,0.34-0.09c0.11-0.09,0.16-0.3,0.15-0.59c-0.04-0.93-0.75-2.77-2.63-4.91c-1.95-2.23-4.02-3.43-4.98-3.43c-0.1,0-0.22,0.01-0.29,0.07c0,0,0,0,0,0c-0.1,0.09-0.14,0.3-0.12,0.6l-0.4,1.34l-0.32,1.07L4.75,41.65z M0,0 M50,50"/></svg>`; ]]]
-                    styles: &mode_styles
+                    styles:
                       custom_fields:
                         icon_study:
                           [top: 9%, left: 9%, width: 3.05vw, position: absolute,
@@ -1628,32 +1686,17 @@ views:
                   - type: 'custom:button-card'
                     entity: input_boolean.game_mode
                     name: Game
+                    custom_fields:
+                      icon_ps4: >
+                        [[[ if (entity.state === 'on') { return '<svg viewBox="0 0 50 50"> <style>@keyframes animate{50%{transform: translateY(0);}100%{transform: translateY(-45%);}}.animate{animation: animate 2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;}</style>
+                        <g style="clip-path: url(#mask);"><g class="animate"><path fill="#00aa9e" d="M49.2 38.9l-75.6-25.1v7.4l75.6 25.2z"/><path fill="#f3c202" d="M49.2 46.4l-75.6-25.2v7.5l75.6 25.1z"/><path fill="#326db3" d="M49.2 53.8l-75.6-25.1V51l75.6 25.1zm0-22.3L-26.4 6.4v7.4l75.6 25.1z"/></g></g>
+                        <defs><clipPath id="mask"><path d="M47.5 33.2c-.5-2.2-3.9-3.5-9.1-3.9-3.8-.3-7.5.6-11.1 1.9l-.6.2v-5.7l-5.7.8-4.6 1.6L6 31.9h-.1c-1.9.7-3.8 2.2-3.7 4.2.1 2.1 4.7 2.6 8.2 3.2 3.3.6 6.2.2 8.9-.7l7.3 4.8L33 41l10.7-4h.1c2.8-1 4-2.5 3.7-3.8zm-31.3 2l-3.6 1.3c-2.2.8-4.1-1.1-2.1-1.9l1.7-.6 7.2-2.7v2.8l-3.2 1.1zm22.5-1.1l-1.9.7-10.2 3.7V36l6.5-2.4 3.8-1.3c4-.9 5.6.5 1.8 1.8z"/></clipPath></defs><path fill="#de0029" d="M26.7 14.6v28.7l-7.3-2.5V7.1l9.3 2.6c6 1.7 9.6 5 9.6 10.7-.1 6.7-3 9.4-8.7 7.6V14.9c-.1-1.6-2.9-1.7-2.9-.3h0z"/></svg>'; }
+                        else { return '<svg viewBox="0 0 50 50"><path fill="#9da0a2" d="M43.8 37h-.1l-10.6 4-4.2 1.6v-4.9l8-2.9 1.9-.7c3.8-1.3 2.2-2.7-1.8-1.9l-3.8 1.3-4.3 1.6v-4.5c3.1-1 6.3-1.6 9.5-1.4 5.3.4 8.7 1.6 9.1 3.9.3 1.4-.9 2.9-3.7 3.9zm-26.7-2.1l-.9.3-3.6 1.3c-2.2.8-4.1-1.1-2.1-1.9l1.7-.6 5-1.9v-4.2l-.6.2L6 31.9h-.1c-1.9.7-3.8 2.2-3.7 4.2.1 2.1 4.7 2.6 8.2 3.2 2.4.4 4.6.3 6.7-.1v-4.3zm12.4-20V28c5.7 1.7 8.7-.9 8.7-7.6.1-5.7-3.6-9-9.6-10.7l-9.3-2.6v33.8l7.2 2.5.1.1V14.6c.1-1.4 2.9-1.3 2.9.3z"/></svg>'; } ]]]
+                    styles:
+                      custom_fields:
+                        icon_ps4:
+                          [top: 7%, left: 9%, width: 3.2vw, position: absolute]
                     template: mode
-
-              - type: 'horizontal-stack'
-                cards:
-
-                  # ==================================== #
-                  #                                      #
-                  #               S L E E P              #
-                  #                                      #
-                  # ==================================== #
-
-                  - type: 'custom:button-card'
-                    entity: input_boolean.sleep_mode
-                    name: Sleep
-                    template: mode
-
-                  # ==================================== #
-                  #                                      #
-                  #                A W A Y               #
-                  #                                      #
-                  # ==================================== #
-
-                  - type: 'custom:button-card'
-                    entity: input_boolean.away_mode
-                    name: Away
-                    template: base
 
           - break
 

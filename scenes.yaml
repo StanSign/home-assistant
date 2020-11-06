@@ -101,25 +101,34 @@
   name: Scene_Game
   entities:
     light.desk_bulb_light:
-      brightness: 253
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      brightness: 252
       hs_color:
-      - 298.979
-      - 92.157
+      - 298.966
+      - 90.98
       rgb_color:
       - 251
-      - 19
+      - 23
       - 255
       xy_color:
       - 0.38
       - 0.154
       color:
-        x: 0.381
+        x: 0.38
         y: 0.154
-      linkquality: 84
+      linkquality: 55
       state: 'on'
+      update:
+        state: idle
       update_available: false
       friendly_name: Desk Bulb light
-      supported_features: 57
+      supported_features: 61
     light.xiaomi_desk_strip:
       min_mireds: 153
       max_mireds: 588
@@ -157,10 +166,29 @@
       friendly_name: Xiaomi Desk Strip
       supported_features: 63
       state: 'on'
-    light.monitor_strip_light:
+    switch.light_switch_switch_l1:
+      linkquality: 123
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Balcony
+      state: 'off'
+    switch.light_switch_switch_l2:
+      linkquality: 123
+      state_l1: 'OFF'
+      state_l2: 'OFF'
+      friendly_name: Room
+      state: 'off'
+    light.under_desk_strip_light:
       min_mireds: 153
       max_mireds: 500
-      brightness: 254
+      effect_list:
+      - blink
+      - breathe
+      - okay
+      - channel_change
+      - finish_effect
+      - stop_effect
+      brightness: 253
       color_temp: 44
       hs_color:
       - 299.754
@@ -175,22 +203,9 @@
       color:
         x: 0.385
         y: 0.155
-      linkquality: 110
       state: 'on'
-      friendly_name: Monitor Strip light
-      supported_features: 59
-    switch.light_switch_switch_l1:
-      linkquality: 110
-      state_l1: 'OFF'
-      state_l2: 'OFF'
-      friendly_name: Balcony
-      state: 'off'
-    switch.light_switch_switch_l2:
-      linkquality: 110
-      state_l1: 'OFF'
-      state_l2: 'OFF'
-      friendly_name: Room
-      state: 'off'
+      friendly_name: Under Desk Strip light
+      supported_features: 63
   icon: mdi:gamepad-variant
 - id: scene_sleep_mode
   name: Scene_Sleep
