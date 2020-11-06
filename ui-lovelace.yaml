@@ -1607,18 +1607,16 @@ views:
                     entity: input_boolean.study_mode
                     name: Study
                     custom_fields: 
-                      icon_pencil: &study_mode >
-                        [[[ const state = entity.state === 'on' ? 'wobble-hor-top' : null;
-                        return '<svg viewBox="0 0 50 50"><style>@keyframes wobble-hor-top{0%,100%{transform:translateX(0);transform-origin:50% 50%}15%{transform:translateX(-30px) rotate(6deg)}30%{transform:translateX(15px) rotate(-6deg)}45%{transform:translateX(-15px) rotate(3.6deg)}60%{transform:translateX(9px) rotate(-2.4deg)}75%{transform:translateX(-6px) rotate(1.2deg)}}</style>
-                        <path fill="#9da0a2" d="M0,0 M50,50 M40.98,15.24l-6-6c-1.1-1.1-1.1-2.89,0-4L38,2.23c1.65-1.65,4.34-1.65,5.98,0l4.01,4.01c0.8,0.8,1.24,1.86,1.24,2.99c0,1.13-0.44,2.19-1.24,2.99l-3.01,3.01C43.88,16.35,42.09,16.35,40.98,15.24z M37,19.23l-6-6c-1.1-1.1-1.1-2.89,0-4l3.98-3.98l10,10L41,19.23C39.89,20.33,38.1,20.33,37,19.23z M15.4,44.83l25.6-25.61l-10-10L5.4,34.84 l2.01,3.99c0.75,0.75,1.72,1.18,2.76,1.24c0.06,1.01,0.47,2,1.23,2.76L15.4,44.83z M12.41,41.82c-1.1-1.1-1.1-2.89,0-4c-1.1,1.1-2.89,1.1-4,0l-3-3L5.4,34.84c-0.16,0.16-0.27,0.34-0.34,0.55l-2.78,8.35c2.09,0.49,3.73,2.12,4.21,4.21l8.35-2.78c0.21-0.07,0.4-0.19,0.55-0.34l0.01-0.01L12.41,41.82z M2.28,43.74l-1.21,3.63c-0.17,0.51-0.04,1.07,0.34,1.44c0.27,0.27,0.63,0.41,1,0.41c0.15,0,0.3-0.02,0.45-0.07l3.63-1.21C6.01,45.86,4.37,44.23,2.28,43.74z"/>
-                        <path class="${state}1" fill="#FEA832" d="M0,0 M50,50 M15.4,44.83l25.6-25.61l-10-10L5.4,34.84l2.01,3.99c0.75,0.75,1.72,1.18,2.76,1.24c0.06,1.01,0.47,2,1.23,2.76L15.4,44.83z"/>
-                        <path class="${state}2" fill="#E1E4FB" d="M0,0 M50,50 M37,19.23l-6-6c-1.1-1.1-1.1-2.89,0-4l3.98-3.98l10,10L41,19.23C39.89,20.33,38.1,20.33,37,19.23z M12.41,41.82c-1.1-1.1-1.1-2.89,0-4c-1.1,1.1-2.89,1.1-4,0l-3-3L5.4,34.84c-0.16,0.16-0.27,0.34-0.34,0.55l-2.78,8.35c2.09,0.49,3.73,2.12,4.21,4.21l8.35-2.78c0.21-0.07,0.4-0.19,0.55-0.34l0.01-0.01L12.41,41.82z"/>
-                        <path class="${state}3" fill="#063E8B" d="M0,0 M50,50 M2.28,43.74l-1.21,3.63c-0.17,0.51-0.04,1.07,0.34,1.44c0.27,0.27,0.63,0.41,1,0.41c0.15,0,0.3-0.02,0.45-0.07l3.63-1.21C6.01,45.86,4.37,44.23,2.28,43.74z"/>
-                        <path class="${state}4" fill="#FD003A" d="M0,0 M50,50 M40.98,15.24l-6-6c-1.1-1.1-1.1-2.89,0-4L38,2.23c1.65-1.65,4.34-1.65,5.98,0l4.01,4.01c0.8,0.8,1.24,1.86,1.24,2.99c0,1.13-0.44,2.19-1.24,2.99l-3.01,3.01C43.88,16.35,42.09,16.35,40.98,15.24z"/></svg>'; ]]]
+                      icon_study: &study_mode >
+                        [[[ const state = entity.state === 'on' ? 'study' : null; const idle = entity.state === 'on' ? 'idle' : null;
+                        return `<svg viewBox="0 0 50 50"><style>.study{animation: study 1.2s cubic-bezier(.36,.07,.57,.99) both;}.idle{animation: idle 1.2s cubic-bezier(.36,.07,.57,.99) both;}@keyframes study{0%{transform:rotate(0deg);transform-origin:50% 0;fill:#9da0a2}10%{transform:rotate(2deg);fill:#484357}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}100%{transform:rotate(0deg);transform-origin:50% 0;fill:#484357}}@keyframes idle{0%,100%{transform:rotate(0deg);transform-origin:50% 0}10%{transform:rotate(2deg)}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}}</style>
+                        <g class="${state}"><path d="M13.41,36.11c1.44,1.64,2.58,3.57,2.89,5.13l29.5-28.22l0.03,0.03c0,0,0.05-0.05,0.09-0.15l0,0l0,0c0.18-0.42,0.27-1.81-3.1-5.34c-3.37-3.52-4.76-3.49-5.19-3.34l-0.06-0.07L8.14,32.31C9.67,32.7,11.68,34.12,13.41,36.11z M0,0 M50,50"/><path d="M3.29,43.52c-0.14,0.11-0.45,0.81-0.18,1.12c0.11,0.12,0.29,0.17,0.48,0.17c0.29,0,0.59-0.1,0.67-0.17 l1.27-1.07c0.01-0.01,0.01-0.02,0.02-0.03c0.1-0.13,0-0.45-0.25-0.73c-0.2-0.23-0.43-0.37-0.59-0.39c-0.01,0-0.02-0.01-0.03-0.01c-0.05,0-0.09,0.01-0.12,0.04L3.29,43.52z M0,0 M50,50"/></g>
+                        <path class="${idle}" fill="#9da0a2" d="M4.75,41.65c0.54,0.04,0.97,0.46,1.14,0.65c0.34,0.39,0.52,0.83,0.49,1.21c0,0,0,0.01,0,0.01l5.19-0.61 l1.13-0.13l1.52-0.18c0.09,0.02,0.19,0.04,0.27,0.04c0.11,0,0.25-0.02,0.34-0.09c0.11-0.09,0.16-0.3,0.15-0.59c-0.04-0.93-0.75-2.77-2.63-4.91c-1.95-2.23-4.02-3.43-4.98-3.43c-0.1,0-0.22,0.01-0.29,0.07c0,0,0,0,0,0c-0.1,0.09-0.14,0.3-0.12,0.6l-0.4,1.34l-0.32,1.07L4.75,41.65z M0,0 M50,50"/></svg>`; ]]]
                     styles: &mode_styles
                       custom_fields:
-                        icon_pencil:
-                          [top: 9%, left: 9%, width: 3.05vw, position: absolute]
+                        icon_study:
+                          [top: 9%, left: 9%, width: 3.05vw, position: absolute,
+                          fill: "[[[ return entity.state === 'on' ? null : '#9da0a2'; ]]]"]
                     template: mode
 
                   # ==================================== #
@@ -1655,7 +1653,7 @@ views:
                   - type: 'custom:button-card'
                     entity: input_boolean.away_mode
                     name: Away
-                    template: mode
+                    template: base
 
           - break
 
