@@ -1418,11 +1418,91 @@ views:
     cards: 
       - type: 'custom:layout-card'
         layout: vertical
-        column_num: 5
-        column_width: 20%
+        column_num: 7
+        column_width: [10%, 20%, 10%, 20%, 10%, 20%, 10%]
         cards:
 
-          #   C O L U M N 1   #
+          #   C O L U M N 1   # 
+
+          - type: 'custom:gap-card'
+
+          - break
+
+          #   C O L U M N 2   # 
+
+          - type: 'custom:gap-card'
+            
+          # ===================================================== #
+          #                                                       #
+          #                     S E N S O R                       #
+          #                                                       #
+          # ===================================================== #
+
+          - type: 'vertical-stack'
+            cards:
+              - type: 'horizontal-stack'
+                cards:
+
+                  # ========================================== #
+                  #                                            #
+                  #              DOOR OPEN SENSOR              #
+                  #                                            #
+                  # ========================================== #
+
+                  - type: 'custom:button-card'
+                    entity: binary_sensor.door_sensor_contact
+                    name: Door
+                    custom_fields:
+                      icon_closet: >
+                        [[[ const state = entity.state === 'on' ? 'door' : 'door reverse'; const opacity = entity.state === 'on' ? 'room' : 'room reverse';
+                        return `<svg viewBox="0 0 50 50"> <style>.door{animation: door 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}.room{animation: room 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}.reverse{animation-direction: reverse;}@keyframes door{0%{transform: none; fill: #9da0a2;}100%{transform: skewY(10deg) translate(4.5%, -3.9%) scaleX(0.8); fill: #b68349;}}@keyframes room{0%{opacity: 0;}100%{opacity: 1;}}</style>
+                        <path class="${opacity}" d="M11.4,1.4h27.2v43.1H11.4V1.4z" fill="#bcbcbc"/>
+                        <path class="${state}" d="M11.4 1.4v43.1h27.2V1.4H11.4zm23 23.4c0 1.1-.9 1.9-1.9 1.9h0c-1.1 0-1.9-.9-1.9-1.9V21c0-1.1.9-1.9 1.9-1.9h0c1.1 0 1.9.9 1.9 1.9v3.8z"/></svg>`; ]]]
+                    styles:
+                      custom_fields:
+                        icon_closet:
+                          [top: 11%, left: 4.1%, width: 3.2vw, position: absolute]
+                    template: sensor
+
+                  # ========================================== #
+                  #                                            #
+                  #                MOTION SENSOR               #
+                  #                                            #
+                  # ========================================== #
+
+                  - type: 'custom:button-card'
+                    entity: binary_sensor.motion_sensor_occupancy
+                    name: Motion
+                    custom_fields:
+                      icon_motion: >
+                        [[[ const state = entity.state === 'on' ? 'animate' : null;
+                        return `<svg viewBox="0 0 50 50"><style>@keyframes animate{10%, 20%, 100%{transform: rotateZ(0deg);}30%, 50%, 70%{transform: rotateZ(7deg);}90%{transform: rotateZ(3deg);}40%, 60%, 80%{transform: rotateZ(-7deg);}}.animate{animation: animate 1.35s cubic-bezier(0.5, 1, 0.89, 1); animation-fill-mode: both; transform-origin: 70% 80%; animation-delay: 0s;}</style>
+                        <path class="${state}" d="M32.1 18.4s.3-1.6.7-2.1c.3-.6.9-1.4 1.6-1.8.6-.4 1.1-.7 1.4-.7s.7-.1 1 .1.6.4.8 1.3l.3 2.7.1 2.4.2 4.1c0 .3.2 3.1.2 3.3s.2 2.7.2 3.2l-.1 2.5c.1 1.6.5 3.1-.2 4.6-.6 1.4-1.7 2.7-2.9 3.6-.5.4-1.9 1.3-2.9 1.7-1.1.5-2.2.8-3.3 1.1-.5.1-1.4.4-2.3.3s-1.8-.6-2.1-1l-1.6-2.3c-.6-.8-2.1-2.3-2.3-2.5l-2.7-2.8c-.2-.2-2.7-3.5-2.9-3.8l-3.1-4.7-1.8-3.2-1.5-2.8-.9-1.8c-.1-.2-.3-1.1-.2-1.4.3-1.2 1.4-1.4 2.3-.7.3.2.9 1 1.1 1.3s6.1 8.1 6.1 8.1c.2.3.7.3.9 0s-.1-.7-.2-.9c-.4-.6-8.3-11.5-8.3-11.5s-.6-.9-.7-1.1c-.3-1.1 0-2.3 1.1-2.7s1.9.3 2.6 1.1c.3.3 8.3 11.5 8.3 11.5.2.2.3.3.5.3.3 0 .5-.4.4-.7-.1-.2-.5-.9-.5-.9L11.8 9c-.6-1-.9-2-.1-3 .7-.8 2.2-1.3 3-.2.3.3 10.1 14.3 10.1 14.3.2.2.5.4.7.3.5-.1.3-.7.1-1-.1-.2-8.4-11.8-8.4-11.8-.4-.9-.6-2 .2-2.8 1-1.1 2.5-.5 3.3.5.2.3 1 1.4 1 1.4l2.7 3.7c.1.2 3.4 4.4 3.8 4.8.9 1.1 1.8 2.2 2.7 3.2l.5.5c.1.1.1.4.1.8 0 1.3.1 2.6.1 3.9 0 .2.1.4.2.6.3.3.6.1.7-.2.1-.2 0-2.4 0-2.7-.3-.3-.5-1.3-.4-2.9zM12.2 46.9s-2.8-.8-4.8-2.7-2.6-2.7-2.8-3-1.8-3-2-3.6c-.2-.5-.2-.7.2-1 .4-.4 1-.5 1.3.1.1.2.4 1 .5 1.2s1 1.9 1.7 2.8 1.6 2.2 4.4 3.8c.6.3 1.2.6 1.9.9.3.1.6.2.8.4.1.2.1.6-.1.8-.2.4-.7.4-1.1.3zM7.1 30.7l.9 3.1c.3.7 1.1 2.3 1.9 3.3s2.4 2.6 3.4 3.2 2 1.1 3 1.5c1 .3 1.1.4 1.2.5.3.4.2 1.2-.4 1.3-.2 0-1.2 0-1.8-.3L12 41.7c-.5-.4-3.9-3.1-5.1-6S5.3 31 5.2 30.4s-.2-1.1 0-1.4c.3-.4.9-.8 1.3-.3.2.3.3.6.3.9.1 0 .2.8.3 1.1zm26.8-25s.2-.1.5-.1.8.3 1.4.7 1.9 1 3.6 2.9 2.9 3.9 3.4 5.8c.5 1.8.8 3.1.9 5.5 0 .5.1 1.6 0 1.7-.2.5-.5.7-1 .7-.6 0-.7-.5-.7-1l-.1-2.9c-.1-.6-.3-1.9-.7-2.9-.3-1-.7-2.3-1.7-3.6-.9-1.3-2.1-2.8-3.2-3.5l-2.4-1.5c-.6-.6-.7-1.2 0-1.8zm4.9-2.5s.3-.2.5-.1c.2 0 .7.3.9.4s2.1 1.3 3.6 3c1.5 1.6 3.5 5.1 3.7 7.4.1.4.2.9 0 1-.2.2-.4.4-.7.4-.2 0-.5 0-.7-.1-.1-.2-.4-1.1-.4-1.3s-.6-2-1.1-3.1C44 9.7 43.5 8.5 42 7.1s-2.2-1.9-2.8-2.2-1.1-.6-1.1-1c.1-.3.3-.6.7-.7z"/></svg>`; ]]]
+                    styles:
+                      custom_fields:
+                        icon_motion:
+                          [top: 10%, left: 10.1%, width: 3.1vw, position: absolute,
+                          fill: "[[[ return entity.state === 'on' ? '#516d82' : '#9da0a2'; ]]]"]
+                    template: sensor
+
+              - type: 'horizontal-stack'
+                cards:
+                  - type: 'custom:gap-card'
+
+                  - type: 'custom:gap-card'
+
+          - break
+
+          #   C O L U M N 3   #
+
+          - type: 'custom:gap-card'
+
+          - break
+
+          #   C O L U M N 4   # 
+
+          - type: 'custom:gap-card'
+
           # ===================================================== #
           #                                                       #
           #                       L I G H T                       #
@@ -1495,13 +1575,23 @@ views:
                     styles: *icon_strip_styles
                     template: light
 
-          #   C O L U M N 2   # 
-          - type: 'custom:gap-card'
-          #   C O L U M N 3   # 
-          - type: 'custom:gap-card'
-          #   C O L U M N 4   # 
-          - type: 'custom:gap-card'
+          - break
+
           #   C O L U M N 5   # 
+          - type: 'custom:gap-card'
+
+          - break
+
+          #   C O L U M N 6   # 
+
+          - type: 'custom:gap-card'
+
+          # ===================================================== #
+          #                                                       #
+          #                        M O D E                        #
+          #                                                       #
+          # ===================================================== #
+
           - type: 'vertical-stack'
             cards:
               - type: 'horizontal-stack'
@@ -1566,3 +1656,8 @@ views:
                     entity: input_boolean.away_mode
                     name: Away
                     template: mode
+
+          - break
+
+          #   C O L U M N 7   # 
+          - type: 'custom:gap-card'

@@ -14,7 +14,7 @@ base:
   styles:
       name: [top: 57.7%, left: 8%, line-height: 2vw, position: absolute]
       state: [top: 74%, left: 8%, line-height: 2vw, position: absolute]
-      card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.3)', font-size: 2em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
+      card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.3)', font-size: 1.7em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
 
 mode:
   template: base
@@ -23,6 +23,11 @@ mode:
     service: input_boolean.turn_on
     service_data:
       entity_id: '[[[ return entity.entity_id ]]]'
+
+sensor:
+  template: base
+  tap_action:
+    action: none
 
 light:
   template: base
