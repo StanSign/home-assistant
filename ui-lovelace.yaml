@@ -33,27 +33,13 @@ resources:
     type: module
   - url: /hacsfiles/light-entity-card/light-entity-card.js
     type: module
+  - url: /hacsfiles/circle-sensor-card/circle-sensor-card.js
+    type: module
 
 preload_cards:
   [map, iframe, markdown]
 preload_rows:
   [input-select-entity]
-
-anchors:
-  ⚓₁: &title
-    entity: sensor.placeholder
-    tap_action:
-      action: none
-    hold_action:
-      action: none
-    type: state-label
-  ⚓₂: &title-style
-    color: '#bcbebf'
-    font-family: SF Text
-    font-size: 2.4vw
-    font-weight: 500
-    max-width: 1px
-    cursor: default
 
 button_card_templates: !include button_templates.yaml
 
@@ -1418,20 +1404,124 @@ views:
     cards: 
       - type: 'custom:layout-card'
         layout: vertical
-        column_num: 7
-        column_width: [10%, 20%, 10%, 20%, 10%, 20%, 10%]
+        column_num: 8
+        column_width: [8%, 8%, 20%, 8%, 20%, 8%, 20%, 8%]
         cards:
 
           #   C O L U M N 1   # 
 
-          - type: 'custom:gap-card'
+          - type: 'vertical-stack'
+            cards:
+              - type: 'custom:vertical-stack-in-card'
+                cards:
+                  - type: 'custom:button-card'
+                    icon: 'mdi:home'
+                    color_type: card
+                    color: var(--primary-background-color)
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action: 
+                      action: navigate
+                      navigation_path: /lovelace/0
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:microsoft-xbox-controller'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/1
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:lead-pencil'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/2
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:eye'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/3
+                
+                  - type: 'custom:button-card'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        
+                  - type: 'custom:button-card'
+                    icon: 'mdi:cog'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /config/dashboard
+                        
+                  - type: 'custom:button-card'
+                    icon: 'mdi:account'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /profile
 
           - break
 
           #   C O L U M N 2   # 
 
           - type: 'custom:gap-card'
+
+          - break
+
+          #   C O L U M N 3   # 
+
+          - type: 'custom:gap-card'
             
+          - type: markdown
+            content: |
+              # Sensors
+            style:
+              .: &title_box_style |
+                ha-card {
+                  box-shadow: none !important;
+                  background: none;
+                  height: 10px;
+                }
+              ha-markdown:
+                $: &title_text_style |
+                  h1 {
+                    font-size: 28px;
+                    font-weight: 400;
+                  }
+          
           # ===================================================== #
           #                                                       #
           #                     S E N S O R                       #
@@ -1440,12 +1530,84 @@ views:
 
           - type: 'vertical-stack'
             cards:
+
+              # ========================================== #
+              #                                            #
+              #                TEMPERATURE                 #
+              #                                            #
+              # ========================================== #
+
+              - type: 'custom:mini-graph-card'
+                entities: 
+                  - entity: sensor.motion_sensor_temperature
+                    show_legend: false
+                    show_points: false
+                name: ' '
+                height: 250
+                hours_to_show: 12
+                points_per_hour: 4
+                font_size: 1.1em
+                show:
+                  fill: true
+                  labels: false
+                color_thresholds:
+                  - value: 15
+                    color: "#18d1ed"
+                  - value: 17.5
+                    color: "#14f56e"
+                  - value: 20
+                    color: "#F39C12"
+                  - value: 22.5
+                    color: "#D35400"
+                  - value: 25
+                    color: "#C0392B"
+                line_width: 2.5
+                style: |
+                  ha-card {
+                    --ha-card-box-shadow: none;
+                    --ha-card-background: rgba(115, 115, 115, 0.2);
+                    border-radius: 0.8vw;
+                  }
+                  .fill--rect {
+                    fill: [[ if(vars[0] >= 25, "rgba(192, 57, 43, 1)", if(vars[0] >= 22.5, "rgba(211, 84, 0, 1)", if(vars[0] >= 20, "rgba(243, 156, 18, 1)", if(vars[0] >= 17.5, "rgba(20, 245, 110, 1)", if(vars[0] >= 15, "rgba(24, 209, 237, 1)"))))) ]];
+                    stroke: white;
+                    opacity: 1
+                  }
+                  
+              - type: 'custom:circle-sensor-card'
+                entity: sensor.motion_sensor_temperature
+                max: 30
+                min: 10
+                name: Temperature
+                gradient: true
+                stroke_width: 3
+                fill: rgba(115, 115, 115, 0.2)
+                color_stops:
+                  15: '#18D1ED'
+                  17.5: '#14F56E'
+                  20: '#F39C12'
+                  22.5: '#D35400'
+                  25: '#C0392B'
+                font_style:
+                  color: rgba(255, 255, 255, 0.3)
+                  font-family: 'Sf Display'
+                  letter-spacing: 0.05vw
+                  font-weight: 400
+                  font-size: 1.1em
+                  line-height: 2vw
+                style:
+                  top: 5%
+                  left: 80%
+                  width: 4em
+                  height: 4em
+                  transform: none
+
               - type: 'horizontal-stack'
                 cards:
 
                   # ========================================== #
                   #                                            #
-                  #              DOOR OPEN SENSOR              #
+                  #                DOOR SENSOR                 #
                   #                                            #
                   # ========================================== #
 
@@ -1493,15 +1655,23 @@ views:
 
           - break
 
-          #   C O L U M N 3   #
+          #   C O L U M N 4   #
 
           - type: 'custom:gap-card'
 
           - break
 
-          #   C O L U M N 4   # 
+          #   C O L U M N 5   # 
 
           - type: 'custom:gap-card'
+
+          - type: 'markdown'
+            content: |
+              # Lights
+            style:
+              .: *title_box_style
+              ha-markdown:
+                $: *title_text_style
 
           # ===================================================== #
           #                                                       #
@@ -1511,6 +1681,38 @@ views:
 
           - type: 'vertical-stack'
             cards:
+              - type: 'horizontal-stack'
+                cards:
+
+                  # ==================================== #
+                  #                                      #
+                  #             CEILING LIGHT            #
+                  #                                      #
+                  # ==================================== #
+
+                  - type: 'custom:button-card'
+                    entity: switch.light_switch_switch_l2
+                    name: Room
+                    custom_fields:
+                      icon_ceiling: &icon_ceiling >
+                        [[[ const state = entity.state === 'on' ? 'animate' : null;
+                        return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
+                        <path fill="#9da0a2" d="M50,21v-4.46H0V21c0,0.49,0.4,0.89,0.89,0.89h48.21C49.6,21.89,50,21.49,50,21z M0,0 M50,50"/>
+                        <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M1.83,23.68c0.46,4.06,3.9,7.14,7.99,7.14h30.36c4.09,0,7.53-3.08,7.99-7.14H1.83z M0,0 M50,50"/></svg>`; ]]]
+                    styles: &icon_ceiling_styles
+                      custom_fields:
+                        icon_ceiling:
+                          [top: 0%, left: 8%, width: 3.05vw, position: absolute]
+                    template: light_norgb
+
+                  - type: 'custom:button-card'
+                    entity: switch.light_switch_switch_l1
+                    name: Balcony
+                    custom_fields:
+                      icon_ceiling: *icon_ceiling
+                    styles: *icon_ceiling_styles
+                    template: light_norgb
+
               - type: 'horizontal-stack'
                 cards:
 
@@ -1577,14 +1779,22 @@ views:
 
           - break
 
-          #   C O L U M N 5   # 
+          #   C O L U M N 6   # 
           - type: 'custom:gap-card'
 
           - break
 
-          #   C O L U M N 6   # 
+          #   C O L U M N 7   # 
 
           - type: 'custom:gap-card'
+
+          - type: 'markdown'
+            content: |
+              # Mode Control
+            style:
+              .: *title_box_style
+              ha-markdown:
+                $: *title_text_style
 
           # ===================================================== #
           #                                                       #
@@ -1700,5 +1910,5 @@ views:
 
           - break
 
-          #   C O L U M N 7   # 
+          #   C O L U M N 8   # 
           - type: 'custom:gap-card'

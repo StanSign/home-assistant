@@ -29,7 +29,12 @@ yeelight:
       name: Xiaomi Desk Strip
       save_on_change: true
       
-      # Free Memory
+device_tracker:
+  - platform: nmap_tracker
+    hosts:
+      - 192.168.0.41
+    home_interval: 1
+      
 sensor:
   - platform: time_date
     display_options:

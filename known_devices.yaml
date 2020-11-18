@@ -11,3 +11,10 @@ life360_changjun:
   icon:
   picture:
   track: true
+
+Presence Sensor:
+  name: Presence Sensor
+  mac: 96:19:A9:4E:38:8E
+  icon:
+  picture:
+  track: true

@@ -1,4 +1,3 @@
-# Study Mode
 - id: '1600589105104'
   alias: Study
   description: ''
@@ -21,7 +20,6 @@
     - input_boolean.sleep_mode
     - input_boolean.game_mode
   mode: restart
-# Game Mode  
 - id: '1600589225737'
   alias: Game
   description: ''
@@ -44,7 +42,6 @@
     - input_boolean.study_mode
     - input_boolean.sleep_mode
   mode: restart
-# Sleep Mode  
 - id: '1600590060785'
   alias: Sleep
   description: ''
@@ -67,7 +64,6 @@
     - input_boolean.study_mode
     - input_boolean.game_mode
   mode: restart
-# Away Mode  
 - id: '1600591421096'
   alias: Away
   description: ''
@@ -89,28 +85,22 @@
     data:
       message: You just left home. Have a good day! :)
   mode: restart
-# Return  
 - id: '1600591711153'
   alias: Return
-  description: Activate once when return
+  description: ''
   trigger:
   - platform: state
-    entity_id: device_tracker.life360_changjun
+    entity_id: device_tracker.presence_sensor
     from: not_home
     to: home
-  condition:
-  - condition: state
-    entity_id: scene.scene_away
-    state: 'on'
   action:
-  - service: homeassistant.turn_off
+  - service: input_boolean.turn_off
     data: {}
     entity_id: input_boolean.away_mode
   - service: notify.mobile_app_icangjunyi_iphone
     data:
       message: Welcome Home! :)
   mode: single
-# Light Control while Home  
 - id: '1600595404501'
   alias: Home_light
   description: ''
@@ -147,7 +137,6 @@
     entity_id: switch.light_switch_switch_l2
     domain: switch
   mode: restart
-# turn off input_booleans  
 - id: '1600599118233'
   alias: Shutdown input_booleans
   description: ''
