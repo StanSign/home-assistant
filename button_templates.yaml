@@ -12,9 +12,9 @@ base:
     action: toggle
     haptic: light
   styles:
-      name: [top: 57.7%, left: 8%, line-height: 2vw, position: absolute]
-      state: [top: 74%, left: 8%, line-height: 2vw, position: absolute]
-      card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.3)', font-size: 1.7em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
+      name: [top: 60%, left: 8%, line-height: 2vw, position: absolute]
+      state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]
+      card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.3)', font-size: 1.5em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
 
 mode:
   template: base
@@ -28,6 +28,15 @@ sensor:
   template: base
   tap_action:
     action: none
+
+sidebar:
+  color_type: card
+  styles:
+    card:
+      - height: 92px
+      - border-radius: 0%
+      - box-shadow: none
+      - transition: none
 
 light_norgb:
   template: base

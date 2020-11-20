@@ -48,7 +48,7 @@ custom_field_gap: &custom_field_gap 8%
 custom_field_component_color: &custom_field_component_color white
 custom_field_font_size: &custom_field_font_size 11px
 card_background_color_on: &card_bg_color_on '#4E86D3'
-sidebar_background_color: &sidebar_color '#484d61'
+sidebar_background_color: &sidebar_color 'rgba(115, 115, 115, 0.2)'
 
 views:
     # View tab title.
@@ -1115,82 +1115,48 @@ views:
                 cards:
                   - type: 'custom:button-card'
                     icon: 'mdi:home'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action: 
                       action: navigate
                       navigation_path: /lovelace/0
+                    template: sidebar
                       
                   - type: 'custom:button-card'
                     icon: 'mdi:microsoft-xbox-controller'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /lovelace/1
+                    template: sidebar
                       
                   - type: 'custom:button-card'
                     icon: 'mdi:lead-pencil'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /lovelace/2
+                    template: sidebar
                       
                   - type: 'custom:button-card'
                     icon: 'mdi:eye'
-                    color_type: card
-                    color: var(--primary-background-color)
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /lovelace/3
+                    template: sidebar
                 
                   - type: 'custom:button-card'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
+                    template: sidebar
                         
                   - type: 'custom:button-card'
                     icon: 'mdi:cog'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /config/dashboard
+                    template: sidebar
                         
                   - type: 'custom:button-card'
                     icon: 'mdi:account'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /profile
+                    template: sidebar
           
           - break
         
@@ -1401,6 +1367,8 @@ views:
 
   - title: Test
     panel: true
+    icon: 'mdi:home'
+    background: center / cover no-repeat fixed /local/gradient_background.jpg
     cards: 
       - type: 'custom:layout-card'
         layout: vertical
@@ -1416,82 +1384,59 @@ views:
                 cards:
                   - type: 'custom:button-card'
                     icon: 'mdi:home'
-                    color_type: card
-                    color: var(--primary-background-color)
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
+                    color: 'rgba(115, 115, 115, 0.0)'
                     tap_action: 
                       action: navigate
-                      navigation_path: /lovelace/0
+                      navigation_path: /lovelace/4
+                    template: sidebar
                       
                   - type: 'custom:button-card'
                     icon: 'mdi:microsoft-xbox-controller'
-                    color_type: card
                     color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /lovelace/1
+                    template: sidebar
                       
                   - type: 'custom:button-card'
                     icon: 'mdi:lead-pencil'
-                    color_type: card
                     color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /lovelace/2
+                    template: sidebar
                       
                   - type: 'custom:button-card'
                     icon: 'mdi:eye'
-                    color_type: card
                     color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /lovelace/3
+                    template: sidebar
                 
                   - type: 'custom:button-card'
-                    color_type: card
                     color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
+                    template: sidebar
+
+                  - type: 'custom:button-card'
+                    color: *sidebar_color
+                    template: sidebar
                         
                   - type: 'custom:button-card'
                     icon: 'mdi:cog'
-                    color_type: card
                     color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /config/dashboard
+                    template: sidebar
                         
                   - type: 'custom:button-card'
                     icon: 'mdi:account'
-                    color_type: card
                     color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
                     tap_action:
                       action: navigate
                       navigation_path: /profile
+                    template: sidebar
 
           - break
 
@@ -1537,42 +1482,42 @@ views:
               #                                            #
               # ========================================== #
 
-              - type: 'custom:mini-graph-card'
-                entities: 
-                  - entity: sensor.motion_sensor_temperature
-                    show_legend: false
-                    show_points: false
-                name: ' '
-                height: 250
-                hours_to_show: 12
-                points_per_hour: 4
-                font_size: 1.1em
-                show:
-                  fill: true
-                  labels: false
-                color_thresholds:
-                  - value: 15
-                    color: "#18d1ed"
-                  - value: 17.5
-                    color: "#14f56e"
-                  - value: 20
-                    color: "#F39C12"
-                  - value: 22.5
-                    color: "#D35400"
-                  - value: 25
-                    color: "#C0392B"
-                line_width: 2.5
-                style: |
-                  ha-card {
-                    --ha-card-box-shadow: none;
-                    --ha-card-background: rgba(115, 115, 115, 0.2);
-                    border-radius: 0.8vw;
-                  }
-                  .fill--rect {
-                    fill: [[ if(vars[0] >= 25, "rgba(192, 57, 43, 1)", if(vars[0] >= 22.5, "rgba(211, 84, 0, 1)", if(vars[0] >= 20, "rgba(243, 156, 18, 1)", if(vars[0] >= 17.5, "rgba(20, 245, 110, 1)", if(vars[0] >= 15, "rgba(24, 209, 237, 1)"))))) ]];
-                    stroke: white;
-                    opacity: 1
-                  }
+              # - type: 'custom:mini-graph-card'
+              #   entities: 
+              #     - entity: sensor.motion_sensor_temperature
+              #       show_legend: false
+              #       show_points: false
+              #   name: ' '
+              #   height: 250
+              #   hours_to_show: 12
+              #   points_per_hour: 4
+              #   font_size: 1.1em
+              #   show:
+              #     fill: true
+              #     labels: false
+              #   color_thresholds:
+              #     - value: 15
+              #       color: "#18d1ed"
+              #     - value: 17.5
+              #       color: "#14f56e"
+              #     - value: 20
+              #       color: "#F39C12"
+              #     - value: 22.5
+              #       color: "#D35400"
+              #     - value: 25
+              #       color: "#C0392B"
+              #   line_width: 2.5
+              #   style: |
+              #     ha-card {
+              #       --ha-card-box-shadow: none;
+              #       --ha-card-background: rgba(115, 115, 115, 0.2);
+              #       border-radius: 0.8vw;
+              #     }
+              #     .fill--rect {
+              #       fill: [[ if(vars[0] >= 25, "rgba(192, 57, 43, 1)", if(vars[0] >= 22.5, "rgba(211, 84, 0, 1)", if(vars[0] >= 20, "rgba(243, 156, 18, 1)", if(vars[0] >= 17.5, "rgba(20, 245, 110, 1)", if(vars[0] >= 15, "rgba(24, 209, 237, 1)"))))) ]];
+              #       stroke: white;
+              #       opacity: 1
+              #     }
                   
               - type: 'custom:circle-sensor-card'
                 entity: sensor.motion_sensor_temperature
@@ -1580,8 +1525,8 @@ views:
                 min: 10
                 name: Temperature
                 gradient: true
-                stroke_width: 3
-                fill: rgba(115, 115, 115, 0.2)
+                stroke_width: 4
+                fill: 'rgba(255, 255, 255, 0.7)'
                 color_stops:
                   15: '#18D1ED'
                   17.5: '#14F56E'
@@ -1589,11 +1534,11 @@ views:
                   22.5: '#D35400'
                   25: '#C0392B'
                 font_style:
-                  color: rgba(255, 255, 255, 0.3)
+                  color: 'rgba(0, 0, 0, 0.7)'
                   font-family: 'Sf Display'
                   letter-spacing: 0.05vw
                   font-weight: 400
-                  font-size: 1.1em
+                  font-size: 1.5em
                   line-height: 2vw
                 style:
                   top: 5%
