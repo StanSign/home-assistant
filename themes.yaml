@@ -14,7 +14,7 @@ tablet:
   sidebar-icon-color: '#9e9e9e'
   # Background colors
   background: 'center / cover no-repeat url("/local/background_small.png") fixed'
-  #primary-background-color: '#222627'
+  primary-background-color: '#222627'
   secondary-background-color: '#434b4d'
   divider-color: 'rgba(0, 0, 0, .12)'
   table-row-background-color: '#292929'

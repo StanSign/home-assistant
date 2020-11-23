@@ -46,1314 +46,6 @@ sidebar_background_color: &sidebar_color 'rgba(115, 115, 115, 0.2)'
 sidebar_icon_align: &sidebar_icon_align 20%
 
 views:
-    # View tab title.
-  - title: Home
-    panel: true
-    cards:
-      - type: 'custom:layout-card'
-        layout: vertical
-        min_columns: 6
-        column_width: [7%, 30%, 1%, 30%, 1%, 30%]
-        justify_content: space-around
-        cards:
-          - type: 'vertical-stack'
-            cards:
-              - type: 'custom:vertical-stack-in-card'
-                cards:
-                  - type: 'custom:button-card'
-                    icon: 'mdi:home'
-                    color_type: card
-                    color: var(--primary-background-color)
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action: 
-                      action: navigate
-                      navigation_path: /lovelace/0
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:microsoft-xbox-controller'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/1
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:lead-pencil'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/2
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:eye'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/3
-                
-                  - type: 'custom:button-card'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:cog'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /config/dashboard
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:account'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /profile
-                      
-          - break
-          
-          - type: markdown
-            content: |
-              ## <center> {{ states('sensor.time') }}
-            style:
-              .: |
-                ha-card {
-                  box-shadow: none !important;
-                  background-color: transparent !important;
-                  height: 80px;
-                }
-              ha-markdown: 
-                $: |
-                  h1 {
-                    font-size: 40px !important;
-                    font-weight: 100;
-                    padding-top: 30px;
-                  }
-
-          - type: 'custom:mini-graph-card'
-            entities: 
-              - entity: sensor.motion_sensor_temperature
-                show_line: false
-                show_legend: false
-                show_points: false
-            style:
-              .: |
-                ha-card {
-                  box-shadow: none !important;
-                  background-image:
-                  {% if states('sensor.motion_sensor_temperature')|float > 25 %}
-                    linear-gradient(135deg, #ff9966 0%, #ff5e62 100%)
-                  {% else %}
-                    linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%)
-                  {% endif %}
-                  ;
-                }
-                .fill--rect {
-                  fill: white;
-                }
-                ha-icon {
-                  transform: scale(5,5);
-                  top: 60px; 
-                  right: 20px;
-                  color: hsla(0, 0%, 100%, 0.7);
-                }
-            name: " "
-            hour24: true
-            height: 250
-            hours_to_show: 12
-            points_per_hour: 4
-            font_size: 70
-            font_size_header: 10
-            show:
-              fill: true
-              labels: false
-              
-          - type: markdown
-            content: |
-              # Sensors
-            style:
-              .: |
-                ha-card {
-                  box-shadow: none !important;
-                  background-color: transparent !important;
-                  height: 35px;
-                }
-              ha-markdown:
-                $: |
-                  h1 {
-                    font-size: 16px !important;
-                    font-weight: 300;
-                  }
-
-          - type: 'vertical-stack'
-            cards:
-              - type: 'horizontal-stack'
-                cards:
-                  - type: 'custom:button-card'
-                    entity: binary_sensor.door_sensor_contact
-                    show_icon: false
-                    show_name: false
-                    size: 20%
-                    style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('binary_sensor.door_sensor_contact', 'on') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            'var(--card-background-color)';
-                          {% endif %}
-                      }
-                    styles:
-                      card:
-                        - height: 80px
-                      icon:
-                        - color: *custom_field_component_color
-                      custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                    custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                          return '<ha-icon icon="mdi:door-closed" style="width: 20px; height: 20px;">'        
-                          return '<ha-icon icon="mdi:door-open" style="width: 20px; height: 20px;">'
-                        ]]] 
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'Open';
-                            return 'Closed';
-                        ]]]
-                    hold_action:
-                      action: more-info
-                        
-                  - type: 'custom:button-card'
-                    entity: binary_sensor.motion_sensor_occupancy
-                    show_icon: false
-                    show_name: false
-                    size: 20%
-                    style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('binary_sensor.motion_sensor_occupancy', 'on') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                    styles:
-                      card:
-                        - height: 80px
-                      icon:
-                        - color: *custom_field_component_color
-                      custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                    custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:motion-sensor" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:motion-sensor" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'Detected';
-                            return 'Clear';
-                        ]]]
-                    hold_action:
-                      action: more-info
-          
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: markdown
-            content: |
-              # Ceiling Lights
-            style:
-              .: |
-                ha-card {
-                  box-shadow: none !important;
-                  background-color: transparent !important;
-                  height: 35px;
-                }
-              ha-markdown:
-                $: |
-                  h1 {
-                    font-size: 16px !important;
-                    font-weight: 300;
-                  }
-
-          - type: 'horizontal-stack'
-            cards:
-              - type: 'custom:button-card'
-                entity: switch.light_switch_switch_l2
-                show_icon: false
-                show_name: false
-                size: 20%
-                style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('switch.light_switch_switch_l2', 'on') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                styles:
-                  card:
-                    - height: 80px
-                  icon:
-                    - color: *custom_field_component_color
-                  custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:wall-sconce-flat" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:wall-sconce-flat" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'On';
-                            return 'Off';
-                        ]]]
-                tap_action: 
-                  action: toggle
-                hold_action:
-                  action: more-info
-                  
-              - type: 'custom:button-card'
-                entity: switch.light_switch_switch_l1
-                show_icon: false
-                show_name: false
-                size: 20%
-                style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('switch.light_switch_switch_l1', 'on') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                styles:
-                  card:
-                    - height: 80px
-                  icon:
-                    - color: *custom_field_component_color
-                  custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:dome-light" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:dome-light" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'On';
-                            return 'Off';
-                        ]]]
-                tap_action: 
-                  action: toggle
-                hold_action:
-                  action: more-info
-                  
-          - type: markdown
-            content: |
-              # Desk Lights
-            style:
-              .: |
-                ha-card {
-                  background-color: transparent !important;
-                  box-shadow: none !important;
-                  height: 35px;
-                }
-              ha-markdown:
-                $: |
-                  h1 {
-                    font-size: 16px !important;
-                    font-weight: 300;
-                    padding-left: 2px !important;
-                  }
-                  
-          - type: 'vertical-stack'
-            cards:
-              - type: 'horizontal-stack'
-                cards:
-                ######################## DESK BULB ############################
-                  - type: 'custom:button-card'
-                    entity: light.desk_bulb_light
-                    show_icon: false
-                    show_state: false
-                    color: auto
-                    show_name: false
-                    size: 10%
-                    style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('light.desk_bulb_light', 'on') %}
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                    styles:
-                      card:
-                        - height: 80px
-                      icon:
-                        - color: *custom_field_component_color
-                      custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                        color:
-                          - top: *custom_field_gap
-                          - right: *custom_field_gap
-                          - position: absolute
-                          - color: |
-                              [[[
-                                var color = states['light.desk_bulb_light'].attributes.rgb_color;
-                                return 'rgba(' + color + ', 0.7)';
-                              ]]]
-                    custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:desk-lamp" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:desk-lamp" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'On';
-                            return 'Off';
-                        ]]]
-                      color: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:square-rounded" style="width: 15px; height: 15px;">'
-                        ]]]
-                    tap_action:
-                      action: toggle
-                    hold_action:
-                      action: more-info
-                ######################## DESK STRIP ############################
-                  - type: 'custom:button-card'
-                    entity: light.xiaomi_desk_strip
-                    show_icon: false
-                    show_name: false
-                    size: 20%
-                    style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('light.xiaomi_desk_strip', 'on') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                    styles:
-                      card:
-                        - height: 80px
-                      icon:
-                        - color: *custom_field_component_color
-                      custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                        color:
-                          - top: *custom_field_gap
-                          - right: *custom_field_gap
-                          - position: absolute
-                          - color: |
-                              [[[
-                                var color = states['light.xiaomi_desk_strip'].attributes.rgb_color;
-                                return 'rgba(' + color + ', 0.7)';
-                              ]]]
-                    custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:led-strip-variant" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:led-strip-variant" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'On';
-                            return 'Off';
-                        ]]]
-                      color: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:square-rounded" style="width: 15px; height: 15px;">'
-                        ]]]
-                    tap_action:
-                      action: toggle
-                    hold_action:
-                      action: more-info
-                      
-                  - type: 'custom:gap-card'
-                    hieght: 80px
-
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-
-            # Mode Control
-          - type: markdown
-            content: |
-              # Mode
-            style:
-              .: |
-                ha-card {
-                  box-shadow: none !important;
-                  background-color: transparent !important;
-                  height: 35px;
-                }
-              ha-markdown:
-                $: |
-                  h1 {
-                    font-size: 16px !important;
-                    font-weight: 300;
-                  }
-                  
-          - type: 'vertical-stack'
-            cards:
-              - type: 'horizontal-stack'
-                cards:
-                  - type: 'custom:button-card'
-                    entity: input_boolean.study_mode
-                    show_name: false
-                    show_icon: false
-                    size: 20%
-                    style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('input_boolean.study_mode', 'on') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                    styles:
-                      card:
-                        - height: 80px
-                      icon:
-                        - color: *custom_field_component_color
-                      custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                    custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:lead-pencil" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:lead-pencil" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'On';
-                            return 'Off';
-                        ]]]
-                    tap_action:
-                      action: call-service
-                      service: input_boolean.toggle
-                      service_data:
-                        entity_id: input_boolean.study_mode
-                        
-                  - type: 'custom:button-card'
-                    entity: input_boolean.game_mode
-                    show_name: false
-                    show_icon: false
-                    size: 20%
-                    style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('input_boolean.game_mode', 'on') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                    styles:
-                      card:
-                        - height: 80px
-                      icon:
-                        - color: *custom_field_component_color
-                      custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                    custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:microsoft-xbox-controller" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:microsoft-xbox-controller" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'On';
-                            return 'Off';
-                        ]]]
-                    tap_action:
-                      action: call-service
-                      service: input_boolean.toggle
-                      service_data:
-                        entity_id: input_boolean.game_mode
-                    
-              - type: 'horizontal-stack'
-                cards:
-                  - type: 'custom:button-card'
-                    entity: input_boolean.sleep_mode
-                    show_name: false
-                    show_icon: false
-                    size: 20%
-                    style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('input_boolean.sleep_mode', 'on') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                    styles:
-                      card:
-                        - height: 80px
-                      icon:
-                        - color: *custom_field_component_color
-                      custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                    custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='on')
-                            return '<ha-icon icon="mdi:power-sleep" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:power-sleep" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='on')
-                            return 'On';
-                            return 'Off';
-                        ]]]
-                    tap_action:
-                      action: call-service
-                      service: input_boolean.toggle
-                      service_data:
-                        entity_id: input_boolean.sleep_mode
-                    
-                  - type: 'custom:button-card'
-                    entity: input_boolean.away_mode
-                    show_name: false
-                    show_icon: false
-                    size: 20%
-                    style: |
-                      ha-card {
-                        background-image:
-                          {% if is_state('input_boolean.away_mode', 'off') %} 
-                            linear-gradient(135deg, #89d1ff 0%, #89a2ff 70%, #9889ff 100%);
-                          {% else %}
-                            var(--card-background-color);
-                          {% endif %}
-                      }
-                    styles:
-                      card:
-                        - height: 80px
-                      icon:
-                        - color: *custom_field_component_color
-                      custom_fields:
-                        power:
-                          - top: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                        state:
-                          - bottom: *custom_field_gap
-                          - left: *custom_field_gap
-                          - position: absolute
-                          - color: *custom_field_component_color
-                          - font-size: *custom_field_font_size
-                    custom_fields:
-                      power: |
-                        [[[
-                          if (entity.state=='off')
-                            return '<ha-icon icon="mdi:home" style="width: 20px; height: 20px;">'        
-                            return '<ha-icon icon="mdi:home-export-outline" style="width: 20px; height: 20px;">'
-                        ]]]
-                      state: |
-                        [[[
-                          if (entity.state=='off')
-                            return 'Home';
-                            return 'Away';
-                        ]]]
-                    tap_action:
-                      action: call-service
-                      service: input_boolean.toggle
-                      service_data:
-                        entity_id: input_boolean.away_mode
-              
-              # Shut down
-              - type: 'custom:button-card'
-                show_name: false
-                show_icon: false
-                size: 20%
-                style: |
-                      ha-card {
-                        background-image:
-                            linear-gradient(135deg, #ff9966 0%, #ff5e62 100%);
-                      }
-                styles:
-                  card:
-                    - height: 80px
-                    - width: 145px
-                  icon:
-                    - color: *custom_field_component_color
-                  custom_fields:
-                    power:
-                      - top: *custom_field_gap
-                      - left: *custom_field_gap
-                      - position: absolute
-                      - color: *custom_field_component_color
-                    text:
-                      - bottom: *custom_field_gap
-                      - left: *custom_field_gap
-                      - position: absolute
-                      - color: *custom_field_component_color
-                      - font-size: *custom_field_font_size
-                custom_fields:
-                      power: |
-                        <ha-icon icon="mdi:power" style="width: 20px; height: 20px;">
-                      text: |
-                        Shut Down
-                tap_action:
-                  action: call-service
-                  service: homeassistant.turn_on
-                  service_data:
-                    entity_id: scene.shut_down
-
-  - title: Game
-    panel: true
-    cards:
-    # Steam
-      - type: 'custom:layout-card'
-        layout: vertical
-        min_columns: 6
-        column_width: [7%, 30%, 1%, 30%, 1%, 30%]
-        justify_content: space-around
-        cards:
-          - type: 'vertical-stack'
-            cards:
-              - type: 'custom:vertical-stack-in-card'
-                cards:
-                  - type: 'custom:button-card'
-                    icon: 'mdi:home'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action: 
-                      action: navigate
-                      navigation_path: /lovelace/0
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:microsoft-xbox-controller'
-                    color_type: card
-                    color: var(--primary-background-color)
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/1
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:lead-pencil'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/2
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:eye'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/3
-                
-                  - type: 'custom:button-card'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:cog'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /config/dashboard
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:account'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /profile
-        
-          - break
-        
-          - type: 'custom:kb-steam-card'
-            entity: sensor.steam_76561198086996983
-          - type: 'custom:kb-steam-card'
-            entities:
-              - sensor.steam_76561198086267709
-              - sensor.steam_76561198074838957
-            game_background: true
-
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-
-          - type: 'custom:mini-media-player'
-            entity: media_player.my_room
-            artwork: cover
-            hide:
-              power_state: false
-
-          - break
-
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: 'custom:gap-card'
-
-  - title: Study
-    panel: true
-    cards:
-      - type: 'custom:layout-card'
-        layout: vertical
-        min_columns: 6
-        column_width: [7%, 30%, 1%, 30%, 1%, 30%]
-        justify_content: space-around
-        cards:
-          - type: 'vertical-stack'
-            cards:
-              - type: 'custom:vertical-stack-in-card'
-                cards:
-                  - type: 'custom:button-card'
-                    icon: 'mdi:home'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action: 
-                      action: navigate
-                      navigation_path: /lovelace/0
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:microsoft-xbox-controller'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/1
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:lead-pencil'
-                    color_type: card
-                    color: var(--primary-background-color)
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/2
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:eye'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/3
-                
-                  - type: 'custom:button-card'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:cog'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /config/dashboard
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:account'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /profile
-          
-          - break
-                      
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-
-  - title: Analystic
-    panel: true
-    cards:
-      - type: 'custom:layout-card'
-        layout: vertical
-        min_columns: 6
-        column_width: [7%, 30%, 1%, 30%, 1%, 30%]
-        justify_content: space-around
-        cards:
-          - type: 'vertical-stack'
-            cards:
-              - type: 'custom:vertical-stack-in-card'
-                cards:
-                  - type: 'custom:button-card'
-                    icon: 'mdi:home'
-                    tap_action: 
-                      action: navigate
-                      navigation_path: /lovelace/0
-                    template: sidebar
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:microsoft-xbox-controller'
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/1
-                    template: sidebar
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:lead-pencil'
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/2
-                    template: sidebar
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:eye'
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/3
-                    template: sidebar
-                
-                  - type: 'custom:button-card'
-                    template: sidebar
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:cog'
-                    tap_action:
-                      action: navigate
-                      navigation_path: /config/dashboard
-                    template: sidebar
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:account'
-                    tap_action:
-                      action: navigate
-                      navigation_path: /profile
-                    template: sidebar
-          
-          - break
-        
-          - type: markdown
-            content: >
-              # <center> Home Assistant </center>
-            style:
-              .: |
-                ha-card {
-                  background-color: transparent !important;
-                  box-shadow: none !important;
-                }
-                ha-markdown:
-                  $: |
-                    h1 {
-                      font-size: 25px;
-                      # font-weight: bold;
-                      text-align: center;
-                      letter-spacing: '-0.01em';
-                      }
-          - type: glance
-            entities:
-              - entity: sensor.hassio_uptime
-                icon: 'mdi:clock'
-                name: Uptime
-
-              - entity: sensor.latest_version
-                icon: 'mdi:package-up'
-                name: Version
-
-              - entity: sensor.last_successful_authentication
-                name: Last Login
-
-              - entity: sensor.supervisor_updates
-                icon: 'mdi:download-network'
-                name: Updates
-            show_header_toggle: false
-            title: false
-
-          - type: horizontal-stack
-            cards:
-              - align_icon: left
-                align_state: center
-                entities:
-                  - sensor.processor_use
-                font_size: 75
-                line_width: 8
-                animate: true
-                icon: 'mdi:chip'
-                name: CPU
-                show:
-                  fill: false
-                type: 'custom:mini-graph-card'
-
-              - align_icon: left
-                align_state: center
-                entities:
-                  - sensor.memory_use_percent
-                font_size: 75
-                line_width: 8
-                animate: true
-                name: Memory
-                show:
-                  fill: false
-                type: 'custom:mini-graph-card'
-
-              - align_icon: left
-                align_state: center
-                entities:
-                  - sensor.disk_use_percent_home
-                font_size: 75
-                line_width: 8
-                animate: true
-                name: Disk
-                show:
-                  fill: false
-                type: 'custom:mini-graph-card'
-
-          - type: markdown
-            content: >
-              # <center> Restart Services </center>
-            style:
-              .: |
-                ha-card {
-                  background-color: transparent !important;
-                  box-shadow: none !important;
-                }
-                ha-markdown:
-                  $: |
-                    h1 {
-                      font-size: 25px;
-                      # font-weight: bold;
-                      text-align: center;
-                      letter-spacing: '-0.01em';
-                      }
-
-          - type: glance
-            entities:
-              - entity: zone.home
-                icon: 'mdi:home-assistant'
-                name: Hassio
-                tap_action:
-                  action: call-service
-                  service: homeassistant.restart
-
-              - entity: zone.home
-                icon: 'mdi:cogs'
-                name: Automation
-                tap_action:
-                  action: call-service
-                  service: automation.reload
-
-              - entity: zone.home
-                icon: 'mdi:script-text'
-                name: Script
-                tap_action:
-                  action: call-service
-                  service: script.reload
-
-              - entity: zone.home
-                icon: 'mdi:group'
-                name: Groups
-                tap_action:
-                  action: call-service
-                  service: group.reload
-            show_header_toggle: false
-            show_state: false  
-            title: false
-
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-
-          - type: markdown
-            content: >
-              # <center> Network Status </center>
-            style:
-              .: |
-                ha-card {
-                  background-color: transparent !important;
-                  box-shadow: none !important;
-                }
-                ha-markdown:
-                  $: |
-                    h1 {
-                      font-size: 25px;
-                      # font-weight: bold;
-                      text-align: center;
-                      letter-spacing: '-0.01em';
-                      }
-
-          - type: entities
-            entities:
-              - entity: sensor.local_ip
-                name: Local IP
-              - entity: sensor.myip
-                name: External IP
-              - entity: sensor.speedtest_download
-                name: Download Speed
-              - entity: sensor.speedtest_upload
-                name: Upload Speed
-            
-
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-
-          - type: markdown
-            content: >
-              # <center> Battery Levels </center>
-            style:
-              .: |
-                ha-card {
-                  background-color: transparent !important;
-                  box-shadow: none !important;
-                }
-                ha-markdown:
-                  $: |
-                    h1 {
-                      font-size: 25px;
-                      # font-weight: bold;
-                      text-align: center;
-                      letter-spacing: '-0.01em';
-                      }
-
-          - type: 'custom:battery-state-card'
-            entities:
-              - entity: sensor.door_sensor_battery
-                name: Door Sensor
-              - entity: sensor.motion_sensor_battery
-                name: Motion Sensor
-              - entity: sensor.icangjunyi_iphone_battery_level
-                name: iPhone
-              - entity: sensor.icangjunyi_ipad_2_battery_level
-                name: iPad
-
-          
-
 # ================================================================= #
 #                                                                   #
 #                         L O V E L A C E                           #
@@ -1405,7 +97,7 @@ views:
                   {top: 30%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.8, --mdc-icon-size: 2.5vw}
                 tap_action: 
                   action: navigate
-                  navigation_path: /lovelace/4
+                  navigation_path: /lovelace/0
               - type: 'custom:hui-markdown-card'
                 content: |
                   Home
@@ -1413,7 +105,7 @@ views:
                   {top: 30%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.8, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
                 tap_action:
                   action: navigate
-                  navigation_path: /lovelace/4
+                  navigation_path: /lovelace/0
                   
               - type: 'icon'
                 icon: 'mdi:microsoft-xbox-controller'
@@ -1517,49 +209,6 @@ views:
 
           - type: 'vertical-stack'
             cards:
-
-              # ========================================== #
-              #                                            #
-              #                TEMPERATURE                 #
-              #                                            #
-              # ========================================== #
-
-              # - type: 'custom:mini-graph-card'
-              #   entities: 
-              #     - entity: sensor.motion_sensor_temperature
-              #       show_legend: false
-              #       show_points: false
-              #   name: ' '
-              #   height: 250
-              #   hours_to_show: 12
-              #   points_per_hour: 4
-              #   font_size: 1.1em
-              #   show:
-              #     fill: true
-              #     labels: false
-              #   color_thresholds:
-              #     - value: 15
-              #       color: "#18d1ed"
-              #     - value: 17.5
-              #       color: "#14f56e"
-              #     - value: 20
-              #       color: "#F39C12"
-              #     - value: 22.5
-              #       color: "#D35400"
-              #     - value: 25
-              #       color: "#C0392B"
-              #   line_width: 2.5
-              #   style: |
-              #     ha-card {
-              #       --ha-card-box-shadow: none;
-              #       --ha-card-background: rgba(115, 115, 115, 0.2);
-              #       border-radius: 0.8vw;
-              #     }
-              #     .fill--rect {
-              #       fill: [[ if(vars[0] >= 25, "rgba(192, 57, 43, 1)", if(vars[0] >= 22.5, "rgba(211, 84, 0, 1)", if(vars[0] >= 20, "rgba(243, 156, 18, 1)", if(vars[0] >= 17.5, "rgba(20, 245, 110, 1)", if(vars[0] >= 15, "rgba(24, 209, 237, 1)"))))) ]];
-              #       stroke: white;
-              #       opacity: 1
-              #     }
                   
               - type: 'custom:circle-sensor-card'
                 entity: sensor.motion_sensor_temperature
@@ -1899,3 +548,500 @@ views:
 
           #   C O L U M N 8   # 
           - type: 'custom:gap-card'
+
+  - title: Game
+    panel: true
+    icon: 'mdi:microsoft-xbox-controller'
+    cards:
+    # Steam
+      - type: 'custom:layout-card'
+        layout: vertical
+        min_columns: 6
+        column_width: [7%, 30%, 1%, 30%, 1%, 30%]
+        justify_content: space-around
+        cards:
+          - type: 'vertical-stack'
+            cards:
+              - type: 'custom:vertical-stack-in-card'
+                cards:
+                  - type: 'custom:button-card'
+                    icon: 'mdi:home'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action: 
+                      action: navigate
+                      navigation_path: /lovelace/0
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:microsoft-xbox-controller'
+                    color_type: card
+                    color: var(--primary-background-color)
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/1
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:lead-pencil'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/2
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:eye'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/3
+                
+                  - type: 'custom:button-card'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        
+                  - type: 'custom:button-card'
+                    icon: 'mdi:cog'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /config/dashboard
+                        
+                  - type: 'custom:button-card'
+                    icon: 'mdi:account'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /profile
+        
+          - break
+        
+          - type: 'custom:kb-steam-card'
+            entity: sensor.steam_76561198086996983
+          - type: 'custom:kb-steam-card'
+            entities:
+              - sensor.steam_76561198086267709
+              - sensor.steam_76561198074838957
+            game_background: true
+
+          - break
+          
+          - type: 'custom:gap-card'
+          
+          - break
+
+          - type: 'custom:mini-media-player'
+            entity: media_player.my_room
+            artwork: cover
+            hide:
+              power_state: false
+
+          - break
+
+          - type: 'custom:gap-card'
+          
+          - break
+          
+          - type: 'custom:gap-card'
+
+  - title: Study
+    panel: true
+    icon: 'mdi:lead-pencil'
+    cards:
+      - type: 'custom:layout-card'
+        layout: vertical
+        min_columns: 6
+        column_width: [7%, 30%, 1%, 30%, 1%, 30%]
+        justify_content: space-around
+        cards:
+          - type: 'vertical-stack'
+            cards:
+              - type: 'custom:vertical-stack-in-card'
+                cards:
+                  - type: 'custom:button-card'
+                    icon: 'mdi:home'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action: 
+                      action: navigate
+                      navigation_path: /lovelace/0
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:microsoft-xbox-controller'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/1
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:lead-pencil'
+                    color_type: card
+                    color: var(--primary-background-color)
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/2
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:eye'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/3
+                
+                  - type: 'custom:button-card'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        
+                  - type: 'custom:button-card'
+                    icon: 'mdi:cog'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /config/dashboard
+                        
+                  - type: 'custom:button-card'
+                    icon: 'mdi:account'
+                    color_type: card
+                    color: *sidebar_color
+                    styles:
+                      card:
+                        - height: 100px
+                        - border-radius: 0%
+                    tap_action:
+                      action: navigate
+                      navigation_path: /profile
+          
+          - break
+                      
+          - type: 'custom:gap-card'
+          
+          - break
+          
+          - type: 'custom:gap-card'
+          
+          - break
+          
+          - type: 'custom:gap-card'
+          
+          - break
+          
+          - type: 'custom:gap-card'
+          
+          - break
+          
+          - type: 'custom:gap-card'
+          
+          - break
+
+  - title: Analystic
+    panel: true
+    icon: 'mdi:eye'
+    cards:
+      - type: 'custom:layout-card'
+        layout: vertical
+        min_columns: 6
+        column_width: [7%, 30%, 1%, 30%, 1%, 30%]
+        justify_content: space-around
+        cards:
+          - type: 'vertical-stack'
+            cards:
+              - type: 'custom:vertical-stack-in-card'
+                cards:
+                  - type: 'custom:button-card'
+                    icon: 'mdi:home'
+                    tap_action: 
+                      action: navigate
+                      navigation_path: /lovelace/0
+                    template: sidebar
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:microsoft-xbox-controller'
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/1
+                    template: sidebar
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:lead-pencil'
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/2
+                    template: sidebar
+                      
+                  - type: 'custom:button-card'
+                    icon: 'mdi:eye'
+                    tap_action:
+                      action: navigate
+                      navigation_path: /lovelace/3
+                    template: sidebar
+                
+                  - type: 'custom:button-card'
+                    template: sidebar
+                        
+                  - type: 'custom:button-card'
+                    icon: 'mdi:cog'
+                    tap_action:
+                      action: navigate
+                      navigation_path: /config/dashboard
+                    template: sidebar
+                        
+                  - type: 'custom:button-card'
+                    icon: 'mdi:account'
+                    tap_action:
+                      action: navigate
+                      navigation_path: /profile
+                    template: sidebar
+          
+          - break
+        
+          - type: markdown
+            content: >
+              # <center> Home Assistant </center>
+            style:
+              .: |
+                ha-card {
+                  background-color: transparent !important;
+                  box-shadow: none !important;
+                }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 25px;
+                      # font-weight: bold;
+                      text-align: center;
+                      letter-spacing: '-0.01em';
+                      }
+          - type: glance
+            entities:
+              - entity: sensor.hassio_uptime
+                icon: 'mdi:clock'
+                name: Uptime
+
+              - entity: sensor.latest_version
+                icon: 'mdi:package-up'
+                name: Version
+
+              - entity: sensor.last_successful_authentication
+                name: Last Login
+
+              - entity: sensor.supervisor_updates
+                icon: 'mdi:download-network'
+                name: Updates
+            show_header_toggle: false
+            title: false
+
+          - type: horizontal-stack
+            cards:
+              - align_icon: left
+                align_state: center
+                entities:
+                  - sensor.processor_use
+                font_size: 75
+                line_width: 8
+                animate: true
+                icon: 'mdi:chip'
+                name: CPU
+                show:
+                  fill: false
+                type: 'custom:mini-graph-card'
+
+              - align_icon: left
+                align_state: center
+                entities:
+                  - sensor.memory_use_percent
+                font_size: 75
+                line_width: 8
+                animate: true
+                name: Memory
+                show:
+                  fill: false
+                type: 'custom:mini-graph-card'
+
+              - align_icon: left
+                align_state: center
+                entities:
+                  - sensor.disk_use_percent_home
+                font_size: 75
+                line_width: 8
+                animate: true
+                name: Disk
+                show:
+                  fill: false
+                type: 'custom:mini-graph-card'
+
+          - type: markdown
+            content: >
+              # <center> Restart Services </center>
+            style:
+              .: |
+                ha-card {
+                  background-color: transparent !important;
+                  box-shadow: none !important;
+                }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 25px;
+                      # font-weight: bold;
+                      text-align: center;
+                      letter-spacing: '-0.01em';
+                      }
+
+          - type: glance
+            entities:
+              - entity: zone.home
+                icon: 'mdi:home-assistant'
+                name: Hassio
+                tap_action:
+                  action: call-service
+                  service: homeassistant.restart
+
+              - entity: zone.home
+                icon: 'mdi:cogs'
+                name: Automation
+                tap_action:
+                  action: call-service
+                  service: automation.reload
+
+              - entity: zone.home
+                icon: 'mdi:script-text'
+                name: Script
+                tap_action:
+                  action: call-service
+                  service: script.reload
+
+              - entity: zone.home
+                icon: 'mdi:group'
+                name: Groups
+                tap_action:
+                  action: call-service
+                  service: group.reload
+            show_header_toggle: false
+            show_state: false  
+            title: false
+
+          - break
+          
+          - type: 'custom:gap-card'
+          
+          - break
+
+          - type: markdown
+            content: >
+              # <center> Network Status </center>
+            style:
+              .: |
+                ha-card {
+                  background-color: transparent !important;
+                  box-shadow: none !important;
+                }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 25px;
+                      # font-weight: bold;
+                      text-align: center;
+                      letter-spacing: '-0.01em';
+                      }
+
+          - type: entities
+            entities:
+              - entity: sensor.local_ip
+                name: Local IP
+              - entity: sensor.myip
+                name: External IP
+              - entity: sensor.speedtest_download
+                name: Download Speed
+              - entity: sensor.speedtest_upload
+                name: Upload Speed
+            
+
+          - break
+          
+          - type: 'custom:gap-card'
+          
+          - break
+
+          - type: markdown
+            content: >
+              # <center> Battery Levels </center>
+            style:
+              .: |
+                ha-card {
+                  background-color: transparent !important;
+                  box-shadow: none !important;
+                }
+                ha-markdown:
+                  $: |
+                    h1 {
+                      font-size: 25px;
+                      # font-weight: bold;
+                      text-align: center;
+                      letter-spacing: '-0.01em';
+                      }
+
+          - type: 'custom:battery-state-card'
+            entities:
+              - entity: sensor.door_sensor_battery
+                name: Door Sensor
+              - entity: sensor.motion_sensor_battery
+                name: Motion Sensor
+              - entity: sensor.icangjunyi_iphone_battery_level
+                name: iPhone
+              - entity: sensor.icangjunyi_ipad_2_battery_level_2
+                name: iPad
