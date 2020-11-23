@@ -3,8 +3,6 @@ resources:
     type: module
   - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
     type: module
-  - url: /hacsfiles/sidebar-card/sidebar-card.js
-    type: module
   - url: /hacsfiles/lovelace-card-mod/card-mod.js
     type: module
   - url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
@@ -14,10 +12,6 @@ resources:
   - url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js
     type: module
   - url: /hacsfiles/lovelace-layout-card/layout-card.js
-    type: module
-  - url: /hacsfiles/swipe-card/swipe-card.js
-    type: module
-  - url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
     type: module
   - url: /hacsfiles/lovelace-gap-card/gap-card.js
     type: module
@@ -49,6 +43,7 @@ custom_field_component_color: &custom_field_component_color white
 custom_field_font_size: &custom_field_font_size 11px
 card_background_color_on: &card_bg_color_on '#4E86D3'
 sidebar_background_color: &sidebar_color 'rgba(115, 115, 115, 0.2)'
+sidebar_icon_align: &sidebar_icon_align 20%
 
 views:
     # View tab title.
@@ -1368,75 +1363,122 @@ views:
   - title: Test
     panel: true
     icon: 'mdi:home'
-    background: center / cover no-repeat fixed /local/gradient_background.jpg
+    background: 'var(--background)'
     cards: 
       - type: 'custom:layout-card'
         layout: vertical
         column_num: 8
-        column_width: [8%, 8%, 20%, 8%, 20%, 8%, 20%, 8%]
+        column_width: [20%, 3%, 20%, 7%, 20%, 7%, 20%, 3%]
         cards:
 
           #   C O L U M N 1   # 
 
-          - type: 'vertical-stack'
-            cards:
-              - type: 'custom:vertical-stack-in-card'
-                cards:
-                  - type: 'custom:button-card'
-                    icon: 'mdi:home'
-                    color: 'rgba(115, 115, 115, 0.0)'
-                    tap_action: 
-                      action: navigate
-                      navigation_path: /lovelace/4
-                    template: sidebar
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:microsoft-xbox-controller'
-                    color: *sidebar_color
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/1
-                    template: sidebar
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:lead-pencil'
-                    color: *sidebar_color
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/2
-                    template: sidebar
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:eye'
-                    color: *sidebar_color
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/3
-                    template: sidebar
-                
-                  - type: 'custom:button-card'
-                    color: *sidebar_color
-                    template: sidebar
+          # ===================================================== #
+          #                                                       #
+          #                    S I D E B A R                      #
+          #                                                       #
+          # ===================================================== #
+          - type: 'picture-elements'
+            image: /local/sidebar.png
+            elements:
+              - type: 'state-label'
+                entity: sensor.time
+                style:
+                  {top: 12%, left: 50%, font-size: 4.8em, font-weight: 350, font-family: Sf Display}
+                hold_action:
+                  action: none
+                tap_action:
+                  action: none
 
-                  - type: 'custom:button-card'
-                    color: *sidebar_color
-                    template: sidebar
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:cog'
-                    color: *sidebar_color
-                    tap_action:
-                      action: navigate
-                      navigation_path: /config/dashboard
-                    template: sidebar
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:account'
-                    color: *sidebar_color
-                    tap_action:
-                      action: navigate
-                      navigation_path: /profile
-                    template: sidebar
+              - type: 'state-label'
+                entity: sensor.date
+                style:
+                  {top: 19.2%, left: 50%, font-size: 1.6em, font-weight: 300, font-family: Sf Display}
+                hold_action:
+                  action: none
+                tap_action:
+                  action: none
+
+              - type: 'icon'
+                icon: 'mdi:home'
+                style:
+                  {top: 30%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.8, --mdc-icon-size: 2.5vw}
+                tap_action: 
+                  action: navigate
+                  navigation_path: /lovelace/4
+              - type: 'custom:hui-markdown-card'
+                content: |
+                  Home
+                style: 
+                  {top: 30%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.8, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/4
+                  
+              - type: 'icon'
+                icon: 'mdi:microsoft-xbox-controller'
+                style:
+                  {top: 40%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/1
+              - type: 'custom:hui-markdown-card'
+                content: >
+                  Game
+                style: 
+                  {top: 40.2%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
+                  
+              - type: 'icon'
+                icon: 'mdi:lead-pencil'
+                style:
+                  {top: 50%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/2
+              - type: 'custom:hui-markdown-card'
+                content: >
+                  Study
+                style: 
+                  {top: 50%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
+                  
+              - type: 'icon'
+                icon: 'mdi:eye'
+                style:
+                  {top: 60%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
+                tap_action:
+                  action: navigate
+                  navigation_path: /lovelace/3
+              - type: 'custom:hui-markdown-card'
+                content: >
+                  Monitor
+                style: 
+                  {top: 60%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
+                    
+              - type: 'icon'
+                icon: 'mdi:cog'
+                style:
+                  {top: 85%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
+                tap_action:
+                  action: navigate
+                  navigation_path: /config/dashboard
+              - type: 'custom:hui-markdown-card'
+                content: >
+                  Settings
+                style: 
+                  {top: 85%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
+                    
+              - type: 'icon'
+                icon: 'mdi:account'
+                style:
+                  {top: 95%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
+                tap_action:
+                  action: navigate
+                  navigation_path: /profile
+              - type: 'custom:hui-markdown-card'
+                content: >
+                  User
+                style: 
+                  {top: 95%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
 
           - break
 
@@ -1525,7 +1567,7 @@ views:
                 min: 10
                 name: Temperature
                 gradient: true
-                stroke_width: 4
+                stroke_width: 3
                 fill: 'rgba(255, 255, 255, 0.7)'
                 color_stops:
                   15: '#18D1ED'
@@ -1538,7 +1580,7 @@ views:
                   font-family: 'Sf Display'
                   letter-spacing: 0.05vw
                   font-weight: 400
-                  font-size: 1.5em
+                  font-size: 1.3em
                   line-height: 2vw
                 style:
                   top: 5%
@@ -1769,7 +1811,7 @@ views:
                         <path class="${state}" d="M0,0 M50,50 M33.92,18c-0.21,0.6-0.78,1-1.42,1H31v7.5c0,0.83-0.67,1.5-1.5,1.5h-9c-0.83,0-1.5-0.67-1.5-1.5V19h-1.5c-0.64,0-1.21-0.4-1.42-1s-0.02-1.27,0.48-1.67l7.5-6c0.55-0.44,1.33-0.44,1.88,0l7.5,6C33.94,16.73,34.13,17.4,33.92,18z M0,0 M50,50"/></svg>`; ]]]
                     styles:
                       name: [top: 74%, left: 8%, line-height: 2vw, position: absolute]
-                      card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.3)', font-size: 1.7em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
+                      card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.3)', font-size: 1.3em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
                       custom_fields:
                         away_home:
                           [top: 11%, left: 5%, width: 3.1vw, position: absolute]
