@@ -4,7 +4,6 @@ tablet:
   accent-color: '#b4b6b630'
   dark-primary-color: '#e0e1e1'
   light-primary-color: '#262b2c'
-  background: center / cover no-repeat url("/local/background_dark2.jpg") fixed
   # Text colors
   primary-text-color: '#e0e1e1'
   text-primary-color: 'var(--primary-text-color)'
@@ -14,7 +13,8 @@ tablet:
   # Sidebar
   sidebar-icon-color: '#9e9e9e'
   # Background colors
-  primary-background-color: '#222627'
+  background: 'center / cover no-repeat url("/local/background_small.png") fixed'
+  #primary-background-color: '#222627'
   secondary-background-color: '#434b4d'
   divider-color: 'rgba(0, 0, 0, .12)'
   table-row-background-color: '#292929'
