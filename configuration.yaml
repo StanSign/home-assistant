@@ -1,9 +1,6 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
-http:
-  base_url: https://ha.stansign.duckdns.org
-
 lovelace:
   mode: yaml
 
@@ -12,7 +9,16 @@ frontend:
 
 # Text to speech
 tts:
-  - platform: google_translate
+  - platform: naver_premium
+    client_id: i85h2upfma
+    client_secret: bSBGqyLPuva1FEHh6x1ojJZnhCq9E4VIwN9RHqjU
+    emotion: 2
+
+media_player:
+  - platform: cast
+  
+# Cloud
+cloud:
 
 group: !include groups.yaml
 script: !include scripts.yaml
@@ -33,7 +39,7 @@ device_tracker:
   - platform: nmap_tracker
     hosts:
       - 192.168.0.41
-    home_interval: 1
+    home_interval: 3
       
 sensor:
   - platform: time_date
@@ -54,47 +60,8 @@ sensor:
       - '76561198086267709'
       - '76561198074838957'
 
-  - platform: authenticated
-
-  - platform: command_line
-    name: Supervisor updates
-    command: 'curl http://supervisor/supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ''{"newest_version":.data.version_latest,"current_version":.data.version,"addons":[.data.addons[] | select(.version != .installed)]}'''
-    value_template: "{{ value_json.addons | length }}"
-    json_attributes:
-      - newest_version
-      - current_version
-      - addons
-
-  - platform: systemmonitor
-    resources:
-          - type: disk_use_percent
-            arg: /home
-          - type: memory_use_percent
-          - type: memory_use
-          - type: swap_use
-          - type: swap_free
-          - type: swap_use_percent
-          - type: load_1m
-          - type: load_5m
-          - type: load_15m
-          - type: memory_free
-          - type: last_boot
-          - type: processor_use
-          - type: network_in
-            arg: eth0
-          - type: network_out
-            arg: eth0
-          - type: ipv4_address
-            arg: eth0
-          - type: throughput_network_in
-            arg: eth0
-          - type: throughput_network_out
-            arg: eth0
-          - type: processor_use
-
   - platform: uptime
     name: Hassio uptime
-    unit_of_measurement: minutes
 
   - platform: version
     source: hassio
@@ -104,6 +71,15 @@ sensor:
   - platform: naver_weather
     name: Weather
     area: 'weather'
+    
+yahoofinance:
+  symbols:
+    - NVDA
+    - TSLA
+    - AAPL
+    - CCIV
+    - VLDR
+    - IPOE
 
 weather:
   - platform: naver_weather
@@ -111,3 +87,18 @@ weather:
     sensor_use: 'Y'
 
 browser_mod:
+
+kakao_talk:
+  api_key: 92f42c4d59a603cdd26c1bf1e3cb61c0
+  redirect_uri: http://ha.stansign.duckdns.org
+  send_to_friends: True
+  
+notify:
+  - name: kakaotalk_noti
+    platform: kakao_talk
+
+logger:
+  default: warn
+  logs:
+    custom_components.kakaotalk: debug
+    custom_components.kakao_talk: debug

@@ -18,3 +18,10 @@ Presence Sensor:
   icon:
   picture:
   track: true
+
+hostname1:
+  name: hostname1
+  mac:
+  icon:
+  picture:
+  track: true

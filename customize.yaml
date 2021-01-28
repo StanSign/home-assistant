@@ -1,0 +1,2 @@
+binary_sensor.pressure_pillow_contact:
+  icon: mdi:bed

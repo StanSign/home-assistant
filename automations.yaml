@@ -19,6 +19,10 @@
     entity_id:
     - input_boolean.sleep_mode
     - input_boolean.game_mode
+  - service: notify.kakaotalk_noti
+    data:
+      title: Home Assistant
+      message: Study Mode Enabled
   mode: restart
 - id: '1600589225737'
   alias: Game
@@ -41,6 +45,10 @@
     entity_id:
     - input_boolean.study_mode
     - input_boolean.sleep_mode
+  - service: notify.kakaotalk_noti
+    data:
+      title: Home Assistant
+      message: Game Mode Enabled
   mode: restart
 - id: '1600590060785'
   alias: Sleep
@@ -63,79 +71,33 @@
     entity_id:
     - input_boolean.study_mode
     - input_boolean.game_mode
+  - service: notify.kakaotalk_noti
+    data:
+      title: Home Assistant
+      message: Sleep Mode Enabled
   mode: restart
 - id: '1600591421096'
   alias: Away
   description: ''
   trigger:
   - platform: state
-    entity_id: device_tracker.life360_changjun
-    from: home
-    to: not_home
+    from: Wi-Fi
+    entity_id: sensor.icangjunyi_iphone_connection_type
+    to: Cellular
   condition:
   - condition: state
-    entity_id: sensor.icangjunyi_iphone_connection_type
-    state: Cellular
+    entity_id: device_tracker.presence_sensor
+    state: not_home
   action:
   - service: homeassistant.turn_on
     data: {}
     entity_id: input_boolean.away_mode
-  - scene: scene.scene_away
-  - service: notify.mobile_app_icangjunyi_iphone
+  - scene: scene.shut_down
+  - scene: scene.scene_shut_modes_down
+  - service: notify.kakaotalk_noti
     data:
-      message: You just left home. Have a good day! :)
-  mode: restart
-- id: '1600591711153'
-  alias: Return
-  description: ''
-  trigger:
-  - platform: state
-    entity_id: device_tracker.presence_sensor
-    from: not_home
-    to: home
-  action:
-  - service: input_boolean.turn_off
-    data: {}
-    entity_id: input_boolean.away_mode
-  - service: notify.mobile_app_icangjunyi_iphone
-    data:
-      message: Welcome Home! :)
-  mode: single
-- id: '1600595404501'
-  alias: Home_light
-  description: ''
-  trigger:
-  - type: motion
-    platform: device
-    device_id: de4cb5ea035c45edb598b6248f7f1c61
-    entity_id: binary_sensor.motion_sensor_occupancy
-    domain: binary_sensor
-  condition:
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: input_boolean.home_mode
-      state: 'on'
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: input_boolean.game_mode
-        state: 'off'
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: input_boolean.study_mode
-        state: 'off'
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: input_boolean.sleep_mode
-        state: 'off'
-  action:
-  - type: turn_on
-    device_id: e517ecf3d35c4a76b89c4923ba76aa5b
-    entity_id: switch.light_switch_switch_l2
-    domain: switch
+      title: Home Assistant
+      message: You just left home. Have a good day :)
   mode: restart
 - id: '1600599118233'
   alias: Shutdown input_booleans
@@ -157,4 +119,99 @@
     - input_boolean.sleep_mode
     - input_boolean.game_mode
     - input_boolean.study_mode
+  mode: single
+- id: '1609050516870'
+  alias: Motion -> Home Mode
+  description: Set Mode to Home when door is opened
+  trigger:
+  - type: motion
+    platform: device
+    device_id: de4cb5ea035c45edb598b6248f7f1c61
+    entity_id: binary_sensor.motion_sensor_occupancy
+    domain: binary_sensor
+  condition:
+  - condition: state
+    entity_id: input_boolean.away_mode
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id: input_boolean.away_mode
+  - type: turn_on
+    device_id: e517ecf3d35c4a76b89c4923ba76aa5b
+    entity_id: switch.light_switch_switch_l2
+    domain: switch
+  mode: single
+- id: '1609053497602'
+  alias: Not Home -> Back to Away
+  description: Back to Away Mode when you're not home
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_occupancy
+    to: 'on'
+    for: 00:03:00
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: device_tracker.presence_sensor
+      state: not_home
+    - condition: state
+      entity_id: input_boolean.away_mode
+      state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    entity_id: input_boolean.away_mode
+  - scene: scene.shut_down
+  mode: single
+- id: '1610451459913'
+  alias: Go to Sleep
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.pressure_pillow_contact
+    to: 'off'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.away_mode
+      state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    entity_id: input_boolean.sleep_mode
+  mode: single
+- id: '1610451842424'
+  alias: Wake Up
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.motion_sensor_occupancy
+    to: 'on'
+  condition:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.away_mode
+      state: 'off'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.sleep_mode
+        state: 'on'
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.pressure_pillow_contact
+      state: 'on'
+  action:
+  - service: input_boolean.turn_on
+    data: {}
+    entity_id: input_boolean.study_mode
+  - type: turn_on
+    device_id: e517ecf3d35c4a76b89c4923ba76aa5b
+    entity_id: switch.light_switch_switch_l2
+    domain: switch
   mode: single
