@@ -1,18 +1,16 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+homeassistant:
+  allowlist_external_dirs:
+    - '/config'
+  customize: !include customize.yaml
+
 lovelace:
   mode: yaml
 
 frontend:
   themes: !include themes.yaml
-
-# Text to speech
-tts:
-  - platform: naver_premium
-    client_id: i85h2upfma
-    client_secret: bSBGqyLPuva1FEHh6x1ojJZnhCq9E4VIwN9RHqjU
-    emotion: 2
 
 media_player:
   - platform: cast
@@ -25,6 +23,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 input_boolean: !include booleans.yaml
 automation: !include automations.yaml
+sensor: !include sensors.yaml
 
 discovery:
   ignore:
@@ -40,37 +39,6 @@ device_tracker:
     hosts:
       - 192.168.0.41
     home_interval: 3
-      
-sensor:
-  - platform: time_date
-    display_options:
-      - 'time'
-      - 'date'
-      - 'date_time'
-      - 'date_time_utc'
-      - 'date_time_iso'
-      - 'time_date'
-      - 'time_utc'
-      - 'beat'
-
-  - platform: steam_online
-    api_key: 86AF8DF0E151A052F49E134A5477BE84
-    accounts:
-      - '76561198086996983'
-      - '76561198086267709'
-      - '76561198074838957'
-
-  - platform: uptime
-    name: Hassio uptime
-
-  - platform: version
-    source: hassio
-
-  - platform: dnsip
-
-  - platform: naver_weather
-    name: Weather
-    area: 'weather'
     
 yahoofinance:
   symbols:
@@ -79,7 +47,6 @@ yahoofinance:
     - AAPL
     - CCIV
     - VLDR
-    - IPOE
 
 weather:
   - platform: naver_weather
@@ -96,6 +63,14 @@ kakao_talk:
 notify:
   - name: kakaotalk_noti
     platform: kakao_talk
+
+spotify:
+  client_id: 32141ca6a618405983b837f98301b6c6
+  client_secret: 57e0bc78edc54696829cca548fc0d398
+
+spotcast:
+  sp_dc: AQCCoiuWbz2_xfc4Slx9znmsCGP97WAvECSh_nXt90SpFwCEGwInrVBKbmCDTRnUHWyAoWJR8iCZK8XfEE07Y0ieqZ7nR1n_-D9jmrCi5jkFqFlzQ_cExp2xVyrATSkBDbrRGPkRGD9ScqSrlfJ7k8irQT17e8v5vg
+  sp_key: 09c260a6-a194-40d1-b307-99fa8b82c343
 
 logger:
   default: warn

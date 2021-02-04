@@ -8,3 +8,37 @@
       message: 안녕하세요
       cache: false
   mode: single
+curtain_control:
+  alias: Curtain_Control
+  sequence:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: sensor.curtainopenstate
+        state: Closed
+      sequence:
+      - service: cover.open_cover
+        data: {}
+        entity_id: cover.curtain
+    - conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: sensor.curtainopenstate
+          state: Closed
+      sequence:
+      - service: cover.close_cover
+        data: {}
+        entity_id: cover.curtain
+    default: []
+  mode: single
+  icon: mdi:window-open-variant
+play_hip_hop:
+  sequence:
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.spotify_icangjun
+      media_content_id: https://open.spotify.com/playlist/1x9Arky8mKEVzFHBxyOSnp?si=vOBcd2tITE-EemT-FPlucw
+      media_content_type: playlist
+  mode: single
+  icon: mdi:playlist-music

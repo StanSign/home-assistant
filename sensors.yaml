@@ -1,0 +1,137 @@
+  - platform: version
+    name: hass_version_installed
+
+  - platform: version
+    name: hass_version_latest
+
+  - platform: rest
+    name: hass_release_notes
+    resource: https://api.github.com/repos/home-assistant/core/releases/latest
+    value_template: '{{ value_json.name }}'
+    json_attributes: [body]
+    scan_interval: 21600
+  
+  - platform: filesize
+    file_paths:
+      - /config/home-assistant_v2.db
+      - /config/home-assistant.log
+  
+  - platform: uptime
+
+  - platform: systemmonitor
+    resources:
+      - type: processor_temperature
+      - type: processor_use
+      - type: memory_use_percent
+      - type: disk_use_percent
+        arg: /home
+      - type: network_in
+        arg: eth0
+      - type: network_out
+        arg: eth0
+
+  - platform: steam_online
+    api_key: 86AF8DF0E151A052F49E134A5477BE84
+    accounts:
+      - '76561198086996983'
+      - '76561198086267709'
+      - '76561198074838957'
+      - '76561199120251534'
+  
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'date_time_utc'
+      - 'date_time_iso'
+      - 'time_date'
+      - 'time_utc'
+      - 'beat'
+
+  - platform: dnsip
+
+  - platform: naver_weather
+    name: Weather
+    area: 'weather'
+
+  - platform: template
+    sensors:
+      placeholder:
+        value_template: ' '
+
+      hass_version: 
+        icon_template: 'mdi:home-assistant'
+        friendly_name_template: >
+          Installed {{ states('sensor.hass_version_installed') }}
+        value_template: >
+          {{ 'Latest' if states('sensor.hass_version_installed') ==
+          states('sensor.hass_release_notes') else states('sensor.hass_release_notes') }}
+
+      hass_version_template:
+        icon_template: 'mdi:home-assistant'
+        friendly_name_template: >-
+          Installed {{ states('sensor.hass_version_installed') }}
+        value_template: >-
+          {% if states('sensor.hass_version_installed') == states('sensor.hass_version_latest') %}
+            Current
+          {% else %}
+            {{ states('sensor.hass_version_latest') }}
+          {% endif %}
+
+      hass_uptime:
+        friendly_name: Last restart
+        icon_template: mdi:update
+        value_template: >
+          {% set uptime = (as_timestamp(now()) - as_timestamp(states('sensor.uptime'))) | float / 60 %}
+          {% if uptime < 1 %} {{ (uptime * 60) | int }} seconds ago
+          {% elif uptime | int == 1 %} 1 minute ago
+          {% elif uptime | int > 1 %}
+            {% if uptime | int < 60 %} {{ uptime | int }} minutes ago
+            {% elif uptime | int / 60 == 24 %} {{ (uptime | int / 60 / 24) | int }} day ago
+            {% elif uptime | int / 60 >= 24 %} {{ (uptime | int / 60 / 24) | int }} days ago
+            {% elif uptime | int >= 60 and uptime | int < 120 %} an hour ago
+            {% elif uptime | int >= 120 %} {{ (uptime | int / 60) | int }} hours ago
+            {% endif %}
+          {% endif %}
+
+      eth0_out:
+        friendly_name: Out
+        icon_template: mdi:server-network
+        value_template: >
+          {{ states('sensor.network_out_eth0') | int }}
+      
+      eth0_in:
+        friendly_name: In
+        icon_template: mdi:server-network
+        value_template: >
+          {{ states('sensor.network_in_eth0') | int }}
+
+      dayoftheweek:
+        value_template: "{{ now().strftime('%A') }}"
+  
+      month:
+        value_template: "{{ now().strftime('%B') }}"
+  
+      dateofthemonth:
+        value_template: >
+          {% set suffix = ['st', 'nd', 'rd'] %}
+          {% set day = now().day %}
+          {% set index = 3 if day // 10 == 1 or day % 10 == 0 else (day % 10) - 1 %}
+          {{ day~'th' if index > 2 else day~suffix[index] }}
+          
+      date_string:
+        friendly_name: "Full Date"
+        value_template: "{{ states('sensor.dayoftheweek') }}, {{ states('sensor.dateofthemonth') }} of {{ states('sensor.month') }} {{ now().year }}"
+
+      curtainopenstate:
+        friendly_name: "Curtain State"
+        icon_template: mdi:window-open-variant
+        value_template: >
+          {% if state_attr('cover.curtain', 'position') < 20 %}
+            Open
+          {% elif state_attr('cover.curtain', 'position') >= 95 %}
+            Closed
+          {% else %}
+            Open {{ state_attr('cover.curtain', 'position') }} %
+          {% endif %}

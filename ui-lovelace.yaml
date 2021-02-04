@@ -29,6 +29,14 @@ resources:
     type: module
   - url: /hacsfiles/circle-sensor-card/circle-sensor-card.js
     type: module
+  - url: /hacsfiles/bar-card/bar-card.js
+    type: module
+  - url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js
+    type: module
+  - url: /hacsfiles/swipe-card/swipe-card.js
+    type: module
+  - url: /hacsfiles/spotify-card/spotify-card.js
+    type: module
 
 preload_cards:
   [map, iframe, markdown]
@@ -45,558 +53,694 @@ card_background_color_on: &card_bg_color_on '#4E86D3'
 sidebar_background_color: &sidebar_color 'rgba(115, 115, 115, 0.2)'
 sidebar_icon_align: &sidebar_icon_align 20%
 
+titel: &title
+  entity: sensor.placeholder
+  tap_action:
+    action: none
+  hold_action:
+    action: none
+  type: state-label
+style: &title-style
+  color: '#BCBEBF'
+  font-family: SF Text
+  font-size: 2vw
+  font-weight: 350
+  max-width: 1px
+  cursor: default
+
 views:
 # ================================================================= #
 #                                                                   #
 #                         L O V E L A C E                           #
 #                                                                   #
 # ================================================================= #
-
-  - title: Test
-    panel: true
+  - title: Home
     icon: 'mdi:home'
-    background: 'var(--background)'
-    cards: 
-      - type: 'custom:layout-card'
-        layout: vertical
-        column_num: 8
-        column_width: [20%, 3%, 20%, 7%, 20%, 7%, 20%, 3%]
-        cards:
+    badges: []
+    panel: true
+    cards:
+      - type: picture-elements
+        entity: sun.sun
+        state_image:
+          'below_horizon': /local/bg_dark.png
+          'above_horizon': /local/bg_light.png
+        elements:
 
-          #   C O L U M N 1   # 
+          # ============================================= #
+          #                                               #
+          #                  INFO BUTTON                  #
+          #                                               #
+          # ============================================= #
 
-          # ===================================================== #
-          #                                                       #
-          #                    S I D E B A R                      #
-          #                                                       #
-          # ===================================================== #
-          - type: 'picture-elements'
-            image: /local/sidebar.png
-            elements:
-              - type: 'state-label'
-                entity: sensor.time
-                style:
-                  {top: 12%, left: 50%, font-size: 4.8em, font-weight: 350, font-family: Sf Display}
-                hold_action:
-                  action: none
-                tap_action:
-                  action: none
-
-              - type: 'state-label'
-                entity: sensor.date
-                style:
-                  {top: 19.2%, left: 50%, font-size: 1.6em, font-weight: 300, font-family: Sf Display}
-                hold_action:
-                  action: none
-                tap_action:
-                  action: none
-
-              - type: 'icon'
-                icon: 'mdi:home'
-                style:
-                  {top: 30%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.8, --mdc-icon-size: 2.5vw}
-                tap_action: 
-                  action: navigate
-                  navigation_path: /lovelace/0
-              - type: 'custom:hui-markdown-card'
-                content: |
-                  Home
-                style: 
-                  {top: 30%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.8, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/0
-                  
-              - type: 'icon'
-                icon: 'mdi:microsoft-xbox-controller'
-                style:
-                  {top: 40%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/1
-              - type: 'custom:hui-markdown-card'
-                content: >
-                  Game
-                style: 
-                  {top: 40.2%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
-                  
-              - type: 'icon'
-                icon: 'mdi:lead-pencil'
-                style:
-                  {top: 50%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/2
-              - type: 'custom:hui-markdown-card'
-                content: >
-                  Study
-                style: 
-                  {top: 50%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
-                  
-              - type: 'icon'
-                icon: 'mdi:eye'
-                style:
-                  {top: 60%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/3
-              - type: 'custom:hui-markdown-card'
-                content: >
-                  Monitor
-                style: 
-                  {top: 60%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
-                    
-              - type: 'icon'
-                icon: 'mdi:cog'
-                style:
-                  {top: 85%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
-                tap_action:
-                  action: navigate
-                  navigation_path: /config/dashboard
-              - type: 'custom:hui-markdown-card'
-                content: >
-                  Settings
-                style: 
-                  {top: 85%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
-                    
-              - type: 'icon'
-                icon: 'mdi:account'
-                style:
-                  {top: 95%, left: *sidebar_icon_align, color: 'rgb(255, 255, 255)', opacity: 0.2, --mdc-icon-size: 2.5vw}
-                tap_action:
-                  action: navigate
-                  navigation_path: /profile
-              - type: 'custom:hui-markdown-card'
-                content: >
-                  User
-                style: 
-                  {top: 95%, left: 60%, color: 'rgb(255, 255, 255)', font-size: 1.6em, opacity: 0.2, '--ha-card-background': 'rgba(0, 0, 0, 0.0)', '--ha-card-box-shadow': none}
-
-          - break
-
-          #   C O L U M N 2   # 
-
-          - type: 'custom:gap-card'
-
-          - break
-
-          #   C O L U M N 3   # 
-
-          - type: 'custom:gap-card'
+          - type: icon
+            icon: mdi:information-outline
+            title: Information
+            style:
+              top: 96.5%
+              left: 93.6%
+              color: rgb(255, 255, 255)
+              opacity: 0.1
+              padding: 0.8vw
+              --mdc-icon-size: 4vw
+            tap_action: !include popup/information.yaml
             
-          - type: markdown
-            content: |
-              # Sensors
-            style:
-              .: &title_box_style |
-                ha-card {
-                  box-shadow: none !important;
-                  background: none;
-                  height: 10px;
-                }
-              ha-markdown:
-                $: &title_text_style |
-                  h1 {
-                    font-size: 28px;
-                    font-weight: 400;
-                  }
-          
-          # ===================================================== #
-          #                                                       #
-          #                     S E N S O R                       #
-          #                                                       #
-          # ===================================================== #
-
-          - type: 'vertical-stack'
-            cards:
-              
-              # ========================================== #
-              #                                            #
-              #                TEMPERATURE                 #
-              #                                            #
-              # ========================================== #
-                  
-              - type: 'custom:circle-sensor-card'
-                entity: sensor.motion_sensor_temperature
-                max: 30
-                min: 10
-                name: Temperature
-                gradient: true
-                stroke_width: 3
-                fill: 'rgba(255, 255, 255, 0.7)'
-                color_stops:
-                  15: '#18D1ED'
-                  17.5: '#14F56E'
-                  20: '#F39C12'
-                  22.5: '#D35400'
-                  25: '#C0392B'
-                font_style:
-                  color: 'rgba(0, 0, 0, 0.7)'
-                  font-family: 'Sf Display'
-                  letter-spacing: 0.05vw
-                  font-weight: 400
-                  font-size: 1.3em
-                  line-height: 2vw
+          - type: conditional
+            conditions:
+              - entity: sensor.hass_version_template
+                state_not: Current
+              - entity: sensor.hass_version_template
+                state_not: unknown
+            elements:
+              - type: image
+                image: /local/update_available.svg
                 style:
-                  top: 5%
-                  left: 80%
-                  width: 4em
-                  height: 4em
-                  transform: none
-                  
-              - type: 'horizontal-stack'
-                cards:
-                  
-                  # ========================================== #
-                  #                                            #
-                  #              PRESENSE SENSOR               #
-                  #                                            #
-                  # ========================================== #
-                  
-                  - type: 'custom:button-card'
-                    entity: device_tracker.presense
-                    name: Presense
-                    aspect_ratio: 1/1
-                    show_state: true
-                    show_icon: false
-                    custom_fields:
-                      icon_closet: >
-                        [[[ const pin = entity.state === 'not_home' ? 'pinaway' : 'pinaway reverse'; const state = entity.state === 'not_home' ? 'away' : 'away reverse';
-                        return `<svg viewBox="0 0 50 50"><style>.pinaway{animation: pinaway .7s cubic-bezier(.25,.46,.45,.94) both;}.away{animation: away .7s; cubic-bezier(.25,.46,.45,.94); transform-origin: center 20px; animation-fill-mode: both;}.reverse{animation-direction: reverse;}@keyframes pinaway{0%{fill:#2196F3}100%{fill:#9da0a2}}@keyframes away{0%{transform:rotate(0); fill:#FFFFFF}100%{transform:rotate(90deg); fill:#323536}}</style>
-                        <path class="${pin}" d="M0,0 M50,50 M43,19c0,12.48-16.25,28.87-16.94,29.56C25.77,48.85,25.38,49,25,49c-0.38,0-0.77-0.15-1.06-0.44 C23.25,47.87,7,31.48,7,19C7,9.07,15.07,1,25,1S43,9.07,43,19z M0,0 M50,50"/>
-                        <path class="${state}" d="M0,0 M50,50 M33.92,18c-0.21,0.6-0.78,1-1.42,1H31v7.5c0,0.83-0.67,1.5-1.5,1.5h-9c-0.83,0-1.5-0.67-1.5-1.5V19h-1.5c-0.64,0-1.21-0.4-1.42-1s-0.02-1.27,0.48-1.67l7.5-6c0.55-0.44,1.33-0.44,1.88,0l7.5,6C33.94,16.73,34.13,17.4,33.92,18z M0,0 M50,50"/></svg>`; ]]]
-                    state:
-                      - value: 'home'
-                        styles:
-                          card: [background-color: 'rgba(255, 255, 255, 0.8)']
-                          name: [color: 'rgba(0, 0, 0, 0.7)']
-                          state: [color: 'rgba(0, 0, 0, 0.35)']
-                      - value: 'not_home'
-                        styles:
-                          name: [color: 'rgba(255, 255, 255, 0.3)']
-                          state: [color: 'rgba(255, 255, 255, 0.15)']
-                    tap_action:
-                      action: none
-                    styles:
-                      name: [top: 60%, left: 8%, line-height: 2vw, position: absolute]
-                      state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]
-                      card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, font-size: 1.3em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
-                      custom_fields:
-                        icon_closet:
-                          [top: 11%, left: 4.1%, width: 3.2vw, position: absolute]
-                    
-                  - type: 'custom:gap-card'
-                    
-              - type: 'horizontal-stack'
-                cards:
+                  top: 95.59%
+                  left: 95.1%
+                  width: 1.7%
+                tap_action: !include popup/information.yaml
 
-                  # ========================================== #
-                  #                                            #
-                  #                DOOR SENSOR                 #
-                  #                                            #
-                  # ========================================== #
+          # ============================================= #
+          #                                               #
+          #                UPDATES BUTTON                 #
+          #                                               #
+          # ============================================= #
 
-                  - type: 'custom:button-card'
-                    entity: binary_sensor.door_sensor_contact
-                    name: Door
-                    custom_fields:
-                      icon_closet: >
-                        [[[ const state = entity.state === 'on' ? 'door' : 'door reverse'; const opacity = entity.state === 'on' ? 'room' : 'room reverse';
-                        return `<svg viewBox="0 0 50 50"> <style>.door{animation: door 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}.room{animation: room 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}.reverse{animation-direction: reverse;}@keyframes door{0%{transform: none; fill: #9da0a2;}100%{transform: skewY(10deg) translate(4.5%, -3.9%) scaleX(0.8); fill: #b68349;}}@keyframes room{0%{opacity: 0;}100%{opacity: 1;}}</style>
-                        <path class="${opacity}" d="M11.4,1.4h27.2v43.1H11.4V1.4z" fill="#bcbcbc"/>
-                        <path class="${state}" d="M11.4 1.4v43.1h27.2V1.4H11.4zm23 23.4c0 1.1-.9 1.9-1.9 1.9h0c-1.1 0-1.9-.9-1.9-1.9V21c0-1.1.9-1.9 1.9-1.9h0c1.1 0 1.9.9 1.9 1.9v3.8z"/></svg>`; ]]]
-                    styles:
-                      custom_fields:
-                        icon_closet:
-                          [top: 11%, left: 4.1%, width: 3.2vw, position: absolute]
-                    template: sensor
-
-                  # ========================================== #
-                  #                                            #
-                  #                MOTION SENSOR               #
-                  #                                            #
-                  # ========================================== #
-
-                  - type: 'custom:button-card'
-                    entity: binary_sensor.motion_sensor_occupancy
-                    name: Motion
-                    custom_fields:
-                      icon_motion: >
-                        [[[ const state = entity.state === 'on' ? 'animate' : null;
-                        return `<svg viewBox="0 0 50 50"><style>@keyframes animate{10%, 20%, 100%{transform: rotateZ(0deg);}30%, 50%, 70%{transform: rotateZ(7deg);}90%{transform: rotateZ(3deg);}40%, 60%, 80%{transform: rotateZ(-7deg);}}.animate{animation: animate 1.35s cubic-bezier(0.5, 1, 0.89, 1); animation-fill-mode: both; transform-origin: 70% 80%; animation-delay: 0s;}</style>
-                        <path class="${state}" d="M32.1 18.4s.3-1.6.7-2.1c.3-.6.9-1.4 1.6-1.8.6-.4 1.1-.7 1.4-.7s.7-.1 1 .1.6.4.8 1.3l.3 2.7.1 2.4.2 4.1c0 .3.2 3.1.2 3.3s.2 2.7.2 3.2l-.1 2.5c.1 1.6.5 3.1-.2 4.6-.6 1.4-1.7 2.7-2.9 3.6-.5.4-1.9 1.3-2.9 1.7-1.1.5-2.2.8-3.3 1.1-.5.1-1.4.4-2.3.3s-1.8-.6-2.1-1l-1.6-2.3c-.6-.8-2.1-2.3-2.3-2.5l-2.7-2.8c-.2-.2-2.7-3.5-2.9-3.8l-3.1-4.7-1.8-3.2-1.5-2.8-.9-1.8c-.1-.2-.3-1.1-.2-1.4.3-1.2 1.4-1.4 2.3-.7.3.2.9 1 1.1 1.3s6.1 8.1 6.1 8.1c.2.3.7.3.9 0s-.1-.7-.2-.9c-.4-.6-8.3-11.5-8.3-11.5s-.6-.9-.7-1.1c-.3-1.1 0-2.3 1.1-2.7s1.9.3 2.6 1.1c.3.3 8.3 11.5 8.3 11.5.2.2.3.3.5.3.3 0 .5-.4.4-.7-.1-.2-.5-.9-.5-.9L11.8 9c-.6-1-.9-2-.1-3 .7-.8 2.2-1.3 3-.2.3.3 10.1 14.3 10.1 14.3.2.2.5.4.7.3.5-.1.3-.7.1-1-.1-.2-8.4-11.8-8.4-11.8-.4-.9-.6-2 .2-2.8 1-1.1 2.5-.5 3.3.5.2.3 1 1.4 1 1.4l2.7 3.7c.1.2 3.4 4.4 3.8 4.8.9 1.1 1.8 2.2 2.7 3.2l.5.5c.1.1.1.4.1.8 0 1.3.1 2.6.1 3.9 0 .2.1.4.2.6.3.3.6.1.7-.2.1-.2 0-2.4 0-2.7-.3-.3-.5-1.3-.4-2.9zM12.2 46.9s-2.8-.8-4.8-2.7-2.6-2.7-2.8-3-1.8-3-2-3.6c-.2-.5-.2-.7.2-1 .4-.4 1-.5 1.3.1.1.2.4 1 .5 1.2s1 1.9 1.7 2.8 1.6 2.2 4.4 3.8c.6.3 1.2.6 1.9.9.3.1.6.2.8.4.1.2.1.6-.1.8-.2.4-.7.4-1.1.3zM7.1 30.7l.9 3.1c.3.7 1.1 2.3 1.9 3.3s2.4 2.6 3.4 3.2 2 1.1 3 1.5c1 .3 1.1.4 1.2.5.3.4.2 1.2-.4 1.3-.2 0-1.2 0-1.8-.3L12 41.7c-.5-.4-3.9-3.1-5.1-6S5.3 31 5.2 30.4s-.2-1.1 0-1.4c.3-.4.9-.8 1.3-.3.2.3.3.6.3.9.1 0 .2.8.3 1.1zm26.8-25s.2-.1.5-.1.8.3 1.4.7 1.9 1 3.6 2.9 2.9 3.9 3.4 5.8c.5 1.8.8 3.1.9 5.5 0 .5.1 1.6 0 1.7-.2.5-.5.7-1 .7-.6 0-.7-.5-.7-1l-.1-2.9c-.1-.6-.3-1.9-.7-2.9-.3-1-.7-2.3-1.7-3.6-.9-1.3-2.1-2.8-3.2-3.5l-2.4-1.5c-.6-.6-.7-1.2 0-1.8zm4.9-2.5s.3-.2.5-.1c.2 0 .7.3.9.4s2.1 1.3 3.6 3c1.5 1.6 3.5 5.1 3.7 7.4.1.4.2.9 0 1-.2.2-.4.4-.7.4-.2 0-.5 0-.7-.1-.1-.2-.4-1.1-.4-1.3s-.6-2-1.1-3.1C44 9.7 43.5 8.5 42 7.1s-2.2-1.9-2.8-2.2-1.1-.6-1.1-1c.1-.3.3-.6.7-.7z"/></svg>`; ]]]
-                    styles:
-                      custom_fields:
-                        icon_motion:
-                          [top: 10%, left: 10.1%, width: 3.1vw, position: absolute,
-                          fill: "[[[ return entity.state === 'on' ? '#516d82' : '#9da0a2'; ]]]"]
-                    template: sensor
-
-              - type: 'horizontal-stack'
-                cards:
-                  - type: 'custom:gap-card'
-
-                  - type: 'custom:gap-card'
-
-          - break
-
-          #   C O L U M N 4   #
-
-          - type: 'custom:gap-card'
-
-          - break
-
-          #   C O L U M N 5   # 
-
-          - type: 'custom:gap-card'
-
-          - type: 'markdown'
-            content: |
-              # Lights
+          - type: icon
+            icon: mdi:arrow-up-bold-circle-outline
+            title: Updates
             style:
-              .: *title_box_style
-              ha-markdown:
-                $: *title_text_style
-
-          # ===================================================== #
-          #                                                       #
-          #                       L I G H T                       #
-          #                                                       #
-          # ===================================================== #
-
-          - type: 'vertical-stack'
-            cards:
-              - type: 'horizontal-stack'
-                cards:
-
-                  # ==================================== #
-                  #                                      #
-                  #             CEILING LIGHT            #
-                  #                                      #
-                  # ==================================== #
-
-                  - type: 'custom:button-card'
-                    entity: switch.light_switch_switch_l2
-                    name: Room
-                    custom_fields:
-                      icon_ceiling: &icon_ceiling >
-                        [[[ const state = entity.state === 'on' ? 'animate' : null;
-                        return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
-                        <path fill="#9da0a2" d="M50,21v-4.46H0V21c0,0.49,0.4,0.89,0.89,0.89h48.21C49.6,21.89,50,21.49,50,21z M0,0 M50,50"/>
-                        <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M1.83,23.68c0.46,4.06,3.9,7.14,7.99,7.14h30.36c4.09,0,7.53-3.08,7.99-7.14H1.83z M0,0 M50,50"/></svg>`; ]]]
-                    styles: &icon_ceiling_styles
-                      custom_fields:
-                        icon_ceiling:
-                          [top: 0%, left: 8%, width: 3.05vw, position: absolute]
-                    template: light_norgb
-
-                  - type: 'custom:button-card'
-                    entity: switch.light_switch_switch_l1
-                    name: Balcony
-                    custom_fields:
-                      icon_ceiling: *icon_ceiling
-                    styles: *icon_ceiling_styles
-                    template: light_norgb
-
-              - type: 'horizontal-stack'
-                cards:
-
-                  # ==================================== #
-                  #                                      #
-                  #               DESK BULB              #
-                  #                                      #
-                  # ==================================== #
-
-                  - type: 'custom:button-card'
-                    entity: light.desk_bulb_light
-                    name: Desk Bulb
-                    custom_fields:
-                      icon_hue: &icon_hue >
-                        [[[ const state = entity.state === 'on' ? 'animate' : null;
-                        return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
-                        <path fill="#9da0a2" d="M27.4 47.3h-4.9s-.7.1-.7.8.4.9.7.9h4.9c.3 0 .7-.1.7-.9s-.7-.8-.7-.8zm3.3-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-3H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9s-.9-.8-.9-.8zm5.2-23.2c-3.3-5.3-7-5.6-10.9-5.6-3.8 0-8.4.4-10.9 5.6-.1.1-.1.3.1.7.4.8 3.3 7.2 3.2 18.8 0 1.1-.1 1.6 0 1.7 0 .1 0 .7 1.1.7h13c1 0 1-.5 1.1-.7v-1.7c-.1-11.6 2.8-18 3.2-18.8.1-.4.1-.5.1-.7"/>
-                        <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M14.1 15.3c3.4-.3 7-.4 10.9-.4 3.8 0 7.5.2 10.9.4.4-.4.7-.8.9-1.1C39 8.5 38.9 6.5 38.9 6c-.2-4.4-8.4-5-12.1-5h0-3.4c-3.7 0-12 .5-12.1 5 0 .5-.1 2.5 2.1 8.2 0 .3.3.8.7 1.1z"/></svg>`; ]]]
-                    styles: &icon_hue_styles
-                      custom_fields:
-                        icon_hue:
-                          [top: 11%, left: 4.5%, width: 3.05vw, position: absolute]
-                    template: light
-
-                  - type: 'custom:gap-card'
-
-              - type: 'horizontal-stack'
-                cards:
-
-                  # ==================================== #
-                  #                                      #
-                  #              DESK STRIP              #
-                  #                                      #
-                  # ==================================== #
-
-                  - type: 'custom:button-card'
-                    entity: light.xiaomi_desk_strip
-                    name: Desk Strip
-                    custom_fields:
-                      icon_strip: &icon_strip >
-                        [[[ const state = entity.state === 'on' ? 'animate' : null;
-                        return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
-                        <path fill="#9da0a2" d="M2.45,40.21l-1.73,1.73c-0.56,0.56-0.56,1.46,0,2.02l5.33,5.33c0.56,0.56,1.46,0.56,2.02,0l1.73-1.73L2.45,40.21z M46.86,10.49l1.73-1.73c0.56-0.56,0.56-1.46,0-2.02l-5.33-5.33c-0.56-0.56-1.46-0.56-2.02,0l-1.73,1.73L46.86,10.49z M0,50 M50,0"/>
-                        <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M36.31,34.99c-0.56-0.56-1.46-0.56-2.02,0c-0.56,0.56-0.56,1.46,0,2.02l3.04,3.04c0.28,0.28,0.64,0.42,1.01,0.42c1.26,0,1.91-1.53,1.01-2.44L36.31,34.99z M31.14,39.02c-0.27-0.74-1.09-1.12-1.83-0.85c-0.74,0.27-1.12,1.09-0.85,1.83l1.47,4.05c0.21,0.58,0.76,0.94,1.34,0.94c0.98,0,1.68-0.98,1.34-1.92L31.14,39.02z M43.34,30.63l-4.04-1.47c-0.74-0.27-1.56,0.11-1.83,0.85c-0.27,0.74,0.11,1.56,0.85,1.83l4.04,1.47c0.74,0.27,1.56-0.11,1.83-0.85C44.46,31.72,44.08,30.9,43.34,30.63z M12.99,15.71c0.56,0.56,1.46,0.56,2.02,0s0.56-1.46,0-2.02l-3.04-3.04c-0.56-0.56-1.46-0.56-2.02,0c-0.56,0.56-0.56,1.46,0,2.02L12.99,15.71z M18.16,11.68c0.27,0.74,1.09,1.12,1.83,0.85c0.74-0.27,1.12-1.09,0.85-1.83l-1.47-4.05c-0.27-0.74-1.09-1.12-1.83-0.85c-0.74,0.27-1.12,1.09-0.85,1.83L18.16,11.68z M5.96,20.07c4.36,1.59,4.19,1.56,4.53,1.56c0.58,0,1.13-0.36,1.34-0.94c0.27-0.74-0.11-1.56-0.85-1.83l-4.04-1.47c-0.74-0.27-1.56,0.11-1.83,0.85C4.84,18.98,5.22,19.8,5.96,20.07z M37.49,5.16c-1.64-0.98-3.8-0.76-5.22,0.65L5.11,32.98c-1.44,1.44-1.61,3.59-0.66,5.2l7.36,7.36c1.65,0.98,3.8,0.75,5.21-0.66l27.16-27.16c1.44-1.44,1.62-3.6,0.65-5.21C37.47,5.14,37.5,5.15,37.49,5.16L37.49,5.16z M0,0 M50,50"/></svg>`; ]]]
-                    styles: &icon_strip_styles
-                      custom_fields:
-                        icon_strip:
-                          [top: 9%, left: 9%, width: 3.05vw, position: absolute]
-                    template: light
-
-                  # ========================================== #
-                  #                                            #
-                  #              UNDER DESK STRIP              #
-                  #                                            #
-                  # ========================================== #
-
-                  - type: 'custom:button-card'
-                    entity: light.under_desk_strip_light
-                    name: Under Desk
-                    custom_fields:
-                      icon_strip: *icon_strip
-                    styles: *icon_strip_styles
-                    template: light
-
-          - break
-
-          #   C O L U M N 6   # 
-          - type: 'custom:gap-card'
-
-          - break
-
-          #   C O L U M N 7   # 
-
-          - type: 'custom:gap-card'
-
-          - type: 'markdown'
-            content: |
-              # Mode Control
-            style:
-              .: *title_box_style
-              ha-markdown:
-                $: *title_text_style
-
+              top: 96.5%
+              left: 97.6%
+              color: rgb(255, 255, 255)
+              opacity: 0.1
+              padding: 0.8vw
+              --mdc-icon-size: 4vw
+            tap_action: !include popup/update.yaml
+          
           # ===================================================== #
           #                                                       #
           #                        M O D E                        #
           #                                                       #
           # ===================================================== #
 
-          - type: 'vertical-stack'
+          - prefix: Mode
+            <<: *title
+            style:
+              top: 8.15%
+              left: 25.4%
+              <<: *title-style
+
+          # ==================================== #
+          #                                      #
+          #                A W A Y               #
+          #                                      #
+          # ==================================== #
+
+          - type: 'custom:button-card'
+            entity: input_boolean.away_mode
+            style:
+              top: 19.35%
+              left: 30.31%
+              width: 10%
+            name: "[[[ return entity.state === 'on' ? 'Away' : 'Home'; ]]]"
+            custom_fields:
+              away_home: >
+                [[[ const pin = entity.state === 'on' ? 'pinaway' : 'pinaway reverse'; const state = entity.state === 'on' ? 'away' : 'away reverse';
+                return `<svg viewBox="0 0 50 50"><style>.pinaway{animation: pinaway .7s cubic-bezier(.25,.46,.45,.94) both;}.away{animation: away .7s; cubic-bezier(.25,.46,.45,.94); transform-origin: center 20px; animation-fill-mode: both;}.reverse{animation-direction: reverse;}@keyframes pinaway{0%{fill:#2196F3}100%{fill:#9da0a2}}@keyframes away{0%{transform:rotate(0); fill:#FFFFFF}100%{transform:rotate(90deg); fill:#323536}}</style>
+                <path class="${pin}" d="M0,0 M50,50 M43,19c0,12.48-16.25,28.87-16.94,29.56C25.77,48.85,25.38,49,25,49c-0.38,0-0.77-0.15-1.06-0.44 C23.25,47.87,7,31.48,7,19C7,9.07,15.07,1,25,1S43,9.07,43,19z M0,0 M50,50"/>
+                <path class="${state}" d="M0,0 M50,50 M33.92,18c-0.21,0.6-0.78,1-1.42,1H31v7.5c0,0.83-0.67,1.5-1.5,1.5h-9c-0.83,0-1.5-0.67-1.5-1.5V19h-1.5c-0.64,0-1.21-0.4-1.42-1s-0.02-1.27,0.48-1.67l7.5-6c0.55-0.44,1.33-0.44,1.88,0l7.5,6C33.94,16.73,34.13,17.4,33.92,18z M0,0 M50,50"/></svg>`; ]]]
+            styles:
+              name: [top: 74%, left: 8%, line-height: 2vw, position: absolute]
+              card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.3)', font-size: 1.3em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
+              custom_fields:
+                away_home:
+                  [top: 11%, left: 5%, width: 3.1vw, position: absolute]
+            aspect_ratio: 1/1
+            show_state: false
+            show_icon: false
+            state:
+              - value: 'off'
+                styles:
+                  card: [background-color: 'rgba(255, 255, 255, 0.8)']
+                  name: [color: 'rgba(0, 0, 0, 0.6)']
+                  state: [color: 'rgba(0, 0, 0, 0.6)']
+            tap_action:
+              action: toggle
+              haptic: light
+
+          # ==================================== #
+          #                                      #
+          #               S L E E P              #
+          #                                      #
+          # ==================================== #
+
+          - type: 'custom:button-card'
+            entity: input_boolean.sleep_mode
+            style:
+              top: 19.35%
+              left: 41.31%
+              width: 10%
+            name: Sleep
+            custom_fields:
+              good_night: >
+                [[[ const state = entity.state === 'on' ? 'sleep' : 'awake';
+                return `<svg viewBox="0 0 50 50"><style>.sleep{animation:sleep 1s cubic-bezier(.25,.46,.45,.94) both;}.awake{animation: awake 1s;}@keyframes sleep{0%{transform:translateZ(-80px);opacity:0}40%{transform:translateZ(0);opacity:1}50%{opacity:.5}60%{opacity:0}65%{opacity:1}75%{opacity:.5}90%{opacity:}100%{opacity:0.5}100%{opacity:1}}@keyframes awake{0%{fill:#9E8CFA}100%{fill:#9DA0A2}}</style>
+                <path class="${state}" d="M34.88,37.58c-9.7,0-17.56-7.86-17.56-17.56c0-6.06,3.07-11.4,7.74-14.56c-0.54-0.04-1.09-0.06-1.64-0.06c-12.32,0-22.3,9.99-22.3,22.3S11.1,50,23.42,50c9.9,0,18.29-6.45,21.21-15.38C41.84,36.49,38.49,37.58,34.88,37.58z M0,0 M50,50"/></svg>`; ]]]
+            styles:
+              custom_fields:
+                good_night:
+                  [top: 9%, left: 9%, width: 3.05vw, position: absolute,
+                  fill: "[[[ return entity.state === 'on' ? '#9E8CFA' : '#9DA0A2'; ]]]"]
+            template: mode
+          
+          # ==================================== #
+          #                                      #
+          #               S T U D Y              #
+          #                                      #
+          # ==================================== #
+
+          - type: 'custom:button-card'
+            entity: input_boolean.study_mode
+            style:
+              top: 37.9%
+              left: 30.31%
+              width: 10%
+            name: Study
+            custom_fields: 
+              icon_study: >
+                [[[ const state = entity.state === 'on' ? 'study' : null; const idle = entity.state === 'on' ? 'idle' : null;
+                return `<svg viewBox="0 0 50 50"><style>.study{animation: study 1.2s cubic-bezier(.36,.07,.57,.99) both;}.idle{animation: idle 1.2s cubic-bezier(.36,.07,.57,.99) both;}@keyframes study{0%{transform:rotate(0deg);transform-origin:50% 0;fill:#9da0a2}10%{transform:rotate(2deg);fill:#484357}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}100%{transform:rotate(0deg);transform-origin:50% 0;fill:#484357}}@keyframes idle{0%,100%{transform:rotate(0deg);transform-origin:50% 0}10%{transform:rotate(2deg)}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}}</style>
+                <g class="${state}"><path d="M13.41,36.11c1.44,1.64,2.58,3.57,2.89,5.13l29.5-28.22l0.03,0.03c0,0,0.05-0.05,0.09-0.15l0,0l0,0c0.18-0.42,0.27-1.81-3.1-5.34c-3.37-3.52-4.76-3.49-5.19-3.34l-0.06-0.07L8.14,32.31C9.67,32.7,11.68,34.12,13.41,36.11z M0,0 M50,50"/><path d="M3.29,43.52c-0.14,0.11-0.45,0.81-0.18,1.12c0.11,0.12,0.29,0.17,0.48,0.17c0.29,0,0.59-0.1,0.67-0.17 l1.27-1.07c0.01-0.01,0.01-0.02,0.02-0.03c0.1-0.13,0-0.45-0.25-0.73c-0.2-0.23-0.43-0.37-0.59-0.39c-0.01,0-0.02-0.01-0.03-0.01c-0.05,0-0.09,0.01-0.12,0.04L3.29,43.52z M0,0 M50,50"/></g>
+                <path class="${idle}" fill="#9da0a2" d="M4.75,41.65c0.54,0.04,0.97,0.46,1.14,0.65c0.34,0.39,0.52,0.83,0.49,1.21c0,0,0,0.01,0,0.01l5.19-0.61 l1.13-0.13l1.52-0.18c0.09,0.02,0.19,0.04,0.27,0.04c0.11,0,0.25-0.02,0.34-0.09c0.11-0.09,0.16-0.3,0.15-0.59c-0.04-0.93-0.75-2.77-2.63-4.91c-1.95-2.23-4.02-3.43-4.98-3.43c-0.1,0-0.22,0.01-0.29,0.07c0,0,0,0,0,0c-0.1,0.09-0.14,0.3-0.12,0.6l-0.4,1.34l-0.32,1.07L4.75,41.65z M0,0 M50,50"/></svg>`; ]]]
+            styles:
+              custom_fields:
+                icon_study:
+                  [top: 9%, left: 9%, width: 3.05vw, position: absolute,
+                  fill: "[[[ return entity.state === 'on' ? null : '#9da0a2'; ]]]"]
+            template: mode
+
+          # ==================================== #
+          #                                      #
+          #                G A M E               #
+          #                                      #
+          # ==================================== #
+
+          - type: 'custom:button-card'
+            entity: input_boolean.game_mode
+            style:
+              top: 37.9%
+              left: 41.31%
+              width: 10%
+            name: Game
+            custom_fields:
+              icon_ps4: >
+                [[[ if (entity.state === 'on') { return '<svg viewBox="0 0 50 50"> <style>@keyframes animate{50%{transform: translateY(0);}100%{transform: translateY(-45%);}}.animate{animation: animate 2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;}</style>
+                <g style="clip-path: url(#mask);"><g class="animate"><path fill="#00aa9e" d="M49.2 38.9l-75.6-25.1v7.4l75.6 25.2z"/><path fill="#f3c202" d="M49.2 46.4l-75.6-25.2v7.5l75.6 25.1z"/><path fill="#326db3" d="M49.2 53.8l-75.6-25.1V51l75.6 25.1zm0-22.3L-26.4 6.4v7.4l75.6 25.1z"/></g></g>
+                <defs><clipPath id="mask"><path d="M47.5 33.2c-.5-2.2-3.9-3.5-9.1-3.9-3.8-.3-7.5.6-11.1 1.9l-.6.2v-5.7l-5.7.8-4.6 1.6L6 31.9h-.1c-1.9.7-3.8 2.2-3.7 4.2.1 2.1 4.7 2.6 8.2 3.2 3.3.6 6.2.2 8.9-.7l7.3 4.8L33 41l10.7-4h.1c2.8-1 4-2.5 3.7-3.8zm-31.3 2l-3.6 1.3c-2.2.8-4.1-1.1-2.1-1.9l1.7-.6 7.2-2.7v2.8l-3.2 1.1zm22.5-1.1l-1.9.7-10.2 3.7V36l6.5-2.4 3.8-1.3c4-.9 5.6.5 1.8 1.8z"/></clipPath></defs><path fill="#de0029" d="M26.7 14.6v28.7l-7.3-2.5V7.1l9.3 2.6c6 1.7 9.6 5 9.6 10.7-.1 6.7-3 9.4-8.7 7.6V14.9c-.1-1.6-2.9-1.7-2.9-.3h0z"/></svg>'; }
+                else { return '<svg viewBox="0 0 50 50"><path fill="#9da0a2" d="M43.8 37h-.1l-10.6 4-4.2 1.6v-4.9l8-2.9 1.9-.7c3.8-1.3 2.2-2.7-1.8-1.9l-3.8 1.3-4.3 1.6v-4.5c3.1-1 6.3-1.6 9.5-1.4 5.3.4 8.7 1.6 9.1 3.9.3 1.4-.9 2.9-3.7 3.9zm-26.7-2.1l-.9.3-3.6 1.3c-2.2.8-4.1-1.1-2.1-1.9l1.7-.6 5-1.9v-4.2l-.6.2L6 31.9h-.1c-1.9.7-3.8 2.2-3.7 4.2.1 2.1 4.7 2.6 8.2 3.2 2.4.4 4.6.3 6.7-.1v-4.3zm12.4-20V28c5.7 1.7 8.7-.9 8.7-7.6.1-5.7-3.6-9-9.6-10.7l-9.3-2.6v33.8l7.2 2.5.1.1V14.6c.1-1.4 2.9-1.3 2.9.3z"/></svg>'; } ]]]
+            styles:
+              custom_fields:
+                icon_ps4:
+                  [top: 7%, left: 9%, width: 3.2vw, position: absolute]
+            template: mode
+          
+          # ===================================================== #
+          #                                                       #
+          #                       L I G H T                       #
+          #                                                       #
+          # ===================================================== #
+
+          - prefix: Ceiling
+            <<: *title
+            style:
+              top: 8.15%
+              left: 50.2%
+              <<: *title-style
+
+          # ==================================== #
+          #                                      #
+          #             CEILING LIGHT            #
+          #                                      #
+          # ==================================== #
+
+          - type: 'custom:button-card'
+            entity: switch.light_switch_switch_l2
+            style:
+              top: 19.35%
+              left: 55.18%
+              width: 10%
+            name: Room
+            custom_fields:
+              icon_ceiling: &icon_ceiling >
+                [[[ const state = entity.state === 'on' ? 'animate' : null;
+                return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
+                <path fill="#9da0a2" d="M50,21v-4.46H0V21c0,0.49,0.4,0.89,0.89,0.89h48.21C49.6,21.89,50,21.49,50,21z M0,0 M50,50"/>
+                <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M1.83,23.68c0.46,4.06,3.9,7.14,7.99,7.14h30.36c4.09,0,7.53-3.08,7.99-7.14H1.83z M0,0 M50,50"/></svg>`; ]]]
+            styles: &icon_ceiling_styles
+              custom_fields:
+                icon_ceiling:
+                  [top: 0%, left: 8%, width: 3.05vw, position: absolute]
+            template: light_norgb
+
+          - type: 'custom:button-card'
+            entity: switch.light_switch_switch_l1
+            style:
+              top: 19.35%
+              left: 66.14%
+              width: 10%
+            name: Balcony
+            custom_fields:
+              icon_ceiling: *icon_ceiling
+            styles: *icon_ceiling_styles
+            template: light_norgb
+
+          # ===================================================== #
+          #                                                       #
+          #                     C U R T A I N                     #
+          #                                                       #
+          # ===================================================== #
+
+          - prefix: Curtain
+            <<: *title
+            style:
+              top: 8.15%
+              left: 75.1%
+              <<: *title-style
+
+          - type: 'custom:button-card'
+            entity: sensor.curtainopenstate
+            style:
+              top: 19.35%
+              left: 80.05%
+              width: 10%
+            name: Curtain
+            aspect_ratio: 1/1
+            show_state: true
+            show_icon: false
+            state:
+              - value: 'Closed'
+                styles:
+                  card: [background-color: 'rgba(115, 115, 115, 0.2)']
+                  name: [color: 'rgba(255, 255, 255, 0.3)']
+                  state: [color: 'rgba(255, 255, 255, 0.15)']
+            tap_action:
+              action: call-service
+              service: script.curtain_control
+            hold_action:
+              action: more-info
+            styles:
+              name: [top: 60%, left: 8%, line-height: 2vw, position: absolute, color: 'rgba(0, 0, 0, 0.7)']
+              card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, font-size: 1.3em, background-color: 'rgba(255, 255, 255, 0.8)', border-radius: 0.8vw, box-shadow: none, transition: none]
+              state: [top: 78%, left: 8%, line-height: 2vw, position: absolute, color: 'rgba(0, 0, 0, 0.35)']
+              custom_fields:
+                num_state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]
+
+          # ================================================ #
+          #                                                  #
+          #                    M E D I A                     #
+          #                                                  #
+          # ================================================ #
+
+          - prefix: Media
+            <<: *title
+            style:
+              top: 53.4%
+              left: 25.4%
+              <<: *title-style
+          
+          - type: 'custom:swipe-card'
+            start_card: 1
+            parameters:
+              roundLengths: true
+              effect: coverflow
+              speed: 650
+              spaceBetween: 20
+              threshold: 7
+              coverflowEffect:
+                rotate: 80
+                depth: 300
+            style:
+              top: 56.55%
+              left: 35.8%
+              width: 20.97%
+              height: 1px
+              --ha-card-border-radius: .88vw
             cards:
-              - type: 'horizontal-stack'
-                cards:
-
-                  # ==================================== #
-                  #                                      #
-                  #                A W A Y               #
-                  #                                      #
-                  # ==================================== #
-
-                  - type: 'custom:button-card'
-                    entity: input_boolean.away_mode
-                    name: "[[[ return entity.state === 'on' ? 'Away' : 'Home'; ]]]"
-                    custom_fields:
-                      away_home: >
-                        [[[ const pin = entity.state === 'on' ? 'pinaway' : 'pinaway reverse'; const state = entity.state === 'on' ? 'away' : 'away reverse';
-                        return `<svg viewBox="0 0 50 50"><style>.pinaway{animation: pinaway .7s cubic-bezier(.25,.46,.45,.94) both;}.away{animation: away .7s; cubic-bezier(.25,.46,.45,.94); transform-origin: center 20px; animation-fill-mode: both;}.reverse{animation-direction: reverse;}@keyframes pinaway{0%{fill:#2196F3}100%{fill:#9da0a2}}@keyframes away{0%{transform:rotate(0); fill:#FFFFFF}100%{transform:rotate(90deg); fill:#323536}}</style>
-                        <path class="${pin}" d="M0,0 M50,50 M43,19c0,12.48-16.25,28.87-16.94,29.56C25.77,48.85,25.38,49,25,49c-0.38,0-0.77-0.15-1.06-0.44 C23.25,47.87,7,31.48,7,19C7,9.07,15.07,1,25,1S43,9.07,43,19z M0,0 M50,50"/>
-                        <path class="${state}" d="M0,0 M50,50 M33.92,18c-0.21,0.6-0.78,1-1.42,1H31v7.5c0,0.83-0.67,1.5-1.5,1.5h-9c-0.83,0-1.5-0.67-1.5-1.5V19h-1.5c-0.64,0-1.21-0.4-1.42-1s-0.02-1.27,0.48-1.67l7.5-6c0.55-0.44,1.33-0.44,1.88,0l7.5,6C33.94,16.73,34.13,17.4,33.92,18z M0,0 M50,50"/></svg>`; ]]]
-                    styles:
-                      name: [top: 74%, left: 8%, line-height: 2vw, position: absolute]
-                      card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, color: 'rgba(255, 255, 255, 0.3)', font-size: 1.3em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
-                      custom_fields:
-                        away_home:
-                          [top: 11%, left: 5%, width: 3.1vw, position: absolute]
-                    aspect_ratio: 1/1
-                    show_state: false
-                    show_icon: false
-                    state:
-                      - value: 'off'
-                        styles:
-                          card: [background-color: 'rgba(255, 255, 255, 0.8)']
-                          name: [color: 'rgba(0, 0, 0, 0.6)']
-                          state: [color: 'rgba(0, 0, 0, 0.6)']
-                    tap_action:
-                      action: toggle
-                      haptic: light
-
-                  # ==================================== #
-                  #                                      #
-                  #               S L E E P              #
-                  #                                      #
-                  # ==================================== #
-
-                  - type: 'custom:button-card'
-                    entity: input_boolean.sleep_mode
-                    name: Sleep
-                    custom_fields:
-                      good_night: >
-                        [[[ const state = entity.state === 'on' ? 'sleep' : 'awake';
-                        return `<svg viewBox="0 0 50 50"><style>.sleep{animation:sleep 1s cubic-bezier(.25,.46,.45,.94) both;}.awake{animation: awake 1s;}@keyframes sleep{0%{transform:translateZ(-80px);opacity:0}40%{transform:translateZ(0);opacity:1}50%{opacity:.5}60%{opacity:0}65%{opacity:1}75%{opacity:.5}90%{opacity:}100%{opacity:0.5}100%{opacity:1}}@keyframes awake{0%{fill:#9E8CFA}100%{fill:#9DA0A2}}</style>
-                        <path class="${state}" d="M34.88,37.58c-9.7,0-17.56-7.86-17.56-17.56c0-6.06,3.07-11.4,7.74-14.56c-0.54-0.04-1.09-0.06-1.64-0.06c-12.32,0-22.3,9.99-22.3,22.3S11.1,50,23.42,50c9.9,0,18.29-6.45,21.21-15.38C41.84,36.49,38.49,37.58,34.88,37.58z M0,0 M50,50"/></svg>`; ]]]
-                    styles:
-                      custom_fields:
-                        good_night:
-                          [top: 9%, left: 9%, width: 3.05vw, position: absolute,
-                          fill: "[[[ return entity.state === 'on' ? '#9E8CFA' : '#9DA0A2'; ]]]"]
-                    template: mode
-
-              - type: 'horizontal-stack'
-                cards:
+              - type: 'custom:mini-media-player'
+                entity: media_player.spotify_icangjun
+                artwork: full-cover-fit
+                info: scroll
+                show_progress: true
+                idle_view:
+                  when_idle: false
+                  when_paused: false
+                  when_standby: false
+                hide:
+                  volume: true
+                  source: true
+                  power_state: false
+                  icon: true
+                  sound_mode: false
+                  power: true
+                  name: true
                   
-                  # ==================================== #
-                  #                                      #
-                  #               S T U D Y              #
-                  #                                      #
-                  # ==================================== #
 
-                  - type: 'custom:button-card'
-                    entity: input_boolean.study_mode
-                    name: Study
-                    custom_fields: 
-                      icon_study: >
-                        [[[ const state = entity.state === 'on' ? 'study' : null; const idle = entity.state === 'on' ? 'idle' : null;
-                        return `<svg viewBox="0 0 50 50"><style>.study{animation: study 1.2s cubic-bezier(.36,.07,.57,.99) both;}.idle{animation: idle 1.2s cubic-bezier(.36,.07,.57,.99) both;}@keyframes study{0%{transform:rotate(0deg);transform-origin:50% 0;fill:#9da0a2}10%{transform:rotate(2deg);fill:#484357}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}100%{transform:rotate(0deg);transform-origin:50% 0;fill:#484357}}@keyframes idle{0%,100%{transform:rotate(0deg);transform-origin:50% 0}10%{transform:rotate(2deg)}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}}</style>
-                        <g class="${state}"><path d="M13.41,36.11c1.44,1.64,2.58,3.57,2.89,5.13l29.5-28.22l0.03,0.03c0,0,0.05-0.05,0.09-0.15l0,0l0,0c0.18-0.42,0.27-1.81-3.1-5.34c-3.37-3.52-4.76-3.49-5.19-3.34l-0.06-0.07L8.14,32.31C9.67,32.7,11.68,34.12,13.41,36.11z M0,0 M50,50"/><path d="M3.29,43.52c-0.14,0.11-0.45,0.81-0.18,1.12c0.11,0.12,0.29,0.17,0.48,0.17c0.29,0,0.59-0.1,0.67-0.17 l1.27-1.07c0.01-0.01,0.01-0.02,0.02-0.03c0.1-0.13,0-0.45-0.25-0.73c-0.2-0.23-0.43-0.37-0.59-0.39c-0.01,0-0.02-0.01-0.03-0.01c-0.05,0-0.09,0.01-0.12,0.04L3.29,43.52z M0,0 M50,50"/></g>
-                        <path class="${idle}" fill="#9da0a2" d="M4.75,41.65c0.54,0.04,0.97,0.46,1.14,0.65c0.34,0.39,0.52,0.83,0.49,1.21c0,0,0,0.01,0,0.01l5.19-0.61 l1.13-0.13l1.52-0.18c0.09,0.02,0.19,0.04,0.27,0.04c0.11,0,0.25-0.02,0.34-0.09c0.11-0.09,0.16-0.3,0.15-0.59c-0.04-0.93-0.75-2.77-2.63-4.91c-1.95-2.23-4.02-3.43-4.98-3.43c-0.1,0-0.22,0.01-0.29,0.07c0,0,0,0,0,0c-0.1,0.09-0.14,0.3-0.12,0.6l-0.4,1.34l-0.32,1.07L4.75,41.65z M0,0 M50,50"/></svg>`; ]]]
-                    styles:
-                      custom_fields:
-                        icon_study:
-                          [top: 9%, left: 9%, width: 3.05vw, position: absolute,
-                          fill: "[[[ return entity.state === 'on' ? null : '#9da0a2'; ]]]"]
-                    template: mode
+          # =================================================== #
+          #                                                     #
+          #                 R G B   L I G H T S                 #
+          #                                                     #
+          # =================================================== #
 
-                  # ==================================== #
-                  #                                      #
-                  #                G A M E               #
-                  #                                      #
-                  # ==================================== #
+          - prefix: RGB Light
+            <<: *title
+            style:
+              top: 53.4%
+              left: 50.2%
+              <<: *title-style
 
-                  - type: 'custom:button-card'
-                    entity: input_boolean.game_mode
-                    name: Game
-                    custom_fields:
-                      icon_ps4: >
-                        [[[ if (entity.state === 'on') { return '<svg viewBox="0 0 50 50"> <style>@keyframes animate{50%{transform: translateY(0);}100%{transform: translateY(-45%);}}.animate{animation: animate 2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;}</style>
-                        <g style="clip-path: url(#mask);"><g class="animate"><path fill="#00aa9e" d="M49.2 38.9l-75.6-25.1v7.4l75.6 25.2z"/><path fill="#f3c202" d="M49.2 46.4l-75.6-25.2v7.5l75.6 25.1z"/><path fill="#326db3" d="M49.2 53.8l-75.6-25.1V51l75.6 25.1zm0-22.3L-26.4 6.4v7.4l75.6 25.1z"/></g></g>
-                        <defs><clipPath id="mask"><path d="M47.5 33.2c-.5-2.2-3.9-3.5-9.1-3.9-3.8-.3-7.5.6-11.1 1.9l-.6.2v-5.7l-5.7.8-4.6 1.6L6 31.9h-.1c-1.9.7-3.8 2.2-3.7 4.2.1 2.1 4.7 2.6 8.2 3.2 3.3.6 6.2.2 8.9-.7l7.3 4.8L33 41l10.7-4h.1c2.8-1 4-2.5 3.7-3.8zm-31.3 2l-3.6 1.3c-2.2.8-4.1-1.1-2.1-1.9l1.7-.6 7.2-2.7v2.8l-3.2 1.1zm22.5-1.1l-1.9.7-10.2 3.7V36l6.5-2.4 3.8-1.3c4-.9 5.6.5 1.8 1.8z"/></clipPath></defs><path fill="#de0029" d="M26.7 14.6v28.7l-7.3-2.5V7.1l9.3 2.6c6 1.7 9.6 5 9.6 10.7-.1 6.7-3 9.4-8.7 7.6V14.9c-.1-1.6-2.9-1.7-2.9-.3h0z"/></svg>'; }
-                        else { return '<svg viewBox="0 0 50 50"><path fill="#9da0a2" d="M43.8 37h-.1l-10.6 4-4.2 1.6v-4.9l8-2.9 1.9-.7c3.8-1.3 2.2-2.7-1.8-1.9l-3.8 1.3-4.3 1.6v-4.5c3.1-1 6.3-1.6 9.5-1.4 5.3.4 8.7 1.6 9.1 3.9.3 1.4-.9 2.9-3.7 3.9zm-26.7-2.1l-.9.3-3.6 1.3c-2.2.8-4.1-1.1-2.1-1.9l1.7-.6 5-1.9v-4.2l-.6.2L6 31.9h-.1c-1.9.7-3.8 2.2-3.7 4.2.1 2.1 4.7 2.6 8.2 3.2 2.4.4 4.6.3 6.7-.1v-4.3zm12.4-20V28c5.7 1.7 8.7-.9 8.7-7.6.1-5.7-3.6-9-9.6-10.7l-9.3-2.6v33.8l7.2 2.5.1.1V14.6c.1-1.4 2.9-1.3 2.9.3z"/></svg>'; } ]]]
-                    styles:
-                      custom_fields:
-                        icon_ps4:
-                          [top: 7%, left: 9%, width: 3.2vw, position: absolute]
-                    template: mode
+          # ==================================== #
+          #                                      #
+          #               DESK BULB              #
+          #                                      #
+          # ==================================== #
 
-          - break
+          - type: 'custom:button-card'
+            entity: light.desk_bulb_light
+            style:
+              top: 64.5%
+              left: 55.18%
+              width: 10%
+            name: Desk Bulb
+            custom_fields:
+              icon_hue: &icon_hue >
+                [[[ const state = entity.state === 'on' ? 'animate' : null;
+                return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
+                <path fill="#9da0a2" d="M27.4 47.3h-4.9s-.7.1-.7.8.4.9.7.9h4.9c.3 0 .7-.1.7-.9s-.7-.8-.7-.8zm3.3-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-3H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9s-.9-.8-.9-.8zm5.2-23.2c-3.3-5.3-7-5.6-10.9-5.6-3.8 0-8.4.4-10.9 5.6-.1.1-.1.3.1.7.4.8 3.3 7.2 3.2 18.8 0 1.1-.1 1.6 0 1.7 0 .1 0 .7 1.1.7h13c1 0 1-.5 1.1-.7v-1.7c-.1-11.6 2.8-18 3.2-18.8.1-.4.1-.5.1-.7"/>
+                <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M14.1 15.3c3.4-.3 7-.4 10.9-.4 3.8 0 7.5.2 10.9.4.4-.4.7-.8.9-1.1C39 8.5 38.9 6.5 38.9 6c-.2-4.4-8.4-5-12.1-5h0-3.4c-3.7 0-12 .5-12.1 5 0 .5-.1 2.5 2.1 8.2 0 .3.3.8.7 1.1z"/></svg>`; ]]]
+            styles: &icon_hue_styles
+              custom_fields:
+                icon_hue:
+                  [top: 11%, left: 4.5%, width: 3.05vw, position: absolute]
+            template: light
 
-          #   C O L U M N 8   # 
-          - type: 'custom:gap-card'
+          # ==================================== #
+          #                                      #
+          #              DESK STRIP              #
+          #                                      #
+          # ==================================== #
+
+          - type: 'custom:button-card'
+            entity: light.xiaomi_desk_strip
+            style:
+              top: 83.05%
+              left: 55.18%
+              width: 10%
+            name: Desk Strip
+            custom_fields:
+              icon_strip: &icon_strip >
+                [[[ const state = entity.state === 'on' ? 'animate' : null;
+                return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
+                <path fill="#9da0a2" d="M2.45,40.21l-1.73,1.73c-0.56,0.56-0.56,1.46,0,2.02l5.33,5.33c0.56,0.56,1.46,0.56,2.02,0l1.73-1.73L2.45,40.21z M46.86,10.49l1.73-1.73c0.56-0.56,0.56-1.46,0-2.02l-5.33-5.33c-0.56-0.56-1.46-0.56-2.02,0l-1.73,1.73L46.86,10.49z M0,50 M50,0"/>
+                <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M36.31,34.99c-0.56-0.56-1.46-0.56-2.02,0c-0.56,0.56-0.56,1.46,0,2.02l3.04,3.04c0.28,0.28,0.64,0.42,1.01,0.42c1.26,0,1.91-1.53,1.01-2.44L36.31,34.99z M31.14,39.02c-0.27-0.74-1.09-1.12-1.83-0.85c-0.74,0.27-1.12,1.09-0.85,1.83l1.47,4.05c0.21,0.58,0.76,0.94,1.34,0.94c0.98,0,1.68-0.98,1.34-1.92L31.14,39.02z M43.34,30.63l-4.04-1.47c-0.74-0.27-1.56,0.11-1.83,0.85c-0.27,0.74,0.11,1.56,0.85,1.83l4.04,1.47c0.74,0.27,1.56-0.11,1.83-0.85C44.46,31.72,44.08,30.9,43.34,30.63z M12.99,15.71c0.56,0.56,1.46,0.56,2.02,0s0.56-1.46,0-2.02l-3.04-3.04c-0.56-0.56-1.46-0.56-2.02,0c-0.56,0.56-0.56,1.46,0,2.02L12.99,15.71z M18.16,11.68c0.27,0.74,1.09,1.12,1.83,0.85c0.74-0.27,1.12-1.09,0.85-1.83l-1.47-4.05c-0.27-0.74-1.09-1.12-1.83-0.85c-0.74,0.27-1.12,1.09-0.85,1.83L18.16,11.68z M5.96,20.07c4.36,1.59,4.19,1.56,4.53,1.56c0.58,0,1.13-0.36,1.34-0.94c0.27-0.74-0.11-1.56-0.85-1.83l-4.04-1.47c-0.74-0.27-1.56,0.11-1.83,0.85C4.84,18.98,5.22,19.8,5.96,20.07z M37.49,5.16c-1.64-0.98-3.8-0.76-5.22,0.65L5.11,32.98c-1.44,1.44-1.61,3.59-0.66,5.2l7.36,7.36c1.65,0.98,3.8,0.75,5.21-0.66l27.16-27.16c1.44-1.44,1.62-3.6,0.65-5.21C37.47,5.14,37.5,5.15,37.49,5.16L37.49,5.16z M0,0 M50,50"/></svg>`; ]]]
+            styles: &icon_strip_styles
+              custom_fields:
+                icon_strip:
+                  [top: 9%, left: 9%, width: 3.05vw, position: absolute]
+            template: light
+
+          # ========================================== #
+          #                                            #
+          #              UNDER DESK STRIP              #
+          #                                            #
+          # ========================================== #
+
+          - type: 'custom:button-card'
+            entity: light.under_desk_strip_light
+            style:
+              top: 83.05%
+              left: 66.14%
+              width: 10%
+            name: Under Desk
+            custom_fields:
+              icon_strip: *icon_strip
+            styles: *icon_strip_styles
+            template: light
+
+          # ===================================================== #
+          #                                                       #
+          #                      S E N S O R                      #
+          #                                                       #
+          # ===================================================== #
+
+          - prefix: Sensor
+            <<: *title
+            style:
+              top: 53.4%
+              left: 75.1%
+              <<: *title-style
+
+          # ========================================== #
+          #                                            #
+          #              PRESENSE SENSOR               #
+          #                                            #
+          # ========================================== #
+          
+          - type: 'custom:button-card'
+            entity: device_tracker.presense
+            style:
+              top: 64.5%
+              left: 80.05%
+              width: 10%
+            name: Presense
+            aspect_ratio: 1/1
+            show_state: true
+            show_icon: false
+            custom_fields:
+              icon_closet: >
+                [[[ const pin = entity.state === 'not_home' ? 'pinaway' : 'pinaway reverse'; const state = entity.state === 'not_home' ? 'away' : 'away reverse';
+                return `<svg viewBox="0 0 50 50"><style>.pinaway{animation: pinaway .7s cubic-bezier(.25,.46,.45,.94) both;}.away{animation: away .7s; cubic-bezier(.25,.46,.45,.94); transform-origin: center 20px; animation-fill-mode: both;}.reverse{animation-direction: reverse;}@keyframes pinaway{0%{fill:#2196F3}100%{fill:#9da0a2}}@keyframes away{0%{transform:rotate(0); fill:#FFFFFF}100%{transform:rotate(90deg); fill:#323536}}</style>
+                <path class="${pin}" d="M0,0 M50,50 M43,19c0,12.48-16.25,28.87-16.94,29.56C25.77,48.85,25.38,49,25,49c-0.38,0-0.77-0.15-1.06-0.44 C23.25,47.87,7,31.48,7,19C7,9.07,15.07,1,25,1S43,9.07,43,19z M0,0 M50,50"/>
+                <path class="${state}" d="M0,0 M50,50 M33.92,18c-0.21,0.6-0.78,1-1.42,1H31v7.5c0,0.83-0.67,1.5-1.5,1.5h-9c-0.83,0-1.5-0.67-1.5-1.5V19h-1.5c-0.64,0-1.21-0.4-1.42-1s-0.02-1.27,0.48-1.67l7.5-6c0.55-0.44,1.33-0.44,1.88,0l7.5,6C33.94,16.73,34.13,17.4,33.92,18z M0,0 M50,50"/></svg>`; ]]]
+            state:
+              - value: 'home'
+                styles:
+                  card: [background-color: 'rgba(255, 255, 255, 0.8)']
+                  name: [color: 'rgba(0, 0, 0, 0.7)']
+                  state: [color: 'rgba(0, 0, 0, 0.35)']
+              - value: 'not_home'
+                styles:
+                  name: [color: 'rgba(255, 255, 255, 0.3)']
+                  state: [color: 'rgba(255, 255, 255, 0.15)']
+            tap_action:
+              action: none
+            styles:
+              name: [top: 60%, left: 8%, line-height: 2vw, position: absolute]
+              state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]
+              card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, font-size: 1.3em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
+              custom_fields:
+                icon_closet:
+                  [top: 11%, left: 4.1%, width: 3.2vw, position: absolute]
+
+          # ========================================== #
+          #                                            #
+          #                DOOR SENSOR                 #
+          #                                            #
+          # ========================================== #
+
+          - type: 'custom:button-card'
+            entity: binary_sensor.door_sensor_contact
+            style:
+              top: 83.05%
+              left: 80.05%
+              width: 10%
+            name: Door
+            custom_fields:
+              icon_closet: >
+                [[[ const state = entity.state === 'on' ? 'door' : 'door reverse'; const opacity = entity.state === 'on' ? 'room' : 'room reverse';
+                return `<svg viewBox="0 0 50 50"> <style>.door{animation: door 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}.room{animation: room 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}.reverse{animation-direction: reverse;}@keyframes door{0%{transform: none; fill: #9da0a2;}100%{transform: skewY(10deg) translate(4.5%, -3.9%) scaleX(0.8); fill: #b68349;}}@keyframes room{0%{opacity: 0;}100%{opacity: 1;}}</style>
+                <path class="${opacity}" d="M11.4,1.4h27.2v43.1H11.4V1.4z" fill="#bcbcbc"/>
+                <path class="${state}" d="M11.4 1.4v43.1h27.2V1.4H11.4zm23 23.4c0 1.1-.9 1.9-1.9 1.9h0c-1.1 0-1.9-.9-1.9-1.9V21c0-1.1.9-1.9 1.9-1.9h0c1.1 0 1.9.9 1.9 1.9v3.8z"/></svg>`; ]]]
+            styles:
+              custom_fields:
+                icon_closet:
+                  [top: 11%, left: 4.1%, width: 3.2vw, position: absolute]
+            template: sensor
+
+          # ========================================== #
+          #                                            #
+          #                MOTION SENSOR               #
+          #                                            #
+          # ========================================== #
+
+          - type: 'custom:button-card'
+            entity: binary_sensor.motion_sensor_occupancy
+            style:
+              top: 83.05%
+              left: 91.05%
+              width: 10%
+            name: Motion
+            custom_fields:
+              icon_motion: >
+                [[[ const state = entity.state === 'on' ? 'animate' : null;
+                return `<svg viewBox="0 0 50 50"><style>@keyframes animate{10%, 20%, 100%{transform: rotateZ(0deg);}30%, 50%, 70%{transform: rotateZ(7deg);}90%{transform: rotateZ(3deg);}40%, 60%, 80%{transform: rotateZ(-7deg);}}.animate{animation: animate 1.35s cubic-bezier(0.5, 1, 0.89, 1); animation-fill-mode: both; transform-origin: 70% 80%; animation-delay: 0s;}</style>
+                <path class="${state}" d="M32.1 18.4s.3-1.6.7-2.1c.3-.6.9-1.4 1.6-1.8.6-.4 1.1-.7 1.4-.7s.7-.1 1 .1.6.4.8 1.3l.3 2.7.1 2.4.2 4.1c0 .3.2 3.1.2 3.3s.2 2.7.2 3.2l-.1 2.5c.1 1.6.5 3.1-.2 4.6-.6 1.4-1.7 2.7-2.9 3.6-.5.4-1.9 1.3-2.9 1.7-1.1.5-2.2.8-3.3 1.1-.5.1-1.4.4-2.3.3s-1.8-.6-2.1-1l-1.6-2.3c-.6-.8-2.1-2.3-2.3-2.5l-2.7-2.8c-.2-.2-2.7-3.5-2.9-3.8l-3.1-4.7-1.8-3.2-1.5-2.8-.9-1.8c-.1-.2-.3-1.1-.2-1.4.3-1.2 1.4-1.4 2.3-.7.3.2.9 1 1.1 1.3s6.1 8.1 6.1 8.1c.2.3.7.3.9 0s-.1-.7-.2-.9c-.4-.6-8.3-11.5-8.3-11.5s-.6-.9-.7-1.1c-.3-1.1 0-2.3 1.1-2.7s1.9.3 2.6 1.1c.3.3 8.3 11.5 8.3 11.5.2.2.3.3.5.3.3 0 .5-.4.4-.7-.1-.2-.5-.9-.5-.9L11.8 9c-.6-1-.9-2-.1-3 .7-.8 2.2-1.3 3-.2.3.3 10.1 14.3 10.1 14.3.2.2.5.4.7.3.5-.1.3-.7.1-1-.1-.2-8.4-11.8-8.4-11.8-.4-.9-.6-2 .2-2.8 1-1.1 2.5-.5 3.3.5.2.3 1 1.4 1 1.4l2.7 3.7c.1.2 3.4 4.4 3.8 4.8.9 1.1 1.8 2.2 2.7 3.2l.5.5c.1.1.1.4.1.8 0 1.3.1 2.6.1 3.9 0 .2.1.4.2.6.3.3.6.1.7-.2.1-.2 0-2.4 0-2.7-.3-.3-.5-1.3-.4-2.9zM12.2 46.9s-2.8-.8-4.8-2.7-2.6-2.7-2.8-3-1.8-3-2-3.6c-.2-.5-.2-.7.2-1 .4-.4 1-.5 1.3.1.1.2.4 1 .5 1.2s1 1.9 1.7 2.8 1.6 2.2 4.4 3.8c.6.3 1.2.6 1.9.9.3.1.6.2.8.4.1.2.1.6-.1.8-.2.4-.7.4-1.1.3zM7.1 30.7l.9 3.1c.3.7 1.1 2.3 1.9 3.3s2.4 2.6 3.4 3.2 2 1.1 3 1.5c1 .3 1.1.4 1.2.5.3.4.2 1.2-.4 1.3-.2 0-1.2 0-1.8-.3L12 41.7c-.5-.4-3.9-3.1-5.1-6S5.3 31 5.2 30.4s-.2-1.1 0-1.4c.3-.4.9-.8 1.3-.3.2.3.3.6.3.9.1 0 .2.8.3 1.1zm26.8-25s.2-.1.5-.1.8.3 1.4.7 1.9 1 3.6 2.9 2.9 3.9 3.4 5.8c.5 1.8.8 3.1.9 5.5 0 .5.1 1.6 0 1.7-.2.5-.5.7-1 .7-.6 0-.7-.5-.7-1l-.1-2.9c-.1-.6-.3-1.9-.7-2.9-.3-1-.7-2.3-1.7-3.6-.9-1.3-2.1-2.8-3.2-3.5l-2.4-1.5c-.6-.6-.7-1.2 0-1.8zm4.9-2.5s.3-.2.5-.1c.2 0 .7.3.9.4s2.1 1.3 3.6 3c1.5 1.6 3.5 5.1 3.7 7.4.1.4.2.9 0 1-.2.2-.4.4-.7.4-.2 0-.5 0-.7-.1-.1-.2-.4-1.1-.4-1.3s-.6-2-1.1-3.1C44 9.7 43.5 8.5 42 7.1s-2.2-1.9-2.8-2.2-1.1-.6-1.1-1c.1-.3.3-.6.7-.7z"/></svg>`; ]]]
+            styles:
+              custom_fields:
+                icon_motion:
+                  [top: 10%, left: 10.1%, width: 3.1vw, position: absolute,
+                  fill: "[[[ return entity.state === 'on' ? '#516d82' : '#9da0a2'; ]]]"]
+            template: sensor
+
+        # ===================================================== #
+        #                                                       #
+        #                    S I D E B A R                      #
+        #                                                       #
+        # ===================================================== #
+
+          - type: image
+            action: none
+            hold_action:
+              action: none
+            image: /local/sidebar_white.png
+            style:
+              height: 100%
+              left: 11.73828125%
+              top: 50%
+              width: 23.4765625%
+              opacity: 0.7
+            tap_action:
+              action: none
+
+          - type: state-label
+            entity: sensor.time
+            style:
+              color: 'rgba(0, 0, 0, 0.9)'
+              font-size: 5.41vw
+              font-weight: 200
+              left: 2.7%
+              letter-spacing: '-0.05vw'
+              max-width: 1px
+              top: 10%
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+
+          - type: state-label
+            entity: sensor.date_string
+            style:
+              color: 'rgba(0, 0, 0, 0.7)'
+              font-size: 1.3vw
+              font-weight: 300
+              left: 17.5%
+              letter-spacing: '-0.05vw'
+              text-align: left
+              top: 17%
+              width: 30%
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+
+          - type: 'custom:mini-graph-card'
+            color_thresholds:
+              - color: '#3e68c9'
+                value: 10
+              - color: '#c7291e'
+                value: 15
+              - color: '#c7291e'
+                value: 20
+            entities:
+              - sensor.motion_sensor_temperature
+              - sensor.nw_nowtemp
+            icon: 'mdi:home-thermometer-outline'
+            show:
+              icon: true
+              legend: false
+              name: false
+            style: |
+              :host {
+                left: 11.7%;
+                top:  92.9%;
+                width: 23.6%;
+                overflow: hidden;
+                height: 15%;
+                background: none  !important;
+                box-shadow: none !important;
+              }
+              .header {
+                font-size: 1vw;
+                position: absolute !important;
+                width: 5% !important;
+                padding: 0 !important;
+                right: 20% !important;
+                top: 15% !important;
+              }
+              ha-card {
+                background: none  !important;
+                padding: 0 !important;
+              }
+              .icon > ha-icon {
+                width:1.8vw !important;
+                height:1.8vw !important;
+              }
+              .state__time{
+                font-size:0.9vw !important;
+                margin-top: 0.2vw;
+                font-weight: 300 !important;
+                opacity: 0.4 !important;
+              }
+              .states {
+                font-size: 0.5vw !important;
+                padding: 1vw 0vw 0vw 0vw  !important;
+                margin: auto !important;
+                width: 68%;
+              }
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/4
+
+          - type: 'custom:simple-weather-card'
+            backdrop: false
+            entity: weather.naverweather
+            name: ' '
+            style: |
+              :host {
+                left: 11.4%;
+                top:  85.5%;
+                width: 17%;
+                height: 8% !important;
+                overflow: hidden;
+                height: 8.8vw;
+                background: none  !important;
+                box-shadow: none !important;
+                font-size: 1vw !important;
+              }
+              ha-card {
+                background: none  !important;
+                box-shadow: none !important;
+                flex-flow: row-reverse !important;
+                padding: 0 !important;
+              }
+              .weather__info--add{
+                display : none !important;
+              }
+              .weather__info{
+                flex-grow: 1;
+                min-height: 0 !important;
+                height: 2.8vw;
+                margin-left: 0.8vw;
+              }
+              .weather__icon{
+                margin-right: 1.5% !important;
+                margin-top: 0%;
+                width: 1.7vw !important;
+                height: 1.7vw !important;
+                flex: 0 0 2vw !important;
+              }
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/4
 
   - title: Game
     panel: true
@@ -700,6 +844,7 @@ views:
             entities:
               - sensor.steam_76561198086267709
               - sensor.steam_76561198074838957
+              - sensor.steam_76561199120251534
             game_background: true
 
           - break

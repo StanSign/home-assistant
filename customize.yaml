@@ -1,2 +1,13 @@
 binary_sensor.pressure_pillow_contact:
   icon: mdi:bed
+cover.curtain:
+  device_class: curtain
+  icon: mdi:window-open-variant
+sensor.network_in_eth0:
+  friendly_name: In
+  unit_of_measurement: MiB
+sensor.network_out_eth0:
+  friendly_name: Out
+  unit_of_measurement: MiB
+media_player.spotify_icangjun:
+  friendly_name: Spotify
