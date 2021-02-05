@@ -44,7 +44,7 @@ device_tracker:
   
   - platform: icloud3
     username: cruelroz@gmail.com
-    password: 1g8g030G
+    password: !secret icloud_password
     
 yahoofinance:
   symbols:
