@@ -24,6 +24,7 @@
       title: Home Assistant
       message: Study Mode Enabled
   mode: restart
+
 - id: '1600589225737'
   alias: Game
   description: ''
@@ -50,6 +51,7 @@
       title: Home Assistant
       message: Game Mode Enabled
   mode: restart
+
 - id: '1600590060785'
   alias: Sleep
   description: ''
@@ -76,6 +78,35 @@
       title: Home Assistant
       message: Sleep Mode Enabled
   mode: restart
+
+- id: '1600599118233'
+  alias: Shutdown input_booleans
+  description: ''
+  trigger:
+  - platform: event
+    event_type: call_service
+    event_data:
+      service_data:
+        entity_id:
+        - scene.shut_down
+      domain: scene
+      service: turn_on
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id:
+    - input_boolean.sleep_mode
+    - input_boolean.game_mode
+    - input_boolean.study_mode
+  mode: single
+
+  # ======================================= #
+  #                                         #
+  #             P R E S E N S E             #
+  #                                         #
+  # ======================================= #
+
 - id: '1600591421096'
   alias: Away
   description: ''
@@ -99,27 +130,7 @@
       title: Home Assistant
       message: You just left home. Have a good day :)
   mode: restart
-- id: '1600599118233'
-  alias: Shutdown input_booleans
-  description: ''
-  trigger:
-  - platform: event
-    event_type: call_service
-    event_data:
-      service_data:
-        entity_id:
-        - scene.shut_down
-      domain: scene
-      service: turn_on
-  condition: []
-  action:
-  - service: input_boolean.turn_off
-    data: {}
-    entity_id:
-    - input_boolean.sleep_mode
-    - input_boolean.game_mode
-    - input_boolean.study_mode
-  mode: single
+
 - id: '1609050516870'
   alias: Motion -> Home Mode
   description: Set Mode to Home when door is opened
@@ -142,6 +153,7 @@
     entity_id: switch.light_switch_switch_l2
     domain: switch
   mode: single
+
 - id: '1609053497602'
   alias: Not Home -> Back to Away
   description: Back to Away Mode when you're not home
@@ -165,6 +177,13 @@
     entity_id: input_boolean.away_mode
   - scene: scene.shut_down
   mode: single
+
+  # ======================================= #
+  #                                         #
+  #                S L E E P                #
+  #                                         #
+  # ======================================= #
+
 - id: '1610451459913'
   alias: Go to Sleep
   description: ''
@@ -183,6 +202,7 @@
     data: {}
     entity_id: input_boolean.sleep_mode
   mode: single
+
 - id: '1610451842424'
   alias: Wake Up
   description: ''
@@ -215,7 +235,13 @@
     entity_id: switch.light_switch_switch_l2
     domain: switch
   mode: single
-  
+
+  # ======================================= #
+  #                                         #
+  #               L O A D E R               #
+  #                                         #
+  # ======================================= #
+
 - alias: turn_off_loading_wheel
   initial_state: true
   trigger:

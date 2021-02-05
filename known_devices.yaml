@@ -1,27 +1,6 @@
-
-presense:
-  icon:
-  mac:
-  name: presense
-  picture:
-  track: true
-life360_changjun:
-  name: life360_changjun
-  mac:
-  icon:
-  picture:
-  track: true
-
 Presence Sensor:
   name: Presence Sensor
   mac: 96:19:A9:4E:38:8E
-  icon:
-  picture:
-  track: true
-
-hostname1:
-  name: hostname1
-  mac:
   icon:
   picture:
   track: true
