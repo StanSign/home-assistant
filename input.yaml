@@ -18,7 +18,7 @@ away_mode:
   icon: mdi:account-arrow-right
 home_mode:
   name: Home
-  icon: mid:home
+  icon: mdi:home
   
 curtain:
   name: Curtain Boolean
