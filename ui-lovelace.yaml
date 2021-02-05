@@ -37,6 +37,8 @@ resources:
     type: module
   - url: /hacsfiles/spotify-card/spotify-card.js
     type: module
+  - url: /local/custom_cards/icloud3-event-log-card.js
+    type: module
 
 preload_cards:
   [map, iframe, markdown]

@@ -25,6 +25,7 @@ input_boolean: !include input.yaml
 automation: !include automations.yaml
 sensor: !include sensors.yaml
 switch: !include switch.yaml
+recorder: !include recorder.yaml
 
 discovery:
   ignore:
