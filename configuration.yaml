@@ -41,6 +41,10 @@ device_tracker:
     hosts:
       - 192.168.0.41
     home_interval: 3
+  
+  - platform: icloud3
+    username: cruelroz@gmail.com
+    password: 1g8g030G
     
 yahoofinance:
   symbols:
