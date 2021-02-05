@@ -124,7 +124,7 @@
         friendly_name: "Full Date"
         value_template: "{{ states('sensor.dayoftheweek') }}, {{ states('sensor.dateofthemonth') }} of {{ states('sensor.month') }} {{ now().year }}"
 
-      curtainopenstate:
+      curtain:
         friendly_name: "Curtain State"
         icon_template: mdi:window-open-variant
         value_template: >

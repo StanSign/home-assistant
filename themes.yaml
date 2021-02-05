@@ -2,7 +2,7 @@ tablet:
   # Main colors
   primary-color: '#dedede'
   accent-color: '#a8a8a8'
-  dark-primary-color: '#e0e1e1'
+  dark-primary-color: '#262b2c'
   light-primary-color: '#a8a8a8'
   # Text colors
   primary-text-color: '#262b2c'
@@ -27,14 +27,14 @@ tablet:
   # Paper card
   paper-card-header-color: '#262b2c'
   paper-card-background-color: '#dedede'
-  paper-dialog-background-color: '#2d3538'
+  paper-dialog-background-color: '#262b2c'
   paper-item-icon-color: '#262b2c'
   paper-item-icon-active-color: '#3182b7'
   paper-item-icon_-_color: 'green'
   paper-item-selected_-_background-color: '#ff0000'
   paper-tabs-selection-bar-color: 'green'
   # Labels
-  label-badge-red: 'var(--primary-color)'
+  label-badge-red: '#262b2c'
   label-badge-text-color: 'var(--primary-text-color)'
   label-badge-background-color: '#222222'
   # Switches update

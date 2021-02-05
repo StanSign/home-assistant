@@ -215,3 +215,30 @@
     entity_id: switch.light_switch_switch_l2
     domain: switch
   mode: single
+  
+- alias: turn_off_loading_wheel
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id:
+        ['switch.curtain']
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: >
+          {{ trigger.entity_id | replace(trigger.entity_id.split('.')[0], 'input_boolean') }}
+
+- alias: turn_off_loading_wheel_failsafe
+  initial_state: true
+  trigger:
+    - platform: state
+      entity_id:
+        ['input_boolean.curtain']
+      to: 'on'
+      for:
+        minutes: 1
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: >
+          {{ trigger.entity_id }}

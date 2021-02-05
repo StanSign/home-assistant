@@ -1,0 +1,13 @@
+  - platform: template
+    switches:
+      curtain:
+        friendly_name: Curtain
+        icon_template: mdi:window-open-variant
+        turn_on:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.curtain
+          - service: script.curtain_control
+        turn_off:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.curtain
+          - service: script.curtain_control

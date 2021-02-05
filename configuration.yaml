@@ -21,9 +21,10 @@ cloud:
 group: !include groups.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-input_boolean: !include booleans.yaml
+input_boolean: !include input.yaml
 automation: !include automations.yaml
 sensor: !include sensors.yaml
+switch: !include switch.yaml
 
 discovery:
   ignore:
