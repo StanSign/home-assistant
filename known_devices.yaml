@@ -4,3 +4,9 @@ Presence Sensor:
   icon:
   picture:
   track: true
+hostname1:
+  name: iPhone Detect
+  mac:
+  icon: mdi:cellphone-iphone
+  picture:
+  track: true

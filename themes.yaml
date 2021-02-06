@@ -1,6 +1,6 @@
 tablet:
   # Main colors
-  primary-color: '#dedede'
+  primary-color: '#262b2c'
   accent-color: '#a8a8a8'
   dark-primary-color: '#262b2c'
   light-primary-color: '#a8a8a8'
@@ -10,8 +10,6 @@ tablet:
   secondary-text-color: 'var(--primary-text-color)'
   disabled-text-color: '#3a4142'
   label-badge-border-color: 'green'
-  # Sidebar
-  sidebar-icon-color: '#545454'
   # Background colors
   background: 'center / cover no-repeat url("/local/simplebackground.jpg") fixed'
   primary-background-color: '#dedede'
@@ -21,7 +19,7 @@ tablet:
   table-row-alternative-background-color: '#dedede'
   # Nav Menu
   paper-listbox-color: '#777777'
-  paper-listbox-background-color: '#222627'
+  paper-listbox-background-color: '#dedede'
   paper-grey-50: 'var(--primary-color)'
   paper-grey-200: '#222222'
   # Paper card
@@ -36,18 +34,18 @@ tablet:
   # Labels
   label-badge-red: '#262b2c'
   label-badge-text-color: 'var(--primary-text-color)'
-  label-badge-background-color: '#222222'
+  label-badge-background-color: '#a8a8a8'
   # Switches update
-  switch-checked-color: '#7a7d7f'
-  switch-unchecked-button-color: '#3b4041'
-  switch-unchecked-track-color: '#0c0d0d'
+  switch-checked-color: '#3182b7'
+  switch-unchecked-button-color: '#dedede'
+  switch-unchecked-track-color: '#9b9b9b'
   # paper-toggle-button-checked-bar-color: '#009FFF'
   # Sliders
   paper-slider-knob-color: '#a4abb1'
   paper-slider-knob-start-color: '#a4abb1'
   paper-slider-pin-color: '#626a6f'
   paper-slider-active-color: '#626a6f'
-  paper-slider-container-color: '#202020'
+  paper-slider-container-color: '#c7c7c7'
   paper-slider-secondary-color: 'var(--secondary-background-color)'
   paper-slider-disabled-active-color: 'var(--disabled-text-color)'
   paper-slider-disabled-secondary-color: 'var(--disabled-text-color)'
@@ -100,3 +98,11 @@ tablet:
   iron-overlay-backdrop-opacity: '1'
   # barcard
   bar-card-border-radius: '0.3em'
+  # Sidebar
+  sidebar-icon-color: '#545454'
+  sidebar-background-color: 'var(--card-background-color)'
+  sidebar-selected-text-color: '#515657'
+  sidebar-selected-icon-color: 'var(--sidebar-selected-text-color)'
+  # header
+  app-header-background-color: '#dedede'
+  app-header-text-color: 'var(--primary-text-color)'

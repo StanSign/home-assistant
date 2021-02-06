@@ -23,3 +23,5 @@ home_mode:
 curtain:
   name: Curtain Boolean
   initial: off
+curtain_clicked:
+  name: Curtain State Triggered

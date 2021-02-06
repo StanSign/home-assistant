@@ -96,13 +96,13 @@
           {% endif %}
 
       eth0_out:
-        friendly_name: Out
+        friendly_name: 'Out'
         icon_template: mdi:server-network
         value_template: >
           {{ states('sensor.network_out_eth0') | int }}
       
       eth0_in:
-        friendly_name: In
+        friendly_name: 'In'
         icon_template: mdi:server-network
         value_template: >
           {{ states('sensor.network_in_eth0') | int }}
@@ -121,11 +121,11 @@
           {{ day~'th' if index > 2 else day~suffix[index] }}
           
       date_string:
-        friendly_name: "Full Date"
+        friendly_name: 'Full Date'
         value_template: "{{ states('sensor.dayoftheweek') }}, {{ states('sensor.dateofthemonth') }} of {{ states('sensor.month') }} {{ now().year }}"
 
       curtain:
-        friendly_name: "Curtain State"
+        friendly_name: 'Curtain State'
         icon_template: mdi:window-open-variant
         value_template: >
           {% if state_attr('cover.curtain', 'position') < 20 %}
@@ -134,4 +134,14 @@
             Closed
           {% else %}
             Open {{ state_attr('cover.curtain', 'position') }} %
+          {% endif %}
+      
+      presence:
+        friendly_name: 'Presence'
+        icon_template: mdi:home-account
+        value_template: >
+          {% if is_state('device_tracker.presence_ble', 'home') or is_state('device_tracker.hostname1', 'home') %}
+            home
+          {% else %}
+            not_home
           {% endif %}

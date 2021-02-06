@@ -41,18 +41,14 @@ device_tracker:
     hosts:
       - 192.168.0.41
     home_interval: 3
-  
-  - platform: icloud3
-    username: cruelroz@gmail.com
-    password: !secret icloud_password
-    
-yahoofinance:
-  symbols:
-    - NVDA
-    - TSLA
-    - AAPL
-    - CCIV
-    - VLDR
+
+  - platform: iphonedetect
+    consider_home: 60
+    scan_interval: 12
+    new_device_defaults:
+      track_new_devices: true
+    hosts:
+      hostname1: 192.168.0.41
 
 weather:
   - platform: naver_weather

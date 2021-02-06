@@ -37,8 +37,6 @@ resources:
     type: module
   - url: /hacsfiles/spotify-card/spotify-card.js
     type: module
-  - url: /local/custom_cards/icloud3-event-log-card.js
-    type: module
 
 preload_cards:
   [map, iframe, markdown]
@@ -105,6 +103,8 @@ views:
               padding: 0.8vw
               --mdc-icon-size: 4vw
             tap_action: !include popup/information.yaml
+            hold_action:
+              action: none
             
           - type: conditional
             conditions:
@@ -120,6 +120,8 @@ views:
                   left: 95.1%
                   width: 1.7%
                 tap_action: !include popup/information.yaml
+                hold_action:
+                  action: none
 
           # ============================================= #
           #                                               #
@@ -138,6 +140,8 @@ views:
               padding: 0.8vw
               --mdc-icon-size: 4vw
             tap_action: !include popup/update.yaml
+            hold_action:
+              action: none
           
           # ===================================================== #
           #                                                       #
@@ -331,9 +335,8 @@ views:
 
           - type: 'custom:button-card'
             entity: switch.curtain
-            trigger_updates:
-              ['switch.curtain', 'input_boolean.curtain',
-              'script.curtain_control', 'sensor.curtain', 'cover.curtain']
+            triggers_update:
+              ['switch.curtain', 'input_boolean.curtain']
             style:
               top: 19.35%
               left: 80.05%
@@ -346,6 +349,9 @@ views:
                  <path fill="#9da0a2" d="M47.59,1.01H2.41C1.63,1.01,1,1.65,1,2.44v4.82C1,8.06,1.63,8.7,2.41,8.7h45.19C48.37,8.7,49,8.06,49,7.26V2.44C49,1.65,48.37,1.01,47.59,1.01z M0,0 M50,50"/>
                  <path class="${curtain_left}" d="M25,48.25v-37.9H5.93c-0.78,0-1.41,0.64-1.41,1.44v34.57c0,0.97,0.47,1.88,1.25,2.43c0.78,0.55,1.78,0.67,2.67,0.32c1.62-0.64,3.42-0.67,5.06-0.1l0.22,0.08c1.07,0.38,2.19,0.57,3.31,0.57c0.76,0,1.53-0.09,2.28-0.26l4.04-0.94 M0,0 M50,50" fill="#ebc000"/>
                  <path class="${curtain_right}" d="M44.07,10.35H25v37.9c0.55,0,1.11,0.06,1.65,0.19l4.04,0.94c1.86,0.43,3.79,0.33,5.59-0.3l0.22-0.08c1.64-0.58,3.44-0.54,5.06,0.1c0.89,0.35,1.89,0.23,2.67-0.32c0.78-0.55,1.25-1.46,1.25-2.43V11.79C45.48,11,44.85,10.35,44.07,10.35z M0,0 M50,50" fill="#ebc000"/></svg>`; ]]]
+              loader: &loader >
+                 [[[ if (states[entity.entity_id.replace(entity.entity_id.split('.')[0], 'input_boolean')].state === 'on') { 
+                 return '<img src="/local/loader.svg" width="100%">'; } ]]]
             aspect_ratio: 1/1
             show_state: true
             show_icon: false
@@ -356,10 +362,7 @@ views:
                   name: [color: 'rgba(255, 255, 255, 0.3)']
                   state: [color: 'rgba(255, 255, 255, 0.15)']
             tap_action:
-              action: call-service
-              service: switch.toggle
-              service_data:
-                entity_id: switch.curtain
+              action: toggle
             hold_action:
               action: more-info
             styles:
@@ -367,8 +370,10 @@ views:
               card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, font-size: 1.3em, background-color: 'rgba(255, 255, 255, 0.8)', border-radius: 0.8vw, box-shadow: none, transition: none]
               state: [top: 78%, left: 8%, line-height: 2vw, position: absolute, color: 'rgba(0, 0, 0, 0.35)']
               custom_fields:
-                icon_curtain: [top: 11%, left: 4.1%, width: 3.2vw, position: absolute]
-            template: ['loader']
+                icon_curtain: [top: 6%, left: 5.6%, width: 2.8vw, position: absolute]
+                loader:
+                  [filter: "[[[ return states['input_boolean.curtain_clicked'].state === 'on' ? 'invert(1)' : 'none'; ]]]", 
+                    top: 3%, left: 60%, width: 3.7vw, position: absolute, opacity: 0.6]
 
           # ================================================ #
           #                                                  #
@@ -521,7 +526,7 @@ views:
           # ========================================== #
           
           - type: 'custom:button-card'
-            entity: device_tracker.presense
+            entity: sensor.presence
             style:
               top: 64.5%
               left: 80.05%
@@ -530,12 +535,6 @@ views:
             aspect_ratio: 1/1
             show_state: true
             show_icon: false
-            custom_fields:
-              icon_closet: >
-                [[[ const pin = entity.state === 'not_home' ? 'pinaway' : 'pinaway reverse'; const state = entity.state === 'not_home' ? 'away' : 'away reverse';
-                return `<svg viewBox="0 0 50 50"><style>.pinaway{animation: pinaway .7s cubic-bezier(.25,.46,.45,.94) both;}.away{animation: away .7s; cubic-bezier(.25,.46,.45,.94); transform-origin: center 20px; animation-fill-mode: both;}.reverse{animation-direction: reverse;}@keyframes pinaway{0%{fill:#2196F3}100%{fill:#9da0a2}}@keyframes away{0%{transform:rotate(0); fill:#FFFFFF}100%{transform:rotate(90deg); fill:#323536}}</style>
-                <path class="${pin}" d="M0,0 M50,50 M43,19c0,12.48-16.25,28.87-16.94,29.56C25.77,48.85,25.38,49,25,49c-0.38,0-0.77-0.15-1.06-0.44 C23.25,47.87,7,31.48,7,19C7,9.07,15.07,1,25,1S43,9.07,43,19z M0,0 M50,50"/>
-                <path class="${state}" d="M0,0 M50,50 M33.92,18c-0.21,0.6-0.78,1-1.42,1H31v7.5c0,0.83-0.67,1.5-1.5,1.5h-9c-0.83,0-1.5-0.67-1.5-1.5V19h-1.5c-0.64,0-1.21-0.4-1.42-1s-0.02-1.27,0.48-1.67l7.5-6c0.55-0.44,1.33-0.44,1.88,0l7.5,6C33.94,16.73,34.13,17.4,33.92,18z M0,0 M50,50"/></svg>`; ]]]
             state:
               - value: 'home'
                 styles:
@@ -546,15 +545,17 @@ views:
                 styles:
                   name: [color: 'rgba(255, 255, 255, 0.3)']
                   state: [color: 'rgba(255, 255, 255, 0.15)']
-            tap_action:
-              action: none
+            custom_fields:
+              icon_presence: >
+                [[[ const pin = entity.state === 'not_home' ? 'pinaway' : 'pinaway reverse'; const state = entity.state === 'not_home' ? 'away' : 'away reverse';
+                return `<svg viewBox="0 0 50 50"><style>.pinaway{animation: pinaway .7s cubic-bezier(.25,.46,.45,.94) both;}.away{animation: away .7s; cubic-bezier(.25,.46,.45,.94); transform-origin: center 20px; animation-fill-mode: both;}.reverse{animation-direction: reverse;}@keyframes pinaway{0%{fill:#2196F3}100%{fill:#9da0a2}}@keyframes away{0%{transform:rotate(0); fill:#FFFFFF}100%{transform:rotate(90deg); fill:#323536}}</style>
+                <path class="${pin}" d="M0,0 M50,50 M43,19c0,12.48-16.25,28.87-16.94,29.56C25.77,48.85,25.38,49,25,49c-0.38,0-0.77-0.15-1.06-0.44 C23.25,47.87,7,31.48,7,19C7,9.07,15.07,1,25,1S43,9.07,43,19z M0,0 M50,50"/>
+                <path class="${state}" d="M0,0 M50,50 M33.92,18c-0.21,0.6-0.78,1-1.42,1H31v7.5c0,0.83-0.67,1.5-1.5,1.5h-9c-0.83,0-1.5-0.67-1.5-1.5V19h-1.5c-0.64,0-1.21-0.4-1.42-1s-0.02-1.27,0.48-1.67l7.5-6c0.55-0.44,1.33-0.44,1.88,0l7.5,6C33.94,16.73,34.13,17.4,33.92,18z M0,0 M50,50"/></svg>`; ]]]
             styles:
-              name: [top: 60%, left: 8%, line-height: 2vw, position: absolute]
-              state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]
-              card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, font-size: 1.3em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
               custom_fields:
-                icon_closet:
+                icon_presence:
                   [top: 11%, left: 4.1%, width: 3.2vw, position: absolute]
+            template: sensor
 
           # ========================================== #
           #                                            #
@@ -570,14 +571,14 @@ views:
               width: 10%
             name: Door
             custom_fields:
-              icon_closet: >
+              icon_door: >
                 [[[ const state = entity.state === 'on' ? 'door' : 'door reverse'; const opacity = entity.state === 'on' ? 'room' : 'room reverse';
                 return `<svg viewBox="0 0 50 50"> <style>.door{animation: door 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}.room{animation: room 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;}.reverse{animation-direction: reverse;}@keyframes door{0%{transform: none; fill: #9da0a2;}100%{transform: skewY(10deg) translate(4.5%, -3.9%) scaleX(0.8); fill: #b68349;}}@keyframes room{0%{opacity: 0;}100%{opacity: 1;}}</style>
                 <path class="${opacity}" d="M11.4,1.4h27.2v43.1H11.4V1.4z" fill="#bcbcbc"/>
                 <path class="${state}" d="M11.4 1.4v43.1h27.2V1.4H11.4zm23 23.4c0 1.1-.9 1.9-1.9 1.9h0c-1.1 0-1.9-.9-1.9-1.9V21c0-1.1.9-1.9 1.9-1.9h0c1.1 0 1.9.9 1.9 1.9v3.8z"/></svg>`; ]]]
             styles:
               custom_fields:
-                icon_closet:
+                icon_door:
                   [top: 11%, left: 4.1%, width: 3.2vw, position: absolute]
             template: sensor
 
@@ -887,157 +888,3 @@ views:
           - break
           
           - type: 'custom:gap-card'
-
-  - title: Study
-    panel: true
-    icon: 'mdi:lead-pencil'
-    cards:
-      - type: 'custom:layout-card'
-        layout: vertical
-        min_columns: 6
-        column_width: [7%, 30%, 1%, 30%, 1%, 30%]
-        justify_content: space-around
-        cards:
-          - type: 'vertical-stack'
-            cards:
-              - type: 'custom:vertical-stack-in-card'
-                cards:
-                  - type: 'custom:button-card'
-                    icon: 'mdi:home'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action: 
-                      action: navigate
-                      navigation_path: /lovelace/0
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:microsoft-xbox-controller'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/1
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:lead-pencil'
-                    color_type: card
-                    color: var(--primary-background-color)
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/2
-                      
-                  - type: 'custom:button-card'
-                    icon: 'mdi:eye'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/3
-                
-                  - type: 'custom:button-card'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:cog'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /config/dashboard
-                        
-                  - type: 'custom:button-card'
-                    icon: 'mdi:account'
-                    color_type: card
-                    color: *sidebar_color
-                    styles:
-                      card:
-                        - height: 100px
-                        - border-radius: 0%
-                    tap_action:
-                      action: navigate
-                      navigation_path: /profile
-          
-          - break
-                      
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-
-  - title: Analystic
-    panel: true
-    icon: 'mdi:eye'
-    cards:
-      - type: 'custom:layout-card'
-        layout: vertical
-        min_columns: 6
-        column_width: [7%, 30%, 1%, 30%, 1%, 30%]
-        justify_content: space-around
-        cards:
-          - type: 'custom:gap-card'
-          
-          - break
-        
-          - type: 'custom:gap-card'
-
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-
-          - type: 'custom:gap-card'
-            
-
-          - break
-          
-          - type: 'custom:gap-card'
-          
-          - break
-
-          - type: 'custom:gap-card'
-
-  - title: iCloud Event Log
-    icon: mdi:information-outline 
-    cards: 
-      - type: 'custom:icloud3-event-log-card'
-        entity: sensor.icloud3_event_log
