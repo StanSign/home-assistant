@@ -57,15 +57,6 @@ weather:
 
 browser_mod:
 
-kakao_talk:
-  api_key: 92f42c4d59a603cdd26c1bf1e3cb61c0
-  redirect_uri: http://ha.stansign.duckdns.org
-  send_to_friends: True
-  
-notify:
-  - name: kakaotalk_noti
-    platform: kakao_talk
-
 spotify:
   client_id: 32141ca6a618405983b837f98301b6c6
   client_secret: 57e0bc78edc54696829cca548fc0d398

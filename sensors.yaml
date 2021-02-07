@@ -127,13 +127,15 @@
       curtain:
         friendly_name: 'Curtain State'
         icon_template: mdi:window-open-variant
+        entity_id:
+          - cover.curtain
         value_template: >
-          {% if state_attr('cover.curtain', 'position') < 20 %}
+          {% if state_attr('cover.curtain', 'position') | int < 20 %} 
             Open
-          {% elif state_attr('cover.curtain', 'position') >= 95 %}
+          {% elif state_attr('cover.curtain', 'position') | int > 94 %} 
             Closed
-          {% else %}
-            Open {{ state_attr('cover.curtain', 'position') }} %
+          {% else %} 
+            Open {{ state_attr('cover.curtain', 'position') }}%
           {% endif %}
       
       presence:

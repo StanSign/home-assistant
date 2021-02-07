@@ -19,10 +19,6 @@
     entity_id:
     - input_boolean.sleep_mode
     - input_boolean.game_mode
-  - service: notify.kakaotalk_noti
-    data:
-      title: Home Assistant
-      message: Study Mode Enabled
   mode: restart
 
 - id: '1600589225737'
@@ -46,10 +42,6 @@
     entity_id:
     - input_boolean.study_mode
     - input_boolean.sleep_mode
-  - service: notify.kakaotalk_noti
-    data:
-      title: Home Assistant
-      message: Game Mode Enabled
   mode: restart
 
 - id: '1600590060785'
@@ -73,10 +65,6 @@
     entity_id:
     - input_boolean.study_mode
     - input_boolean.game_mode
-  - service: notify.kakaotalk_noti
-    data:
-      title: Home Assistant
-      message: Sleep Mode Enabled
   mode: restart
 
 - id: '1600599118233'
@@ -125,10 +113,6 @@
     entity_id: input_boolean.away_mode
   - scene: scene.shut_down
   - scene: scene.scene_shut_modes_down
-  - service: notify.kakaotalk_noti
-    data:
-      title: Home Assistant
-      message: You just left home. Have a good day :)
   mode: restart
 
 - id: '1609050516870'

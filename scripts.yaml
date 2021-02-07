@@ -1,13 +1,3 @@
-'1609479966500':
-  alias: tts_welcome
-  sequence:
-  - delay: '3'
-  - service: tts.google_translate_say
-    entity_id: media_player.my_room_2
-    data_template:
-      message: 안녕하세요
-      cache: false
-  mode: single
 curtain_control:
   alias: Curtain_Control
   sequence:
