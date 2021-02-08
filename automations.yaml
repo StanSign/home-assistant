@@ -2,91 +2,87 @@
   alias: Study
   description: ''
   trigger:
-  - platform: state
-    entity_id: input_boolean.study_mode
-    from: 'off'
-    to: 'on'
+    - platform: state
+      entity_id: input_boolean.study_mode
+      from: 'off'
+      to: 'on'
   condition:
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: input_boolean.away_mode
-      state: 'off'
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.away_mode
+          state: 'off'
   action:
-  - scene: scene.study
-  - service: homeassistant.turn_off
-    data: {}
-    entity_id:
-    - input_boolean.sleep_mode
-    - input_boolean.game_mode
+    - scene: scene.study
+    - service: homeassistant.turn_off
+      entity_id:
+        - input_boolean.sleep_mode
+        - input_boolean.game_mode
   mode: single
 
 - id: '1600589225737'
   alias: Game
   description: ''
   trigger:
-  - platform: state
-    entity_id: input_boolean.game_mode
-    from: 'off'
-    to: 'on'
+    - platform: state
+      entity_id: input_boolean.game_mode
+      from: 'off'
+      to: 'on'
   condition:
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: input_boolean.away_mode
-      state: 'off'
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.away_mode
+          state: 'off'
   action:
-  - scene: scene.game
-  - service: homeassistant.turn_off
-    data: {}
-    entity_id:
-    - input_boolean.study_mode
-    - input_boolean.sleep_mode
+    - scene: scene.game
+    - service: homeassistant.turn_off
+      entity_id:
+        - input_boolean.study_mode
+        - input_boolean.sleep_mode
   mode: single
 
 - id: '1600590060785'
   alias: Sleep
   description: ''
   trigger:
-  - platform: state
-    entity_id: input_boolean.sleep_mode
-    from: 'off'
-    to: 'on'
+    - platform: state
+      entity_id: input_boolean.sleep_mode
+      from: 'off'
+      to: 'on'
   condition:
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: input_boolean.away_mode
-      state: 'off'
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.away_mode
+          state: 'off'
   action:
-  - scene: scene.scene_sleep
-  - service: homeassistant.turn_off
-    data: {}
-    entity_id:
-    - input_boolean.study_mode
-    - input_boolean.game_mode
+    - scene: scene.scene_sleep
+    - service: homeassistant.turn_off
+      entity_id:
+        - input_boolean.study_mode
+        - input_boolean.game_mode
   mode: single
 
 - id: '1600599118233'
   alias: Shutdown input_booleans
   description: ''
   trigger:
-  - platform: event
-    event_type: call_service
-    event_data:
-      service_data:
-        entity_id:
-        - scene.shut_down
-      domain: scene
-      service: turn_on
+    - platform: event
+      event_type: call_service
+      event_data:
+        service_data:
+          entity_id:
+            - scene.shut_down
+        domain: scene
+        service: turn_on
   condition: []
   action:
-  - service: input_boolean.turn_off
-    data: {}
-    entity_id:
-    - input_boolean.sleep_mode
-    - input_boolean.game_mode
-    - input_boolean.study_mode
+    - service: input_boolean.turn_off
+      entity_id:
+      - input_boolean.sleep_mode
+      - input_boolean.game_mode
+      - input_boolean.study_mode
   mode: single
 
   # ======================================= #
@@ -99,63 +95,56 @@
   alias: Away
   description: ''
   trigger:
-  - platform: state
-    from: home
-    entity_id: sensor.presence
-    to: not_home
+    - platform: state
+      entity_id: sensor.presence
+      from: home
+      to: not_home
+      for: '00:05:00'
   action:
-  - service: homeassistant.turn_on
-    data: {}
-    entity_id: input_boolean.away_mode
-  - scene: scene.shut_down
-  - scene: scene.scene_shut_modes_down
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.away_mode
   mode: single
 
 - id: '1609050516870'
   alias: Motion -> Home Mode
   description: Set Mode to Home when motion is detected
   trigger:
-  - type: motion
-    platform: device
-    device_id: de4cb5ea035c45edb598b6248f7f1c61
-    entity_id: binary_sensor.motion_sensor_occupancy
-    domain: binary_sensor
+    - platform: state
+      entity_id: binary_sensor.motion_sensor_occupancy
+      to: 'on'
   condition:
-  - condition: state
-    entity_id: input_boolean.away_mode
-    state: 'on'
+    - condition: state
+      entity_id: input_boolean.away_mode
+      state: 'on'
   action:
-  - service: input_boolean.turn_off
-    data: {}
-    entity_id: input_boolean.away_mode
-  - type: turn_on
-    device_id: e517ecf3d35c4a76b89c4923ba76aa5b
-    entity_id: switch.light_switch_switch_l2
-    domain: switch
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.away_mode
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.study_mode
   mode: single
 
 - id: '1609053497602'
   alias: Not Home -> Back to Away
   description: Back to Away Mode when you're not home
   trigger:
-  - platform: state
-    entity_id: binary_sensor.motion_sensor_occupancy
-    to: 'on'
-    for: 00:03:00
+    - platform: state
+      entity_id: binary_sensor.motion_sensor_occupancy
+      to: 'off'
+      for: 00:03:00
   condition:
-  - condition: and
-    conditions:
     - condition: state
       entity_id: device_tracker.presence_sensor
-      state: not_home
+      state: 'not_home'
     - condition: state
       entity_id: input_boolean.away_mode
       state: 'off'
   action:
-  - service: input_boolean.turn_on
-    data: {}
-    entity_id: input_boolean.away_mode
-  - scene: scene.shut_down
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.away_mode
+    - service: scene.turn_on
+      entity_id:
+        - scene.shut_down
+        - scene.scene_shut_modes_down
   mode: single
 
   # ======================================= #
@@ -168,43 +157,43 @@
   alias: Go to Sleep
   description: ''
   trigger:
-  - platform: state
-    entity_id: binary_sensor.pressure_pillow_contact
-    to: 'off'
+    - platform: state
+      entity_id: binary_sensor.pressure_pillow_contact
+      to: 'off'
   condition:
-  - condition: and
-    conditions:
-    - condition: state
-      entity_id: input_boolean.away_mode
-      state: 'off'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_boolean.away_mode
+        state: 'off'
   action:
-  - service: input_boolean.turn_on
-    data: {}
-    entity_id: input_boolean.sleep_mode
+    - service: input_boolean.turn_on
+      data: {}
+      entity_id: input_boolean.sleep_mode
   mode: single
 
 - id: '1610451842424'
   alias: Wake Up
   description: ''
   trigger:
-  - platform: state
-    entity_id: binary_sensor.motion_sensor_occupancy
-    to: 'on'
+    - platform: state
+      entity_id: binary_sensor.motion_sensor_occupancy
+      to: 'on'
   condition:
   - condition: and
     conditions:
-    - condition: state
-      entity_id: input_boolean.away_mode
-      state: 'off'
-    - condition: state
-      entity_id: input_boolean.sleep_mode
-      state: 'on'
-    - condition: state
-      entity_id: binary_sensor.pressure_pillow_contact
-      state: 'on'
+      - condition: state
+        entity_id: input_boolean.away_mode
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.sleep_mode
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.pressure_pillow_contact
+        state: 'on'
   action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.study_mode
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.study_mode
   mode: single
 
   # ======================================= #
