@@ -130,10 +130,10 @@
         entity_id:
           - cover.curtain
         value_template: >
-          {% if state_attr('cover.curtain', 'position') | int < 20 %} 
-            Open
-          {% elif state_attr('cover.curtain', 'position') | int > 94 %} 
+          {% if state_attr('cover.curtain', 'position') | int < 10 %} 
             Closed
+          {% elif state_attr('cover.curtain', 'position') | int > 90 %} 
+            Open
           {% else %} 
             Open {{ state_attr('cover.curtain', 'position') }}%
           {% endif %}

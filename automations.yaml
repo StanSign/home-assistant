@@ -19,7 +19,7 @@
     entity_id:
     - input_boolean.sleep_mode
     - input_boolean.game_mode
-  mode: restart
+  mode: single
 
 - id: '1600589225737'
   alias: Game
@@ -42,7 +42,7 @@
     entity_id:
     - input_boolean.study_mode
     - input_boolean.sleep_mode
-  mode: restart
+  mode: single
 
 - id: '1600590060785'
   alias: Sleep
@@ -65,7 +65,7 @@
     entity_id:
     - input_boolean.study_mode
     - input_boolean.game_mode
-  mode: restart
+  mode: single
 
 - id: '1600599118233'
   alias: Shutdown input_booleans
@@ -100,24 +100,20 @@
   description: ''
   trigger:
   - platform: state
-    from: Wi-Fi
-    entity_id: sensor.icangjunyi_iphone_connection_type
-    to: Cellular
-  condition:
-  - condition: state
-    entity_id: device_tracker.presence_sensor
-    state: not_home
+    from: home
+    entity_id: sensor.presence
+    to: not_home
   action:
   - service: homeassistant.turn_on
     data: {}
     entity_id: input_boolean.away_mode
   - scene: scene.shut_down
   - scene: scene.scene_shut_modes_down
-  mode: restart
+  mode: single
 
 - id: '1609050516870'
   alias: Motion -> Home Mode
-  description: Set Mode to Home when door is opened
+  description: Set Mode to Home when motion is detected
   trigger:
   - type: motion
     platform: device
@@ -200,24 +196,15 @@
     - condition: state
       entity_id: input_boolean.away_mode
       state: 'off'
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: input_boolean.sleep_mode
-        state: 'on'
-  - condition: and
-    conditions:
+    - condition: state
+      entity_id: input_boolean.sleep_mode
+      state: 'on'
     - condition: state
       entity_id: binary_sensor.pressure_pillow_contact
       state: 'on'
   action:
   - service: input_boolean.turn_on
-    data: {}
     entity_id: input_boolean.study_mode
-  - type: turn_on
-    device_id: e517ecf3d35c4a76b89c4923ba76aa5b
-    entity_id: switch.light_switch_switch_l2
-    domain: switch
   mode: single
 
   # ======================================= #

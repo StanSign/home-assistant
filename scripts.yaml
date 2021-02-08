@@ -7,7 +7,7 @@ curtain_control:
         entity_id: sensor.curtain
         state: Closed
       sequence:
-      - service: cover.open_cover
+      - service: cover.close_cover
         data: {}
         entity_id: cover.curtain
     - conditions:
@@ -17,7 +17,7 @@ curtain_control:
           entity_id: sensor.curtainopenstate
           state: Closed
       sequence:
-      - service: cover.close_cover
+      - service: cover.open_cover
         data: {}
         entity_id: cover.curtain
     default: []

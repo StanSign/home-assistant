@@ -1,0 +1,28 @@
+
+  # ================================================ #
+  #                                                  #
+  #                     BOOLEAN                      #
+  #                                                  #
+  # ================================================ #
+
+study_mode:
+  name: Study
+  icon: mdi:lead-pencil
+game_mode:
+  name: Game
+  icon: mdi:gamepad-variant
+sleep_mode:
+  name: Sleep
+  icon: mdi:power-sleep
+away_mode:
+  name: Away
+  icon: mdi:account-arrow-right
+home_mode:
+  name: Home
+  icon: mdi:home
+  
+curtain:
+  name: Curtain Boolean
+  initial: off
+curtain_clicked:
+  name: Curtain State Triggered

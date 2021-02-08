@@ -8,6 +8,26 @@ homeassistant:
 
 lovelace:
   mode: yaml
+  resources:
+    [ {url: /hacsfiles/button-card/button-card.js,                                          type: module},
+      {url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js,                           type: module},
+      {url: /hacsfiles/lovelace-card-mod/card-mod.js,                                       type: module},
+      {url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js,                    type: module},
+      {url: /hacsfiles/rgb-light-card/card.js,                                              type: module},
+      {url: /hacsfiles/lovelace-slider-entity-row/slider-entity-row.js,                     type: module},
+      {url: /hacsfiles/lovelace-layout-card/layout-card.js,                                 type: module},
+      {url: /hacsfiles/lovelace-gap-card/gap-card.js,                                       type: module},
+      {url: /hacsfiles/mini-media-player/mini-media-player-bundle.js,                       type: module},
+      {url: /hacsfiles/kb-steam-card/kb-steam-card.js,                                      type: module},
+      {url: /hacsfiles/battery-state-card/battery-state-card.js,                            type: module},
+      {url: /hacsfiles/lovelace-hui-element/hui-element.js,                                 type: module},
+      {url: /hacsfiles/light-popup-card/light-popup-card.js,                                type: module},
+      {url: /hacsfiles/light-entity-card/light-entity-card.js,                              type: module},
+      {url: /hacsfiles/circle-sensor-card/circle-sensor-card.js,                            type: module},
+      {url: /hacsfiles/bar-card/bar-card.js,                                                type: module},
+      {url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js,                   type: module},
+      {url: /hacsfiles/swipe-card/swipe-card.js,                                            type: module},
+      {url: /hacsfiles/spotify-card/spotify-card.js,                                        type: module} ]
 
 frontend:
   themes: !include themes.yaml
@@ -21,7 +41,8 @@ cloud:
 group: !include groups.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
-input_boolean: !include input.yaml
+input_boolean: !include input_boolean.yaml
+input_datetime: !include input_datetime.yaml
 automation: !include automations.yaml
 sensor: !include sensors.yaml
 switch: !include switch.yaml
@@ -37,18 +58,13 @@ yeelight:
       save_on_change: true
       
 device_tracker:
-  - platform: nmap_tracker
-    hosts:
-      - 192.168.0.41
-    home_interval: 3
-
   - platform: iphonedetect
     consider_home: 60
     scan_interval: 12
     new_device_defaults:
       track_new_devices: true
     hosts:
-      hostname1: 192.168.0.41
+      hostname1: !secret iphone_detect
 
 weather:
   - platform: naver_weather
@@ -58,12 +74,12 @@ weather:
 browser_mod:
 
 spotify:
-  client_id: 32141ca6a618405983b837f98301b6c6
-  client_secret: 57e0bc78edc54696829cca548fc0d398
+  client_id: !secret spotify_id
+  client_secret: !secret spotify_secret
 
 spotcast:
-  sp_dc: AQCCoiuWbz2_xfc4Slx9znmsCGP97WAvECSh_nXt90SpFwCEGwInrVBKbmCDTRnUHWyAoWJR8iCZK8XfEE07Y0ieqZ7nR1n_-D9jmrCi5jkFqFlzQ_cExp2xVyrATSkBDbrRGPkRGD9ScqSrlfJ7k8irQT17e8v5vg
-  sp_key: 09c260a6-a194-40d1-b307-99fa8b82c343
+  sp_dc: !secret spotcast_dc
+  sp_key: !secret spotcast_key
 
 logger:
   default: warn
