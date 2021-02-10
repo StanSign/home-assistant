@@ -1,34 +1,57 @@
 curtain_control:
-  alias: Curtain_Control
+  alias: Curtain Control
   sequence:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: sensor.curtain
-        state: Closed
-      sequence:
-      - service: cover.close_cover
-        data: {}
-        entity_id: cover.curtain
-    - conditions:
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: sensor.curtainopenstate
-          state: Closed
-      sequence:
-      - service: cover.open_cover
-        data: {}
-        entity_id: cover.curtain
-    default: []
+    - choose:
+      - conditions:
+          - condition: state
+            entity_id: sensor.curtain
+            state: 'Closed'
+        sequence:
+          - service: cover.close_cover
+            entity_id: cover.curtain
+      - conditions:
+          - condition: state
+            entity_id: sensor.curtain
+            state: 'Open'
+        sequence:
+          - service: cover.open_cover
+            entity_id: cover.curtain
+      default: []
   mode: single
   icon: mdi:window-open-variant
-play_hip_hop:
+
+morning_routine:
+  alias: Gradually turn on Lights & open Curtain
   sequence:
-  - service: media_player.play_media
-    data:
-      entity_id: media_player.spotify_icangjun
-      media_content_id: https://open.spotify.com/playlist/1x9Arky8mKEVzFHBxyOSnp?si=vOBcd2tITE-EemT-FPlucw
-      media_content_type: playlist
+    - repeat:
+        while:
+          - condition: state
+            entity_id: input_boolean.morning_check
+            state: 'off'
+        sequence:
+          - service: light.turn_on
+            data_template:
+              entity_id: group.light
+              brightness: "{{ (states('input_number.morning_current_state') | int * 2.55) | round(1) }}"
+          - service: cover.set_cover_position
+            data_template:
+              entity_id: cover.curtain
+              position: "{{ states('input_number.morning_current_state') | int }}"
+          - service: input_number.increment
+            data:
+              entity_id: input_number.morning_current_state
+          - delay: 10
+              # minutes: 5
   mode: single
-  icon: mdi:playlist-music
+  icon: mdi:white-balance-sunny
+
+# play_hip_hop:
+#   - alias: Play HipHop Playlist From Spotify
+#     sequence:
+#       - service: media_player.play_media
+#         data:
+#           entity_id: media_player.spotify_icangjun
+#           media_content_id: https://open.spotify.com/playlist/1x9Arky8mKEVzFHBxyOSnp?si=vOBcd2tITE-EemT-FPlucw
+#           media_content_type: playlist
+#     mode: single
+#     icon: mdi:playlist-music

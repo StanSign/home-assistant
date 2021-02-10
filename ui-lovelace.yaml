@@ -403,6 +403,8 @@ views:
           # ==================================== #
 
           - type: 'custom:button-card'
+            triggers_update:
+              ['light.desk_bulb_light']
             entity: light.desk_bulb_light
             style:
               top: 64.5%
@@ -428,6 +430,8 @@ views:
           # ==================================== #
 
           - type: 'custom:button-card'
+            triggers_update:
+              ['light.xiaomi_desk_strip']
             entity: light.xiaomi_desk_strip
             style:
               top: 83.05%
@@ -453,6 +457,8 @@ views:
           # ========================================== #
 
           - type: 'custom:button-card'
+            triggers_update:
+              ['light.under_desk_strip_light']
             entity: light.under_desk_strip_light
             style:
               top: 83.05%
@@ -721,6 +727,37 @@ views:
             tap_action:
               action: navigate
               navigation_path: /lovelace/4
+
+          - type: 'state-label'
+            prefix: "Next Alarm : "
+            entity: sensor.placeholder
+            tap_action:
+              action: none
+            hold_action:
+              action: none
+            style:
+              color: 'var(--primary-text-color)'
+              font-family: SF Text
+              font-size: 1.1vw
+              max-width: 1px
+              cursor: default
+              top: 79%
+              left: 3%
+
+          - type: 'state-label'
+            prefix: " "
+            entity: input_datetime.morning
+            hold_action:
+              action: none
+            tap_action: !include popup/alarm.yaml
+            style:
+              color: 'var(--primary-text-color)'
+              font-family: SF Text
+              font-size: 1.1vw
+              max-width: 1px
+              cursor: default
+              top: 79%
+              left: 16%
 
           - type: 'custom:simple-weather-card'
             backdrop: false

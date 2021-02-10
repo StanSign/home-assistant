@@ -27,7 +27,8 @@ lovelace:
       {url: /hacsfiles/bar-card/bar-card.js,                                                type: module},
       {url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js,                   type: module},
       {url: /hacsfiles/swipe-card/swipe-card.js,                                            type: module},
-      {url: /hacsfiles/spotify-card/spotify-card.js,                                        type: module} ]
+      {url: /hacsfiles/spotify-card/spotify-card.js,                                        type: module},
+      {url: /hacsfiles/lovelace-time-picker-card/time-picker-card.js,                       type: module} ]
 
 frontend:
   themes: !include themes.yaml
@@ -43,6 +44,7 @@ script: !include scripts.yaml
 scene: !include scenes.yaml
 input_boolean: !include input_boolean.yaml
 input_datetime: !include input_datetime.yaml
+input_number: !include input_number.yaml
 automation: !include automations.yaml
 sensor: !include sensors.yaml
 switch: !include switch.yaml
@@ -68,7 +70,7 @@ device_tracker:
 
 weather:
   - platform: naver_weather
-    area: 'weather'
+    area: '경기도+부천시+상동+날씨'
     sensor_use: 'Y'
 
 browser_mod:

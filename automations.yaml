@@ -1,3 +1,9 @@
+  # ======================================= #
+  #                                         #
+  #                M O D E S                #
+  #                                         #
+  # ======================================= #
+
 - id: '1600589105104'
   alias: Study
   description: ''
@@ -130,10 +136,10 @@
     - platform: state
       entity_id: binary_sensor.motion_sensor_occupancy
       to: 'off'
-      for: 00:03:00
+      for: 00:05:00
   condition:
     - condition: state
-      entity_id: device_tracker.presence_sensor
+      entity_id: sensor.presence
       state: 'not_home'
     - condition: state
       entity_id: input_boolean.away_mode
@@ -159,7 +165,7 @@
   trigger:
     - platform: state
       entity_id: binary_sensor.pressure_pillow_contact
-      to: 'off'
+      to: 'off'  # pressed
   condition:
     - condition: and
       conditions:
@@ -180,21 +186,61 @@
       entity_id: binary_sensor.motion_sensor_occupancy
       to: 'on'
   condition:
-  - condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.away_mode
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.sleep_mode
-        state: 'on'
-      - condition: state
-        entity_id: binary_sensor.pressure_pillow_contact
-        state: 'on'
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.away_mode
+          state: 'off'
+        - condition: state
+          entity_id: input_boolean.sleep_mode
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.pressure_pillow_contact
+          state: 'on'
+        - "{{ states('sensor.time') >= (states.input_datetime.morning.attributes.timestamp | int) | timestamp_custom('%H:%M', False) }}"
   action:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.study_mode
+      entity_id: 
+        - input_boolean.study_mode
+        - input_boolean.morning_check
   mode: single
+
+- alias: Morning Routine
+  description: Gradually turn on Lights & open Curtain before Wake
+  initial_state: true
+  trigger:
+    - platform: template
+      value_template: "{{ states('sensor.time') == (((states.input_datetime.morning.attributes.timestamp | int ) - 20*60) | timestamp_custom('%H:%M', False)) }}"
+      # 30 minutes (1 min = 60 sec)
+  action:
+    - service: script.morning_routine
+  mode: single
+
+- alias: Full Wake Up
+  trigger:
+    - platform: state
+      entity_id: input_boolean.morning_check
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data:
+        entity_id: group.light
+        brightness: 255
+    - service: cover.set_cover_position
+      data:
+        entity_id: cover.curtain
+        position: 100
+
+- alias: Reset Day
+  initial_state: true
+  trigger:
+    - platform: time
+      at: "00:00:00"
+  action:
+    - service: input_number.reload
+      entity_id: input_number.morning_current_state
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.morning_check
 
   # ======================================= #
   #                                         #
@@ -202,7 +248,7 @@
   #                                         #
   # ======================================= #
 
-- alias: turn_off_loading_wheel
+- alias: Turn Off Loading Wheel
   initial_state: true
   trigger:
     - platform: state
@@ -214,7 +260,7 @@
         entity_id: >
           {{ trigger.entity_id | replace(trigger.entity_id.split('.')[0], 'input_boolean') }}
 
-- alias: turn_off_loading_wheel_failsafe
+- alias: Turn Off Loading Wheel-failsafe
   initial_state: true
   trigger:
     - platform: state

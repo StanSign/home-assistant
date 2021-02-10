@@ -26,3 +26,8 @@ curtain:
   initial: off
 curtain_clicked:
   name: Curtain State Triggered
+
+morning_check:
+  name: Morning Routine Check
+  initial: off
+  icon: mdi:white-balance-sunny

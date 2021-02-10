@@ -1,9 +1,6 @@
   - platform: version
     name: hass_version_installed
 
-  - platform: version
-    name: hass_version_latest
-
   - platform: rest
     name: hass_release_notes
     resource: https://api.github.com/repos/home-assistant/core/releases/latest
@@ -51,10 +48,6 @@
 
   - platform: dnsip
 
-  - platform: naver_weather
-    name: Weather
-    area: 'weather'
-
   - platform: template
     sensors:
       placeholder:
@@ -65,8 +58,17 @@
         friendly_name_template: >
           Installed {{ states('sensor.hass_version_installed') }}
         value_template: >
-          {{ 'Latest' if states('sensor.hass_version_installed') ==
-          states('sensor.hass_release_notes') else states('sensor.hass_release_notes') }}
+          {% if states('sensor.hass_version_installed') == states('sensor.hass_release_notes') %}
+            Latests
+          {% else %}
+            {{ states('sensor.hass_release_notes') }}
+          {% endif %}
+
+      hass_version_latest:
+        icon_template: 'mdi:package-up'
+        value_template: >
+          {{ state_attr('binary_sensor.updater', 'newest_version') }}
+        
 
       hass_version_template:
         icon_template: 'mdi:home-assistant'

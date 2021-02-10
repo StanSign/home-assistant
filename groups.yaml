@@ -1,0 +1,7 @@
+
+light:
+  name: Light
+  entities:
+    - light.desk_bulb_light
+    - light.under_desk_strip_light
+    - light.xiaomi_desk_strip

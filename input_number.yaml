@@ -1,0 +1,7 @@
+
+morning_current_state:
+  name: Current Morning Routine State
+  initial: 1
+  min: 1
+  max: 100
+  step: 20
