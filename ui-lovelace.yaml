@@ -365,23 +365,34 @@ views:
               --ha-card-border-radius: .88vw
             cards:
               - type: 'custom:mini-media-player'
-                entity: media_player.spotify_icangjun
-                artwork: full-cover-fit
+                artwork: full-cover
                 info: scroll
-                show_progress: true
-                right_view:
-                  when_right: false
-                  when_paused: false
-                  when_standby: false
+                entity: media_player.spotify_icangjun
                 hide:
+                  power: true
+                  progress: false
+                  runtime: false
                   volume: true
                   source: true
                   power_state: false
                   icon: true
                   sound_mode: false
-                  power: true
                   name: true
-                  
+                style: |
+                  :host {
+                    left: 0% !important;
+                    top: 39.8% !important;
+                    width: 100% !important;
+                    height: 100% !important;
+                  }
+                  ha-card{
+                    border-radius: 1vw !important;
+                    overflow: hidden !important;
+                    height: 100%;
+                  }
+                  :host #primaryProgress{
+                    background: none !important; 
+                  }
 
           # =================================================== #
           #                                                     #
@@ -830,7 +841,7 @@ views:
                 border-radius: 5vw;
                 overflow: hidden !important;
                 box-shadow: none !important;
-                padding: 0.1vw 0.9vw 0.7vw 1.05vw !important;
+                padding: 0.1vw 0.9vw 0.7vw 1.0vw !important;
               }
               ha-card.--inactive .mmp-player{
                 opacity: 0 !important;
@@ -1279,7 +1290,7 @@ views:
                 height: 100%;
               }
               :host #primaryProgress{
-                background: #474A52 !important; 
+                background: none !important; 
               }
               
           - type: 'custom:spotify-card'

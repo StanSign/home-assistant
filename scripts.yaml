@@ -40,8 +40,8 @@ morning_routine:
           - service: input_number.increment
             data:
               entity_id: input_number.morning_current_state
-          - delay: 10
-              # minutes: 5
+          - delay:
+              minutes: 5
   mode: single
   icon: mdi:white-balance-sunny
 
