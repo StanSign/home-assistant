@@ -14,9 +14,6 @@ game_mode:
 sleep_mode:
   name: Sleep
   icon: mdi:power-sleep
-away_mode:
-  name: Away
-  icon: mdi:account-arrow-right
 home_mode:
   name: Home
   icon: mdi:home

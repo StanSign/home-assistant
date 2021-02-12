@@ -28,6 +28,22 @@ mode:
     service_data:
       entity_id: '[[[ return entity.entity_id ]]]'
 
+round_button:
+  aspect_ratio: 1/1
+  show_name: false
+  show_state: false
+  show_icon: false
+  state:
+    - value: 'on'
+      styles:
+        card: [background-color: 'rgba(255, 255, 255, 0.6)']
+    - value: ''
+  tap_action:
+    action: toggle
+    haptic: light
+  styles:
+    card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, font-size: 1.3em, background-color: 'rgba(255, 255, 255, 0.2)', border-radius: 10vw, box-shadow: none, transition: none]
+
 sensor:
   template: base
   tap_action:
