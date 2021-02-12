@@ -4,7 +4,11 @@ home-assistant.log
 /.cloud
 /tts
 /deps
+/blueprints
+/themes
+/www/community
 .ip_authenticated.yaml
 aircast.xml
 home-assistant.code-workspace
 secrets.yaml
+googlecloud.json

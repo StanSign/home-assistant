@@ -82,9 +82,3 @@ spotify:
 spotcast:
   sp_dc: !secret spotcast_dc
   sp_key: !secret spotcast_key
-
-logger:
-  default: warn
-  logs:
-    custom_components.kakaotalk: debug
-    custom_components.kakao_talk: debug
