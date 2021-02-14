@@ -99,7 +99,6 @@
 
 - id: "1600591421096"
   alias: Away
-  description: ""
   trigger:
     - platform: state
       entity_id: sensor.presence
@@ -109,6 +108,20 @@
   action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.home_mode
+    - service: scene.turn_on
+      entity_id: scene.scene_shut_modes_down
+  mode: single
+
+- alias: Return Home
+  trigger:
+    - platform: state
+      entity_id: sensor.presence
+      to: home
+  action:
+    - service: input_boolean.turn_on
+      entity_id: 
+        - input_boolean.home_mode
+        - input_boolean.study_mode
   mode: single
 
 - id: "1609050516870"
@@ -252,7 +265,7 @@
   initial_state: true
   trigger:
     - platform: state
-      entity_id: ["switch.curtain"]
+      entity_id: ['switch.curtain', 'switch.desktop']
   action:
     - service: input_boolean.turn_off
       data:
@@ -263,7 +276,7 @@
   initial_state: true
   trigger:
     - platform: state
-      entity_id: ["input_boolean.curtain"]
+      entity_id: ['input_boolean.curtain', 'input_boolean.desktop']
       to: "on"
       for:
         minutes: 1

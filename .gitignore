@@ -12,3 +12,4 @@ aircast.xml
 home-assistant.code-workspace
 secrets.yaml
 googlecloud.json
+/custom_components

@@ -103,7 +103,7 @@ views:
           #                                                       #
           # ===================================================== #
 
-          - prefix: Mode
+          - prefix: Room
             <<: *title
             style:
               top: 8.15%
@@ -112,57 +112,115 @@ views:
 
           # ==================================== #
           #                                      #
-          #                A W A Y               #
+          #                  P C                 #
           #                                      #
           # ==================================== #
-
-          - type: "custom:button-card"
-            entity: input_boolean.home_mode
+          
+          - type: custom:button-card
+            entity: switch.desktop
+            triggers_update:
+              ['switch.desktop_wol', 'script.my_computer_shutdown', 'switch.desktop', 'input_boolean.desktop']
             style:
               top: 19.35%
               left: 31.81%
               width: 10%
+            tap_action:
+              action: toggle
+            hold_action: !include popup/desktop_info.yaml
             custom_fields:
-              away_home: >
-                [[[ const pin = entity.state === 'off' ? 'pinaway' : 'pinaway reverse'; const state = entity.state === 'off' ? 'away' : 'away reverse';
-                return `<svg viewBox="0 0 50 50"><style>.pinaway{animation: pinaway .7s cubic-bezier(.25,.46,.45,.94) both;}.away{animation: away .7s; cubic-bezier(.25,.46,.45,.94); transform-origin: center 20px; animation-fill-mode: both;}.reverse{animation-direction: reverse;}@keyframes pinaway{0%{fill:#2196F3}100%{fill:#9da0a2}}@keyframes away{0%{transform:rotate(0); fill:#FFFFFF}100%{transform:rotate(90deg); fill:#323536}}</style>
-                <path class="${pin}" d="M0,0 M50,50 M43,19c0,12.48-16.25,28.87-16.94,29.56C25.77,48.85,25.38,49,25,49c-0.38,0-0.77-0.15-1.06-0.44 C23.25,47.87,7,31.48,7,19C7,9.07,15.07,1,25,1S43,9.07,43,19z M0,0 M50,50"/>
-                <path class="${state}" d="M0,0 M50,50 M33.92,18c-0.21,0.6-0.78,1-1.42,1H31v7.5c0,0.83-0.67,1.5-1.5,1.5h-9c-0.83,0-1.5-0.67-1.5-1.5V19h-1.5c-0.64,0-1.21-0.4-1.42-1s-0.02-1.27,0.48-1.67l7.5-6c0.55-0.44,1.33-0.44,1.88,0l7.5,6C33.94,16.73,34.13,17.4,33.92,18z M0,0 M50,50"/></svg>`; ]]]
+              icon_imac: >
+                [[[ const boolean = states[entity.entity_id.replace(entity.entity_id.split('.')[0], 'input_boolean')].state;
+                const style = '<style>@keyframes animate_on{from{transform: scaleY(0);}to{transform: scaleY(1);}}.animate_on{animation: animate_on 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}@keyframes animate_off{from{transform: scaleY(1);}to{transform: scaleY(0);}}.animate_off{animation: animate_off 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}</style>';
+                const path = '<path d="M46 9.2v27.5H4.1V9.2H46m2.4-2.4H1.6v32.3h46.7c.1 0 .1-32.3.1-32.3zM11.9 43.2h26.3c.6 0 1.1-.4 1.1-1v-.3c0-.6-.4-1.1-1-1.1H11.9c-.6 0-1.1.4-1.1 1v.3a1.11 1.11 0 0 0 1.1 1.1z"/>';
+                const gradient = '<linearGradient id="A" gradientUnits="userSpaceOnUse" x1="5.401" y1="34.714" x2="43.817" y2="11.74"><stop offset="0" stop-color="#64acb7"/><stop offset="1" stop-color="#7fdbe9"/></linearGradient>';
+                if (entity.state === 'off' && boolean === 'off') { return `<svg viewBox="0 0 50 50"> ${style} ${gradient} <path class="animate_off" d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
+                if (entity.state === 'on' && boolean === 'off') { return `<svg viewBox="0 0 50 50"> ${style} ${gradient} <path d="M2.9,8h44.3v29.9H2.9V8z" fill="#20262890"/><path class="animate_on" d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
+                if (entity.state === 'on' && boolean === 'on') { return `<svg viewBox="0 0 50 50"> ${gradient} <path d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
+                else if (entity.state === 'off' && boolean === 'on') { return `<svg viewBox="0 0 50 50"> ${path} </svg>`; } ]]]
             styles:
               custom_fields:
-                away_home:
-                  [top: 11%, left: 5%, width: 3.1vw, position: absolute]
-            template: mode
+                icon_imac:
+                  [fill: "[[[ return entity.state === 'on' ? '#72757c' : '#9da0a2'; ]]]", 
+                  top: 8.5%, left: 11%, width: 3.3vw, position: absolute]
+            template: ['base', 'loader']
 
           # ==================================== #
           #                                      #
-          #               S L E E P              #
+          #             C U R T A I N            #
           #                                      #
           # ==================================== #
 
           - type: "custom:button-card"
-            entity: input_boolean.sleep_mode
+            entity: switch.curtain
+            triggers_update: ["switch.curtain", "input_boolean.curtain"]
             style:
               top: 19.35%
               left: 42.81%
               width: 10%
-            name: Sleep
+            name: Curtain
             custom_fields:
-              good_night: >
-                [[[ const state = entity.state === 'on' ? 'sleep' : 'awake';
-                return `<svg viewBox="0 0 50 50"><style>.sleep{animation:sleep 1s cubic-bezier(.25,.46,.45,.94) both;}.awake{animation: awake 1s;}@keyframes sleep{0%{opacity:1}40%{transform:translateZ(0);opacity:1}50%{opacity:.5}60%{opacity:0}65%{opacity:1}75%{opacity:.5}90%{opacity:}100%{opacity:0.5}100%{opacity:1}}@keyframes awake{0%{fill:#9E8CFA}100%{fill:#9DA0A2}}</style>
-                <path class="${state}" d="M34.88,37.58c-9.7,0-17.56-7.86-17.56-17.56c0-6.06,3.07-11.4,7.74-14.56c-0.54-0.04-1.09-0.06-1.64-0.06c-12.32,0-22.3,9.99-22.3,22.3S11.1,50,23.42,50c9.9,0,18.29-6.45,21.21-15.38C41.84,36.49,38.49,37.58,34.88,37.58z M0,0 M50,50"/></svg>`; ]]]
+              icon_curtain: >
+                [[[ const curtain_left = entity.state === 'on' ? 'left reverse' : 'left'; const curtain_right = entity.state === 'on' ? 'right reverse' : 'right';
+                return `<svg viewBox="0 0 50 50"> <style>.left{animation: left 2s both;}.right{animation: right 2s both;}.reverse{animation-direction: reverse;}@keyframes left{0% {transform: scaleX(0.4);transform-origin: 0% 0%;}100% {transform: scaleX(1);transform-origin: 0% 0%;fill: #9da0a2}}@keyframes right{0%{transform:scaleX(.4);transform-origin:100% 100%}100%{transform:scaleX(1);transform-origin:100% 100%;fill: #9da0a2}}</style>
+                <path fill="#9da0a2" d="M47.59,1.93H2.36c-0.78,0-1.41,0.27-1.41,0.61v2.05c0,0.34,0.63,0.61,1.41,0.61h45.23C48.37,5.2,49,4.93,49,4.59V2.54C49,2.2,48.37,1.93,47.59,1.93z"/>
+                <path class="${curtain_left}" d="M4.38,7.61V45.2c0,1.06,0.47,2.04,1.25,2.64c0.79,0.6,1.78,0.73,2.67,0.34c1.62-0.7,3.42-0.73,5.07-0.11l0.22,0.08c1.8,0.69,3.74,0.8,5.6,0.33l4.04-1.03c0.54-0.14,1.09-0.21,1.65-0.21V6.05H5.79C5.01,6.05,4.38,6.75,4.38,7.61z" fill="#ebc000"/>
+                <path class="${curtain_right}" d="M43.97,6.05H24.88v41.21c0.55,0,1.11,0.07,1.65,0.21l4.04,1.03c1.86,0.47,3.79,0.36,5.6-0.33l0.22-0.08c1.65-0.63,3.45-0.59,5.07,0.11c0.89,0.38,1.89,0.25,2.67-0.34c0.79-0.6,1.25-1.58,1.25-2.64V7.61C45.38,6.75,44.75,6.05,43.97,6.05z" fill="#ebc000"/></svg>`; ]]]
+              loader: >
+                [[[ if (states[entity.entity_id.replace(entity.entity_id.split('.')[0], 'input_boolean')].state === 'on') { 
+                return '<img src="/local/loader.svg" width="100%">'; } ]]]
+            aspect_ratio: 1/1
+            show_state: true
+            show_icon: false
+            state:
+              - value: "off"
+                styles:
+                  card: [background-color: "rgba(115, 115, 115, 0.2)"]
+                  name: [color: "rgba(255, 255, 255, 0.3)"]
+                  state: [color: "rgba(255, 255, 255, 0.15)"]
+            tap_action:
+              action: toggle
+            hold_action:
+              action: more-info
             styles:
+              name:
+                [
+                  top: 60%,
+                  left: 8%,
+                  line-height: 2vw,
+                  position: absolute,
+                  color: "rgba(0, 0, 0, 0.7)",
+                ]
+              card:
+                [
+                  font-family: Sf Display,
+                  letter-spacing: 0.05vw,
+                  font-weight: 400,
+                  font-size: 1.3em,
+                  background-color: "rgba(255, 255, 255, 0.8)",
+                  border-radius: 0.8vw,
+                  box-shadow: none,
+                  transition: none,
+                ]
+              state:
+                [
+                  top: 78%,
+                  left: 8%,
+                  line-height: 2vw,
+                  position: absolute,
+                  color: "rgba(0, 0, 0, 0.35)",
+                ]
               custom_fields:
-                good_night:
+                icon_curtain:
+                  [top: 6%, left: 5.6%, width: 2.8vw, position: absolute]
+                loader:
                   [
-                    top: 9%,
-                    left: 9%,
-                    width: 3.05vw,
+                    filter: "[[[ return states['input_boolean.curtain_clicked'].state === 'on' ? 'invert(1)' : 'none'; ]]]",
+                    top: 3%,
+                    left: 60%,
+                    width: 3.7vw,
                     position: absolute,
-                    fill: "[[[ return entity.state === 'on' ? '#9E8CFA' : '#9DA0A2'; ]]]",
+                    opacity: 0.6,
                   ]
-            template: mode
 
           # ==================================== #
           #                                      #

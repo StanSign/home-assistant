@@ -45,13 +45,49 @@ morning_routine:
   mode: single
   icon: mdi:white-balance-sunny
 
-# play_hip_hop:
-#   - alias: Play HipHop Playlist From Spotify
-#     sequence:
-#       - service: media_player.play_media
-#         data:
-#           entity_id: media_player.spotify_icangjun
-#           media_content_id: https://open.spotify.com/playlist/1x9Arky8mKEVzFHBxyOSnp?si=vOBcd2tITE-EemT-FPlucw
-#           media_content_type: playlist
-#     mode: single
-#     icon: mdi:playlist-music
+my_computer_wake:
+  alias: "My Computer - Wake"
+  sequence:
+    - service: wake_on_lan.send_magic_packet
+      data:
+        mac: !secret wol_mac_addr
+
+my_computer_shutdown:
+  alias: "My Computer - Shutdown"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/hubline/stansign_win/commands/shutdown"
+        payload: ""
+
+my_computer_reboot:
+  alias: "My Computer - Reboot"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/hubline/stansign_win/commands/reboot"
+        payload: ""
+
+my_computer_vol_mute:
+  alias: "My Computer - Toggle Mute"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/hubline/stansign_win/commands/volume/mute"
+        payload: ""
+
+my_computer_vol_max:
+  alias: "My Computer - Vol Max"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/hubline/stansign_win/commands/volume/set"
+        payload: "100"
+
+my_computer_refresh:
+  alias: "My Computer - Refresh"
+  sequence:
+    - service: mqtt.publish
+      data:
+        topic: "iotlink/hubline/stansign_win/refresh"
+        payload: ""

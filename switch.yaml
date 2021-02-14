@@ -1,3 +1,10 @@
+  - platform: wake_on_lan
+    mac: !secret wol_mac_addr
+    name: "Desktop_WOL"
+    host: !secret wol_ip_addr
+    turn_off:
+      service: script.my_computer_shutdown
+
   - platform: template
     switches:
       curtain:
@@ -16,3 +23,18 @@
           - service: input_boolean.turn_off
             entity_id: input_boolean.curtain_clicked
           - service: script.curtain_control
+
+      desktop:
+        friendly_name: Desktop
+        icon_template: mdi:monitor
+        value_template: "{{ is_state('switch.desktop_wol', 'on') }}"
+        turn_on:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.desktop
+          - service: switch.turn_on
+            entity_id: switch.desktop_wol
+        turn_off:
+          - service: input_boolean.turn_on
+            entity_id: input_boolean.desktop
+          - service: switch.turn_off
+            entity_id: switch.desktop_wol

@@ -24,6 +24,10 @@ curtain:
 curtain_clicked:
   name: Curtain State Triggered
 
+desktop:
+  name: Desktop
+  initial: off
+
 morning_check:
   name: Morning Routine Check
   initial: off
