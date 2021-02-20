@@ -1,2 +1,2 @@
 <svg viewBox="0 0 50 50"><style>@keyframes animate{from{opacity: 0.5; transform: scale(0.6);}100%{opacity: 1;}}.animate{animation: animate 0.8s cubic-bezier(0.25, 1, 0.5, 1); transform-origin: center;}</style>
-                <path class="${state}" d="M31.9 44.5c-1-.3-1.9.4-1.9-3.7h-9.9c0 4.2-.9 3.4-1.9 3.7s-.2.7-.2.7h14.1s.8-.3-.2-.7zM47.6 4.8H2.5c-1.1 0-2 .9-2 2v30.1c0 1.1.9 2 2 2h45c1.1 0 2-.9 2-2v-30a1.95 1.95 0 0 0-1.9-2.1zm-.7 26.4H3.2V7.6H47v23.6z"/></svg>
+                <path class="${state}" <path d="M46 9.2v27.5H4.1V9.2H46m2.4-2.4H1.6v32.3h46.7c.1 0 .1-32.3.1-32.3zM11.9 43.2h26.3c"/>/></svg>

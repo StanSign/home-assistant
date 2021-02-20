@@ -32,3 +32,8 @@ morning_check:
   name: Morning Routine Check
   initial: off
   icon: mdi:white-balance-sunny
+
+guest:
+  name: Guest Check
+  initial: off
+  icon: mdi:account-tie

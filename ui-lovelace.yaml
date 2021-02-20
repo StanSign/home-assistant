@@ -103,7 +103,7 @@ views:
           #                                                       #
           # ===================================================== #
 
-          - prefix: Room
+          - prefix: Appliance
             <<: *title
             style:
               top: 8.15%
@@ -126,7 +126,7 @@ views:
               width: 10%
             tap_action:
               action: toggle
-            hold_action: !include popup/desktop_info.yaml
+            hold_action: !include popup/desktop.yaml
             custom_fields:
               icon_imac: >
                 [[[ const boolean = states[entity.entity_id.replace(entity.entity_id.split('.')[0], 'input_boolean')].state;
@@ -211,7 +211,7 @@ views:
                 ]
               custom_fields:
                 icon_curtain:
-                  [top: 6%, left: 5.6%, width: 2.8vw, position: absolute]
+                  [top: 10.2%, left: 9.7%, width: 2.8vw, position: absolute]
                 loader:
                   [
                     filter: "[[[ return states['input_boolean.curtain_clicked'].state === 'on' ? 'invert(1)' : 'none'; ]]]",
@@ -227,31 +227,10 @@ views:
           #               S T U D Y              #
           #                                      #
           # ==================================== #
-
-          - type: "custom:button-card"
-            entity: input_boolean.study_mode
-            style:
-              top: 37.9%
-              left: 31.81%
-              width: 10%
-            name: Study
-            custom_fields:
-              icon_study: >
-                [[[ const state = entity.state === 'on' ? 'study' : null; const right = entity.state === 'on' ? 'right' : null;
-                return `<svg viewBox="0 0 50 50"><style>.study{animation: study 1.2s cubic-bezier(.36,.07,.57,.99) both;}.right{animation: right 1.2s cubic-bezier(.36,.07,.57,.99) both;}@keyframes study{0%{transform:rotate(0deg);transform-origin:50% 0;fill:#9da0a2}10%{transform:rotate(2deg);fill:#484357}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}100%{transform:rotate(0deg);transform-origin:50% 0;fill:#484357}}@keyframes right{0%,100%{transform:rotate(0deg);transform-origin:50% 0}10%{transform:rotate(2deg)}20%,40%,60%{transform:rotate(-4deg)}30%,50%,70%{transform:rotate(4deg)}80%{transform:rotate(-2deg)}90%{transform:rotate(2deg)}}</style>
-                <g class="${state}"><path d="M13.41,36.11c1.44,1.64,2.58,3.57,2.89,5.13l29.5-28.22l0.03,0.03c0,0,0.05-0.05,0.09-0.15l0,0l0,0c0.18-0.42,0.27-1.81-3.1-5.34c-3.37-3.52-4.76-3.49-5.19-3.34l-0.06-0.07L8.14,32.31C9.67,32.7,11.68,34.12,13.41,36.11z M0,0 M50,50"/><path d="M3.29,43.52c-0.14,0.11-0.45,0.81-0.18,1.12c0.11,0.12,0.29,0.17,0.48,0.17c0.29,0,0.59-0.1,0.67-0.17 l1.27-1.07c0.01-0.01,0.01-0.02,0.02-0.03c0.1-0.13,0-0.45-0.25-0.73c-0.2-0.23-0.43-0.37-0.59-0.39c-0.01,0-0.02-0.01-0.03-0.01c-0.05,0-0.09,0.01-0.12,0.04L3.29,43.52z M0,0 M50,50"/></g>
-                <path class="${right}" fill="#9da0a2" d="M4.75,41.65c0.54,0.04,0.97,0.46,1.14,0.65c0.34,0.39,0.52,0.83,0.49,1.21c0,0,0,0.01,0,0.01l5.19-0.61 l1.13-0.13l1.52-0.18c0.09,0.02,0.19,0.04,0.27,0.04c0.11,0,0.25-0.02,0.34-0.09c0.11-0.09,0.16-0.3,0.15-0.59c-0.04-0.93-0.75-2.77-2.63-4.91c-1.95-2.23-4.02-3.43-4.98-3.43c-0.1,0-0.22,0.01-0.29,0.07c0,0,0,0,0,0c-0.1,0.09-0.14,0.3-0.12,0.6l-0.4,1.34l-0.32,1.07L4.75,41.65z M0,0 M50,50"/></svg>`; ]]]
-            styles:
-              custom_fields:
-                icon_study:
-                  [
-                    top: 9%,
-                    left: 9%,
-                    width: 3.05vw,
-                    position: absolute,
-                    fill: "[[[ return entity.state === 'on' ? null : '#9da0a2'; ]]]",
-                  ]
-            template: mode
+            # style:
+            #   top: 37.9%
+            #   left: 31.81%
+            #   width: 10%
 
           # ==================================== #
           #                                      #
@@ -259,23 +238,10 @@ views:
           #                                      #
           # ==================================== #
 
-          - type: "custom:button-card"
-            entity: input_boolean.game_mode
-            style:
-              top: 37.9%
-              left: 42.81%
-              width: 10%
-            name: Game
-            custom_fields:
-              icon_ps4: >
-                [[[ if (entity.state === 'on') { return '<svg viewBox="0 0 50 50"> <style>@keyframes animate{50%{transform: translateY(0);}100%{transform: translateY(-45%);}}.animate{animation: animate 2s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;}</style>
-                <g style="clip-path: url(#mask);"><g class="animate"><path fill="#00aa9e" d="M49.2 38.9l-75.6-25.1v7.4l75.6 25.2z"/><path fill="#f3c202" d="M49.2 46.4l-75.6-25.2v7.5l75.6 25.1z"/><path fill="#326db3" d="M49.2 53.8l-75.6-25.1V51l75.6 25.1zm0-22.3L-26.4 6.4v7.4l75.6 25.1z"/></g></g>
-                <defs><clipPath id="mask"><path d="M47.5 33.2c-.5-2.2-3.9-3.5-9.1-3.9-3.8-.3-7.5.6-11.1 1.9l-.6.2v-5.7l-5.7.8-4.6 1.6L6 31.9h-.1c-1.9.7-3.8 2.2-3.7 4.2.1 2.1 4.7 2.6 8.2 3.2 3.3.6 6.2.2 8.9-.7l7.3 4.8L33 41l10.7-4h.1c2.8-1 4-2.5 3.7-3.8zm-31.3 2l-3.6 1.3c-2.2.8-4.1-1.1-2.1-1.9l1.7-.6 7.2-2.7v2.8l-3.2 1.1zm22.5-1.1l-1.9.7-10.2 3.7V36l6.5-2.4 3.8-1.3c4-.9 5.6.5 1.8 1.8z"/></clipPath></defs><path fill="#de0029" d="M26.7 14.6v28.7l-7.3-2.5V7.1l9.3 2.6c6 1.7 9.6 5 9.6 10.7-.1 6.7-3 9.4-8.7 7.6V14.9c-.1-1.6-2.9-1.7-2.9-.3h0z"/></svg>'; }
-                else { return '<svg viewBox="0 0 50 50"><path fill="#9da0a2" d="M43.8 37h-.1l-10.6 4-4.2 1.6v-4.9l8-2.9 1.9-.7c3.8-1.3 2.2-2.7-1.8-1.9l-3.8 1.3-4.3 1.6v-4.5c3.1-1 6.3-1.6 9.5-1.4 5.3.4 8.7 1.6 9.1 3.9.3 1.4-.9 2.9-3.7 3.9zm-26.7-2.1l-.9.3-3.6 1.3c-2.2.8-4.1-1.1-2.1-1.9l1.7-.6 5-1.9v-4.2l-.6.2L6 31.9h-.1c-1.9.7-3.8 2.2-3.7 4.2.1 2.1 4.7 2.6 8.2 3.2 2.4.4 4.6.3 6.7-.1v-4.3zm12.4-20V28c5.7 1.7 8.7-.9 8.7-7.6.1-5.7-3.6-9-9.6-10.7l-9.3-2.6v33.8l7.2 2.5.1.1V14.6c.1-1.4 2.9-1.3 2.9.3z"/></svg>'; } ]]]
-            styles:
-              custom_fields:
-                icon_ps4: [top: 7%, left: 9%, width: 3.2vw, position: absolute]
-            template: mode
+            # style:
+            #   top: 37.9%
+            #   left: 42.81%
+            #   width: 10%
 
           # ===================================================== #
           #                                                       #
@@ -333,84 +299,14 @@ views:
           #                                                       #
           # ===================================================== #
 
-          - prefix: Curtain
-            <<: *title
-            style:
-              top: 8.15%
-              left: 76.6%
-              <<: *title-style
+            # style:
+            #   top: 8.15%
+            #   left: 76.6%
 
-          - type: "custom:button-card"
-            entity: switch.curtain
-            triggers_update: ["switch.curtain", "input_boolean.curtain"]
-            style:
-              top: 19.35%
-              left: 81.55%
-              width: 10%
-            name: Curtain
-            custom_fields:
-              icon_curtain: &icon_curtain >
-                [[[ const curtain_left = entity.state === 'on' ? 'left reverse' : 'left'; const curtain_right = entity.state === 'on' ? 'right reverse' : 'right';
-                return `<svg viewBox="0 0 50 50"> <style>.left{animation: left 2s both;}.right{animation: right 2s both;}.reverse{animation-direction: reverse;}@keyframes left{0% {transform: scaleX(0.4);transform-origin: 0% 0%;}100% {transform: scaleX(1);transform-origin: 0% 0%;fill: #9da0a2}}@keyframes right{0%{transform:scaleX(.4);transform-origin:100% 100%}100%{transform:scaleX(1);transform-origin:100% 100%;fill: #9da0a2}}</style>
-                <path fill="#9da0a2" d="M47.59,1.93H2.36c-0.78,0-1.41,0.27-1.41,0.61v2.05c0,0.34,0.63,0.61,1.41,0.61h45.23C48.37,5.2,49,4.93,49,4.59V2.54C49,2.2,48.37,1.93,47.59,1.93z"/>
-                <path class="${curtain_left}" d="M4.38,7.61V45.2c0,1.06,0.47,2.04,1.25,2.64c0.79,0.6,1.78,0.73,2.67,0.34c1.62-0.7,3.42-0.73,5.07-0.11l0.22,0.08c1.8,0.69,3.74,0.8,5.6,0.33l4.04-1.03c0.54-0.14,1.09-0.21,1.65-0.21V6.05H5.79C5.01,6.05,4.38,6.75,4.38,7.61z" fill="#ebc000"/>
-                <path class="${curtain_right}" d="M43.97,6.05H24.88v41.21c0.55,0,1.11,0.07,1.65,0.21l4.04,1.03c1.86,0.47,3.79,0.36,5.6-0.33l0.22-0.08c1.65-0.63,3.45-0.59,5.07,0.11c0.89,0.38,1.89,0.25,2.67-0.34c0.79-0.6,1.25-1.58,1.25-2.64V7.61C45.38,6.75,44.75,6.05,43.97,6.05z" fill="#ebc000"/></svg>`; ]]]
-              loader: &loader >
-                [[[ if (states[entity.entity_id.replace(entity.entity_id.split('.')[0], 'input_boolean')].state === 'on') { 
-                return '<img src="/local/loader.svg" width="100%">'; } ]]]
-            aspect_ratio: 1/1
-            show_state: true
-            show_icon: false
-            state:
-              - value: "off"
-                styles:
-                  card: [background-color: "rgba(115, 115, 115, 0.2)"]
-                  name: [color: "rgba(255, 255, 255, 0.3)"]
-                  state: [color: "rgba(255, 255, 255, 0.15)"]
-            tap_action:
-              action: toggle
-            hold_action:
-              action: more-info
-            styles:
-              name:
-                [
-                  top: 60%,
-                  left: 8%,
-                  line-height: 2vw,
-                  position: absolute,
-                  color: "rgba(0, 0, 0, 0.7)",
-                ]
-              card:
-                [
-                  font-family: Sf Display,
-                  letter-spacing: 0.05vw,
-                  font-weight: 400,
-                  font-size: 1.3em,
-                  background-color: "rgba(255, 255, 255, 0.8)",
-                  border-radius: 0.8vw,
-                  box-shadow: none,
-                  transition: none,
-                ]
-              state:
-                [
-                  top: 78%,
-                  left: 8%,
-                  line-height: 2vw,
-                  position: absolute,
-                  color: "rgba(0, 0, 0, 0.35)",
-                ]
-              custom_fields:
-                icon_curtain:
-                  [top: 6%, left: 5.6%, width: 2.8vw, position: absolute]
-                loader:
-                  [
-                    filter: "[[[ return states['input_boolean.curtain_clicked'].state === 'on' ? 'invert(1)' : 'none'; ]]]",
-                    top: 3%,
-                    left: 60%,
-                    width: 3.7vw,
-                    position: absolute,
-                    opacity: 0.6,
-                  ]
+            # style:
+            #   top: 19.35%
+            #   left: 81.55%
+            #   width: 10%
 
           # ================================================ #
           #                                                  #

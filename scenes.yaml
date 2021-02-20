@@ -1,394 +1,89 @@
 - id: scene_study_mode
   name: Scene_Study
+  icon: mdi:lead-pencil
   entities:
     light.desk_bulb_light:
-      effect_list:
-      - blink
-      - breathe
-      - okay
-      - channel_change
-      - finish_effect
-      - stop_effect
-      brightness: 251
-      hs_color:
-      - 0
-      - 0.784
-      rgb_color:
-      - 255
-      - 253
-      - 253
-      xy_color:
-      - 0.325
-      - 0.329
-      color:
-        x: 0.324
-        y: 0.329
-      linkquality: 73
       state: 'on'
-      update:
-        state: idle
-      update_available: false
-      friendly_name: Desk Bulb light
-      supported_features: 61
-    light.xiaomi_desk_strip:
-      min_mireds: 153
-      max_mireds: 588
-      effect_list:
-      - Strobe color
-      - Police
-      - Christmas
-      - RGB
-      - Random Loop
-      - Fast Random Loop
-      - LSD
-      - Slowdown
-      - Disco
-      - Strobe epilepsy!
-      - Alarm
-      - Police2
-      - WhatsApp
-      - Facebook
-      - Twitter
-      - Slow Temp
-      - Stop
       brightness: 255
-      color_temp: 153
-      hs_color:
-      - 34.286
-      - 2.745
-      rgb_color:
-      - 255
-      - 252
-      - 248
-      xy_color:
-      - 0.329
-      - 0.333
-      flowing: false
-      friendly_name: Xiaomi Desk Strip
-      supported_features: 63
+      xy_color: [0.443, 0.379]
+    light.xiaomi_desk_strip:
       state: 'on'
+      brightness: 255
+      xy_color: [0.443, 0.379]
     light.under_desk_strip_light:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - blink
-      - breathe
-      - okay
-      - channel_change
-      - finish_effect
-      - stop_effect
-      brightness: 254
-      color_temp: 153
-      hs_color:
-      - 210
-      - 4.706
-      rgb_color:
-      - 242
-      - 248
-      - 255
-      xy_color:
-      - 0.312
-      - 0.322
-      color:
-        x: 0.313059507478705
-        y: 0.323172994053855
-      linkquality: 73
       state: 'on'
-      friendly_name: Under Desk Strip light
-      supported_features: 63
-  icon: mdi:lead-pencil
+      brightness: 255
+      xy_color: [0.443, 0.379]
+
 - id: scene_game_mode
   name: Scene_Game
+  icon: mdi:gamepad-variant
   entities:
     light.desk_bulb_light:
-      effect_list:
-      - blink
-      - breathe
-      - okay
-      - channel_change
-      - finish_effect
-      - stop_effect
-      brightness: 250
-      hs_color:
-      - 299.754
-      - 95.686
+      state: 'on'
+      brightness: 255
       rgb_color:
       - 253
       - 11
       - 255
-      xy_color:
-      - 0.383
-      - 0.154
-      color:
-        x: 0.385
-        y: 0.155
-      linkquality: 89
-      state: 'on'
-      update:
-        state: idle
-      update_available: false
-      friendly_name: Desk Bulb light
-      supported_features: 61
     light.xiaomi_desk_strip:
-      min_mireds: 153
-      max_mireds: 588
-      effect_list:
-      - Strobe color
-      - Police
-      - Christmas
-      - RGB
-      - Random Loop
-      - Fast Random Loop
-      - LSD
-      - Slowdown
-      - Disco
-      - Strobe epilepsy!
-      - Alarm
-      - Police2
-      - WhatsApp
-      - Facebook
-      - Twitter
-      - Slow Temp
-      - Stop
+      state: 'on'
       brightness: 255
-      color_temp: 153
-      hs_color:
-      - 195.059
-      - 100
       rgb_color:
       - 0
       - 190
       - 255
-      xy_color:
-      - 0.146
-      - 0.237
-      flowing: false
-      friendly_name: Xiaomi Desk Strip
-      supported_features: 63
-      state: 'on'
     switch.light_switch_switch_l1:
-      linkquality: 99
-      state_l1: 'OFF'
-      state_l2: 'OFF'
-      friendly_name: Balcony
       state: 'off'
     switch.light_switch_switch_l2:
-      linkquality: 99
-      state_l1: 'OFF'
-      state_l2: 'OFF'
-      friendly_name: Room
       state: 'off'
     light.under_desk_strip_light:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - blink
-      - breathe
-      - okay
-      - channel_change
-      - finish_effect
-      - stop_effect
-      brightness: 251
-      color_temp: 60
-      hs_color:
-      - 195.178
-      - 99.216
+      state: 'on'
+      brightness: 255
       rgb_color:
       - 1
       - 190
       - 255
-      xy_color:
-      - 0.146
-      - 0.237
-      color:
-        x: 0.146
-        y: 0.238
-      state: 'on'
-      friendly_name: Under Desk Strip light
-      supported_features: 63
-  icon: mdi:gamepad-variant
+
 - id: scene_sleep_mode
   name: Scene_Sleep
   entities:
     light.desk_bulb_light:
-      effect_list:
-      - blink
-      - breathe
-      - okay
-      - channel_change
-      - finish_effect
-      - stop_effect
-      brightness: 251
-      color:
-        x: 0.324
-        y: 0.329
-      linkquality: 76
       state: 'off'
-      update:
-        state: idle
-      update_available: false
-      friendly_name: Desk Bulb light
-      supported_features: 61
     light.xiaomi_desk_strip:
-      min_mireds: 153
-      max_mireds: 588
-      effect_list:
-      - Strobe color
-      - Police
-      - Christmas
-      - RGB
-      - Random Loop
-      - Fast Random Loop
-      - LSD
-      - Slowdown
-      - Disco
-      - Strobe epilepsy!
-      - Alarm
-      - Police2
-      - WhatsApp
-      - Facebook
-      - Twitter
-      - Slow Temp
-      - Stop
-      flowing: false
-      friendly_name: Xiaomi Desk Strip
-      supported_features: 63
       state: 'off'
     switch.light_switch_switch_l1:
-      linkquality: 99
-      state_l1: 'OFF'
-      state_l2: 'OFF'
-      friendly_name: Balcony
       state: 'off'
     switch.light_switch_switch_l2:
-      linkquality: 99
-      state_l1: 'OFF'
-      state_l2: 'OFF'
-      friendly_name: Room
       state: 'off'
     light.under_desk_strip_light:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - blink
-      - breathe
-      - okay
-      - channel_change
-      - finish_effect
-      - stop_effect
-      brightness: 254
-      color:
-        x: 0.313059507478705
-        y: 0.323172994053855
-      color_temp: 153
-      linkquality: 73
       state: 'off'
-      friendly_name: Under Desk Strip light
-      supported_features: 63
+    switch.desktop:
+      state: 'off'
   icon: mdi:power-sleep
+
 - id: scene_all_off
   name: Scene_Shut Down
+  icon: mdi:lightbulb-off
   entities:
     light.desk_bulb_light:
-      effect_list:
-      - blink
-      - breathe
-      - okay
-      - channel_change
-      - finish_effect
-      - stop_effect
-      brightness: 250
-      color:
-        x: 0.325
-        y: 0.329
-      linkquality: 126
       state: 'off'
-      update:
-        state: idle
-      update_available: false
-      friendly_name: Desk_Bulb
-      supported_features: 61
     light.xiaomi_desk_strip:
-      min_mireds: 153
-      max_mireds: 588
-      effect_list:
-      - Strobe color
-      - Police
-      - Christmas
-      - RGB
-      - Random Loop
-      - Fast Random Loop
-      - LSD
-      - Slowdown
-      - Night Mode
-      - Date Night
-      - Movie
-      - Sunrise
-      - Sunset
-      - Romance
-      - Happy Birthday
-      - Disco
-      - Strobe epilepsy!
-      - Alarm
-      - Police2
-      - WhatsApp
-      - Facebook
-      - Twitter
-      - Home
-      - Candle Flicker
-      - Slow Temp
-      - Stop
-      flowing: false
-      friendly_name: Xiaomi Desk Strip
-      supported_features: 63
       state: 'off'
     switch.light_switch_switch_l1:
-      linkquality: 118
-      state_l1: 'OFF'
-      state_l2: 'OFF'
-      friendly_name: Light_Switch_l1
       state: 'off'
     switch.light_switch_switch_l2:
-      linkquality: 118
-      state_l1: 'OFF'
-      state_l2: 'OFF'
-      friendly_name: Light_Switch_l2
       state: 'off'
     light.under_desk_strip_light:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - blink
-      - breathe
-      - okay
-      - channel_change
-      - finish_effect
-      - stop_effect
-      brightness: 253
-      color:
-        x: 0.312
-        y: 0.322
-      color_temp: 144
       state: 'off'
-      friendly_name: Under_Desk_Strip
-      supported_features: 63
-  icon: mdi:lightbulb-off
+
 - id: '1609473072091'
   name: Scene_Shut_Modes_Down
+  icon: mdi:cancel
   entities:
     input_boolean.game_mode:
-      editable: false
-      friendly_name: Game
-      icon: mdi:gamepad-variant
       state: 'off'
     input_boolean.sleep_mode:
-      editable: false
-      friendly_name: Sleep
-      icon: mdi:power-sleep
       state: 'off'
     input_boolean.study_mode:
-      editable: false
-      friendly_name: Study
-      icon: mdi:lead-pencil
       state: 'off'
-  icon: mdi:cancel
