@@ -1,0 +1,87 @@
+  action: call-service
+  service: browser_mod.popup
+  service_data:
+    title: Stands
+    deviceID: this
+    hide_header: true
+    style:
+      .: |
+         :host .content {
+           width: calc(210px + 210px);
+           max-width: 90vw;
+         }
+      $: |
+         .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+           background: none !important;
+         }
+    card:
+      type: "custom:layout-card"
+      column_num: 2
+      column_width: [210, 210]
+      layout: vertical
+      cards:
+        - type: "custom:button-card"
+          triggers_update: ["light.stand_bulb_left"]
+          entity: light.stand_bulb_left
+          name: Left
+          custom_fields:
+            icon_hue: &icon_hue >
+              [[[ const state = entity.state === 'on' ? 'animate' : null;
+              return `<svg viewBox="0 0 50 50"><style>@keyframes animate{0%{transform: scale(0.85);}20%{transform: scale(1.1);}40%{transform: scale(0.95);}60%{transform: scale(1.03);}80%{transform: scale(0.97);}100%{transform: scale(1);}}.animate{animation: animate 0.8s; transform-origin: center;}</style>
+              <path fill="#9da0a2" d="M27.4 47.3h-4.9s-.7.1-.7.8.4.9.7.9h4.9c.3 0 .7-.1.7-.9s-.7-.8-.7-.8zm3.3-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-3H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9-.1-.8-.9-.8-.9-.8zm0-2.9H19.3s-.8 0-.8.8.6.9.8.9h11.5c.2 0 .8-.1.8-.9s-.9-.8-.9-.8zm5.2-23.2c-3.3-5.3-7-5.6-10.9-5.6-3.8 0-8.4.4-10.9 5.6-.1.1-.1.3.1.7.4.8 3.3 7.2 3.2 18.8 0 1.1-.1 1.6 0 1.7 0 .1 0 .7 1.1.7h13c1 0 1-.5 1.1-.7v-1.7c-.1-11.6 2.8-18 3.2-18.8.1-.4.1-.5.1-.7"/>
+              <path class="${state}" fill="var(--button-card-light-color-no-temperature)" d="M14.1 15.3c3.4-.3 7-.4 10.9-.4 3.8 0 7.5.2 10.9.4.4-.4.7-.8.9-1.1C39 8.5 38.9 6.5 38.9 6c-.2-4.4-8.4-5-12.1-5h0-3.4c-3.7 0-12 .5-12.1 5 0 .5-.1 2.5 2.1 8.2 0 .3.3.8.7 1.1z"/></svg>`; ]]]
+          aspect_ratio: 1/1
+          show_state: true
+          show_icon: false
+          state:
+            - value: 'on'
+              styles:
+                card: [background-color: 'rgba(255, 255, 255, 1)']
+                name: [color: 'rgba(0, 0, 0, 0.7)']
+                state: [color: 'rgba(0, 0, 0, 0.35)']
+            - value: 'off'
+              styles:
+                name: [color: 'rgba(255, 255, 255, 0.3)']
+                state: [color: 'rgba(255, 255, 255, 0.15)']
+          tap_action:
+            action: toggle
+            haptic: light
+          styles:
+              name: [top: 60%, left: 8%, line-height: 2vw, position: absolute]
+              state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]
+              card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, font-size: 1.3em, background-color: 'rgba(115, 115, 115, 1)', border-radius: 0.8vw, box-shadow: none, transition: none]
+              custom_fields:
+                icon_hue:
+                  [top: 11%, left: 4.5%, width: 3.05vw, position: absolute]
+
+        - break
+
+        - type: "custom:button-card"
+          triggers_update: ["light.stand_bulb_right"]
+          entity: light.stand_bulb_right
+          name: Right
+          custom_fields:
+            icon_hue: *icon_hue
+          aspect_ratio: 1/1
+          show_state: true
+          show_icon: false
+          state:
+            - value: 'on'
+              styles:
+                card: [background-color: 'rgba(255, 255, 255, 1)']
+                name: [color: 'rgba(0, 0, 0, 0.7)']
+                state: [color: 'rgba(0, 0, 0, 0.35)']
+            - value: 'off'
+              styles:
+                name: [color: 'rgba(255, 255, 255, 0.3)']
+                state: [color: 'rgba(255, 255, 255, 0.15)']
+          tap_action:
+            action: toggle
+            haptic: light
+          styles:
+              name: [top: 60%, left: 8%, line-height: 2vw, position: absolute]
+              state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]
+              card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, font-size: 1.3em, background-color: 'rgba(115, 115, 115, 1)', border-radius: 0.8vw, box-shadow: none, transition: none]
+              custom_fields:
+                icon_hue:
+                  [top: 11%, left: 4.5%, width: 3.05vw, position: absolute]

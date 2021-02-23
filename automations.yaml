@@ -24,6 +24,25 @@
         - input_boolean.game_mode
   mode: single
 
+- alias: Mood
+  trigger:
+    - platform: state
+      entity_id: input_boolean.study_mode
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: and
+      conditions:
+        - condition: state
+          entity_id: input_boolean.home_mode
+          state: 'on'
+        - condition: state
+          entity_id: sun.sun
+          state: 'below_horizon'
+  action:
+    - scene: scene.scene_mood
+  mode: single
+
 - alias: Game
   trigger:
     - platform: state
@@ -120,47 +139,6 @@
       entity_id: input_boolean.guest
   mode: single
 
-- alias: Motion -> Home Mode
-  description: Set Mode to Home when motion is detected
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.motion_sensor_occupancy
-      to: 'on'
-  condition:
-    - condition: state
-      entity_id: input_boolean.home_mode
-      state: 'off'
-  action:
-    - service: input_boolean.turn_on
-      entity_id: 
-        - input_boolean.home_mode
-        - input_boolean.study_mode
-        - input_boolean.guest
-  mode: single
-
-- alias: Not Home -> Back to Away
-  description: Back to Away Mode when you're not home
-  trigger:
-    - platform: state
-      entity_id: binary_sensor.motion_sensor_occupancy
-      to: 'off'
-      for: "00:05:00"
-  condition:
-    - condition: state
-      entity_id: sensor.presence
-      state: 'not_home'
-    - condition: state
-      entity_id: input_boolean.guest
-      state: 'on'
-  action:
-    - service: input_boolean.turn_off
-      entity_id: 
-        - input_boolean.home_mode
-        - input_boolean.guest
-    - service: scene.shut_down
-    - service: scene.scene_shut_modes_down
-  mode: single
-
   # ======================================= #
   #                                         #
   #                S L E E P                #
@@ -185,20 +163,18 @@
   trigger:
     - platform: state
       entity_id: binary_sensor.motion_sensor_occupancy
-      to: 'on'
+      to: 'on' # released
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.home_mode
-          state: 'on'
-        - condition: state
-          entity_id: input_boolean.sleep_mode
-          state: 'on'
-        - condition: state
-          entity_id: binary_sensor.pressure_pillow_contact
-          state: 'on'
-        - "{{ states('sensor.time') >= (states.input_datetime.morning.attributes.timestamp | int) | timestamp_custom('%H:%M', False) }}"
+    - condition: state
+      entity_id: input_boolean.home_mode
+      state: 'on'
+    - condition: state
+      entity_id: input_boolean.sleep_mode
+      state: 'on'
+    - condition: state
+      entity_id: binary_sensor.pressure_pillow_contact
+      state: 'on'
+    - "{{ states('sensor.time') >= (states.input_datetime.morning.attributes.timestamp | int) | timestamp_custom('%H:%M', False) }}"
   action:
     - service: input_boolean.turn_on
       entity_id:
@@ -213,24 +189,13 @@
     - platform: template
       value_template: "{{ states('sensor.time') == (((states.input_datetime.morning.attributes.timestamp | int ) - 20*60) | timestamp_custom('%H:%M', False)) }}"
       # 30 minutes (1 min = 60 sec)
+  condition:
+    - condition: state
+      entity_id: input_boolean.morning_check
+      state: 'off'
   action:
     - service: script.morning_routine
   mode: single
-
-- alias: Full Wake Up
-  trigger:
-    - platform: state
-      entity_id: input_boolean.morning_check
-      to: 'on'
-  action:
-    - service: light.turn_on
-      data:
-        entity_id: group.light
-        brightness: 255
-    - service: cover.set_cover_position
-      data:
-        entity_id: cover.curtain
-        position: 100
 
 - alias: Reset Day
   initial_state: true

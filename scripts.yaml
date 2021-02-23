@@ -91,3 +91,13 @@ my_computer_refresh:
       data:
         topic: "iotlink/hubline/stansign_win/refresh"
         payload: ""
+
+test_tts:
+  alias: "Test TTS"
+  sequence:
+    - service: tts.google_say
+      entity_id: media_player.my_room
+      data:
+        message: "This is a test message."
+        language: "en"
+        

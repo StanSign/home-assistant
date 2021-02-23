@@ -129,14 +129,11 @@ views:
             hold_action: !include popup/desktop.yaml
             custom_fields:
               icon_imac: >
-                [[[ const boolean = states[entity.entity_id.replace(entity.entity_id.split('.')[0], 'input_boolean')].state;
-                const style = '<style>@keyframes animate_on{from{transform: scaleY(0);}to{transform: scaleY(1);}}.animate_on{animation: animate_on 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}@keyframes animate_off{from{transform: scaleY(1);}to{transform: scaleY(0);}}.animate_off{animation: animate_off 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}</style>';
-                const path = '<path d="M46 9.2v27.5H4.1V9.2H46m2.4-2.4H1.6v32.3h46.7c.1 0 .1-32.3.1-32.3zM11.9 43.2h26.3c.6 0 1.1-.4 1.1-1v-.3c0-.6-.4-1.1-1-1.1H11.9c-.6 0-1.1.4-1.1 1v.3a1.11 1.11 0 0 0 1.1 1.1z"/>';
+                [[[ const style = '<style>@keyframes animate_on{from{transform: scaleY(0);}to{transform: scaleY(1);}}.animate_on{animation: animate_on 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}@keyframes animate_off{from{transform: scaleY(1);}to{transform: scaleY(0);}}.animate_off{animation: animate_off 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}</style>';
+                const path = '<path d="M31.9 44.5c-1-.3-1.9.4-1.9-3.7h-9.9c0 4.2-.9 3.4-1.9 3.7s-.2.7-.2.7h14.1s.8-.3-.2-.7zM47.6 4.8H2.5c-1.1 0-2 .9-2 2v30.1c0 1.1.9 2 2 2h45c1.1 0 2-.9 2-2v-30a1.95 1.95 0 0 0-1.9-2.1zm-.7 26.4H3.2V7.6H47v23.6z"/>';
                 const gradient = '<linearGradient id="A" gradientUnits="userSpaceOnUse" x1="5.401" y1="34.714" x2="43.817" y2="11.74"><stop offset="0" stop-color="#64acb7"/><stop offset="1" stop-color="#7fdbe9"/></linearGradient>';
-                if (entity.state === 'off' && boolean === 'off') { return `<svg viewBox="0 0 50 50"> ${style} ${gradient} <path class="animate_off" d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
-                if (entity.state === 'on' && boolean === 'off') { return `<svg viewBox="0 0 50 50"> ${style} ${gradient} <path d="M2.9,8h44.3v29.9H2.9V8z" fill="#20262890"/><path class="animate_on" d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
-                if (entity.state === 'on' && boolean === 'on') { return `<svg viewBox="0 0 50 50"> ${gradient} <path d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
-                else if (entity.state === 'off' && boolean === 'on') { return `<svg viewBox="0 0 50 50"> ${path} </svg>`; } ]]]
+                if (entity.state === 'on') { return `<svg viewBox="0 0 50 50"> ${style} ${gradient} <path d="M2.9,8h44.3v29.9H2.9V8z" fill="#20262890"/><path class="animate_on" d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
+                else if (entity.state === 'off') { return `<svg viewBox="0 0 50 50"> ${path} </svg>`; } ]]]
             styles:
               custom_fields:
                 icon_imac:
@@ -222,26 +219,27 @@ views:
                     opacity: 0.6,
                   ]
 
-          # ==================================== #
-          #                                      #
-          #               S T U D Y              #
-          #                                      #
-          # ==================================== #
-            # style:
-            #   top: 37.9%
-            #   left: 31.81%
-            #   width: 10%
-
-          # ==================================== #
-          #                                      #
-          #                G A M E               #
-          #                                      #
-          # ==================================== #
-
-            # style:
-            #   top: 37.9%
-            #   left: 42.81%
-            #   width: 10%
+          - type: "custom:button-card"
+            entity: media_player.living_room_tv
+            triggers_update: ["media_player.living_room_tv"]
+            style:
+              top: 37.9%
+              left: 31.81%
+              width: 10%
+            custom_fields:
+              icon_tv: &icon_tv >
+                [[[ const style = '<style>@keyframes animate_on{from{transform: scaleY(0);}to{transform: scaleY(1);}}.animate_on{animation: animate_on 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}@keyframes animate_off{from{transform: scaleY(1);}to{transform: scaleY(0);}}.animate_off{animation: animate_off 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}</style>';
+                const path = '<path d="M46 9.2v27.5H4.1V9.2H46m2.4-2.4H1.6v32.3h46.7c.1 0 .1-32.3.1-32.3zM11.9 43.2h26.3c.6 0 1.1-.4 1.1-1v-.3c0-.6-.4-1.1-1-1.1H11.9c-.6 0-1.1.4-1.1 1v.3a1.11 1.11 0 0 0 1.1 1.1z"/>';
+                const gradient = '<linearGradient id="A" gradientUnits="userSpaceOnUse" x1="5.401" y1="34.714" x2="43.817" y2="11.74"><stop offset="0" stop-color="#64acb7"/><stop offset="1" stop-color="#7fdbe9"/></linearGradient>';
+                if (entity.state === 'on') { return `<svg viewBox="0 0 50 50"> ${style} ${gradient} <path d="M2.9,8h44.3v29.9H2.9V8z" fill="#20262890"/><path class="animate_on" d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
+                else if (entity.state === 'off') { return `<svg viewBox="0 0 50 50"> ${path} </svg>`; } ]]]
+            styles: &icon_tv_styles
+              custom_fields:
+                icon_tv:
+                  [fill: "[[[ return entity.state === 'on' ? '#616161' : '#9da0a2'; ]]]", 
+                  top: 7%, left: 10.7%, width: 3.5vw, position: absolute]
+            name: TV
+            template: base
 
           # ===================================================== #
           #                                                       #
@@ -310,64 +308,28 @@ views:
 
           # ================================================ #
           #                                                  #
-          #                    M E D I A                     #
+          #                    S T A N D                     #
           #                                                  #
           # ================================================ #
 
-          - prefix: Media
+          - prefix: BLANK
             <<: *title
             style:
               top: 53.4%
               left: 26.9%
               <<: *title-style
 
-          - type: "custom:swipe-card"
-            start_card: 1
-            parameters:
-              roundLengths: true
-              effect: coverflow
-              speed: 650
-              spaceBetween: 20
-              threshold: 7
-              coverflowEffect:
-                rotate: 80
-                depth: 300
-            style:
-              top: 55.88%
-              left: 37.3%
-              width: 20.97%
-              height: 1px
-              --ha-card-border-radius: .88vw
-            cards:
-              - type: "custom:mini-media-player"
-                artwork: full-cover
-                info: scroll
-                entity: media_player.spotify_icangjun
-                hide:
-                  power: true
-                  progress: false
-                  runtime: false
-                  volume: true
-                  source: true
-                  power_state: false
-                  icon: true
-                  sound_mode: false
-                  name: true
-                style: |
-                  :host {
-                    left: 0% !important;
-                    top: 39.8% !important;
-                    width: 100% !important;
-                    height: 100% !important;
-                  }
-                  ha-card{
-                    border-radius: 1vw !important;
-                    overflow: hidden !important;
-                    height: 100%;
-                  }
-                  :host #primaryProgress{
-                    background: none !important; 
-                  }
+          # - type: "custom:button-card"
+          #   style:
+          #     top: 64.5%
+          #     left: 31.81%
+          #     width: 10%
+
+          # - type: "custom:button-card"
+          #   style:
+          #     top: 64.5%
+          #     left: 42.81%
+          #     width: 10%
 
           # =================================================== #
           #                                                     #
@@ -375,7 +337,7 @@ views:
           #                                                     #
           # =================================================== #
 
-          - prefix: RGB Light
+          - prefix: Desk Light
             <<: *title
             style:
               top: 53.4%
@@ -407,6 +369,50 @@ views:
                 icon_hue:
                   [top: 11%, left: 4.5%, width: 3.05vw, position: absolute]
             template: light
+
+          # ==================================== #
+          #                                      #
+          #               DESK BULB              #
+          #                                      #
+          # ==================================== #
+
+          - type: "custom:button-card"
+            triggers_update: ["light.desk_bulb_light"]
+            entity: light.stand_bulb_left
+            style:
+              top: 64.5%
+              left: 67.64%
+              width: 10%
+            name: Stands
+            custom_fields:
+              icon_hue: *icon_hue
+            aspect_ratio: 1/1
+            show_state: true
+            show_icon: false
+            state:
+              - value: 'on'
+                styles:
+                  card: [background-color: 'rgba(255, 255, 255, 0.8)']
+                  name: [color: 'rgba(0, 0, 0, 0.7)']
+                  state: [color: 'rgba(0, 0, 0, 0.35)']
+              - value: 'off'
+                styles:
+                  name: [color: 'rgba(255, 255, 255, 0.3)']
+                  state: [color: 'rgba(255, 255, 255, 0.15)']
+            tap_action:
+              action: call-service
+              service: homeassistant.toggle
+              service_data:
+                entity_id: group.stand_light
+              haptic: light
+            hold_action: !include popup/stands.yaml
+            styles:
+                name: [top: 60%, left: 8%, line-height: 2vw, position: absolute]
+                state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]
+                card: [font-family: Sf Display, letter-spacing: 0.05vw, font-weight: 400, font-size: 1.3em, background-color: 'rgba(115, 115, 115, 0.2)', border-radius: 0.8vw, box-shadow: none, transition: none]
+                custom_fields:
+                  icon_hue:
+                    [top: 11%, left: 4.5%, width: 3.05vw, position: absolute]
 
           # ==================================== #
           #                                      #
@@ -989,22 +995,6 @@ views:
       - type: picture-elements
         image: /local/bg_light.png
         elements:
-          - type: "custom:vertical-stack-in-card"
-            style: |
-              :host {
-                left: 42% !important;
-                top: 35% !important;
-                width: 30% !important;
-              }
-            cards:
-              - type: "custom:kb-steam-card"
-                entity: sensor.steam_76561198086996983
-              - type: "custom:kb-steam-card"
-                entities:
-                  - sensor.steam_76561198086267709
-                  - sensor.steam_76561198074838957
-                  - sensor.steam_76561199120251534
-                game_background: true
 
           # ===================================================== #
           #                                                       #

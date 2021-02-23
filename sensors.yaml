@@ -48,83 +48,6 @@
 
   - platform: dnsip
 
-  - platform: mqtt
-    name: "My Computer - CPU Usage"
-    state_topic: "iotlink/hubline/stansign_win/windows-monitor/stats/cpu/usage"
-    unit_of_measurement: '%'
-    icon: mdi:speedometer
-    value_template: "{{ value }}"
-    availability_topic: "iotlink/hubline/stansign_win/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
-  - platform: mqtt
-    name: "My Computer - RAM Usage"
-    state_topic: "iotlink/hubline/stansign_win/windows-monitor/stats/memory/usage"
-    unit_of_measurement: '%'
-    icon: mdi:memory
-    value_template: "{{ value }}"
-    availability_topic: "iotlink/hubline/stansign_win/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
-  - platform: mqtt
-    name: "My Computer - Current User"
-    state_topic: "iotlink/hubline/stansign_win/windows-monitor/stats/system/current-user"
-    unit_of_measurement: ''
-    icon: mdi:account
-    value_template: "{{ value }}"
-    availability_topic: "iotlink/hubline/stansign_win/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
-  - platform: mqtt
-    name: "My Computer - Idle Time"
-    state_topic: "iotlink/hubline/stansign_win/windows-monitor/stats/system/idle-time"
-    unit_of_measurement: 'seconds'
-    icon: mdi:timer
-    value_template: "{{ value }}"
-    availability_topic: "iotlink/hubline/stansign_win/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
-  - platform: mqtt
-    name: "My Computer - HDD Usage (C)"
-    state_topic: "iotlink/hubline/stansign_win/windows-monitor/stats/hard-drive/c/drive-usage"
-    unit_of_measurement: '%'
-    icon: mdi:chart-donut
-    value_template: "{{ value }}"
-    availability_topic: "iotlink/hubline/stansign_win/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
-  - platform: mqtt
-    name: "My Computer - HDD Usage (D)"
-    state_topic: "iotlink/hubline/stansign_win/windows-monitor/stats/hard-drive/d/drive-usage"
-    unit_of_measurement: '%'
-    icon: mdi:chart-donut
-    value_template: "{{ value }}"
-    availability_topic: "iotlink/hubline/stansign_win/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-  
-  - platform: mqtt
-    name: "My Computer - HDD Usage (E)"
-    state_topic: "iotlink/hubline/stansign_win/windows-monitor/stats/hard-drive/e/drive-usage"
-    unit_of_measurement: '%'
-    icon: mdi:chart-donut
-    value_template: "{{ value }}"
-    availability_topic: "iotlink/hubline/stansign_win/lwt"
-    payload_available: "ON"
-    payload_not_available: "OFF"
-    qos: 1
-
   - platform: template
     sensors:
       placeholder:
@@ -221,7 +144,7 @@
         friendly_name: 'Presence'
         icon_template: mdi:home-account
         value_template: >
-          {% if is_state('device_tracker.hostname1', 'home') %}
+          {% if is_state('device_tracker.hostname1', 'home')  or is_state('device_tracker.iphone_tracker', 'home')%}
             home
           {% else %}
             not_home

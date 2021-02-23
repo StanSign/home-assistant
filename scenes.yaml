@@ -9,11 +9,24 @@
     light.xiaomi_desk_strip:
       state: 'on'
       brightness: 255
-      xy_color: [0.443, 0.379]
+      color_temp: 280
     light.under_desk_strip_light:
       state: 'on'
       brightness: 255
-      xy_color: [0.443, 0.379]
+      color_temp: 400
+
+- id: scene_stand_mood
+  name: Scene_Mood
+  icon: mdi:floor-lamp
+  entities:
+    light.stand_bulb_left:
+      state: 'on'
+      brightness: 255
+      color_temp: 500
+    light.stand_bulb_right:
+      state: 'on'
+      brightness: 255
+      color_temp: 390
 
 - id: scene_game_mode
   name: Scene_Game
@@ -47,6 +60,7 @@
 
 - id: scene_sleep_mode
   name: Scene_Sleep
+  icon: mdi:power-sleep
   entities:
     light.desk_bulb_light:
       state: 'off'
@@ -60,7 +74,9 @@
       state: 'off'
     switch.desktop:
       state: 'off'
-  icon: mdi:power-sleep
+    group.stand_light:
+      state: 'on'
+      brightness: 25
 
 - id: scene_all_off
   name: Scene_Shut Down
@@ -75,6 +91,10 @@
     switch.light_switch_switch_l2:
       state: 'off'
     light.under_desk_strip_light:
+      state: 'off'
+    light.stand_bulb_left:
+      state: 'off'
+    light.stand_bulb_right:
       state: 'off'
 
 - id: '1609473072091'

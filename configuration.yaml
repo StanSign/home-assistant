@@ -18,7 +18,6 @@ lovelace:
       {url: /hacsfiles/lovelace-layout-card/layout-card.js,                                 type: module},
       {url: /hacsfiles/lovelace-gap-card/gap-card.js,                                       type: module},
       {url: /hacsfiles/mini-media-player/mini-media-player-bundle.js,                       type: module},
-      {url: /hacsfiles/kb-steam-card/kb-steam-card.js,                                      type: module},
       {url: /hacsfiles/battery-state-card/battery-state-card.js,                            type: module},
       {url: /hacsfiles/lovelace-hui-element/hui-element.js,                                 type: module},
       {url: /hacsfiles/light-popup-card/light-popup-card.js,                                type: module},
@@ -33,9 +32,6 @@ lovelace:
 frontend:
   themes: !include themes.yaml
 
-media_player:
-  - platform: cast
-  
 # Cloud
 cloud:
 
@@ -54,10 +50,20 @@ recorder: !include recorder.yaml
 discovery:
   ignore:
     - yeelight
+
+tts:
+  - platform: google_translate
+    cache: true
+    cache_dir: /tts
+    service_name: google_say
+
 yeelight:
   devices:
     192.168.0.6:
       name: Xiaomi Desk Strip
+      save_on_change: true
+    192.168.0.13:
+      name: Stand Bulb Right
       save_on_change: true
       
 device_tracker:
@@ -85,3 +91,12 @@ spotcast:
   sp_key: !secret spotcast_key
 
 wake_on_lan:
+
+webostv:
+  host: !secret livingroom_tv_ip
+  name: Living Room TV
+  turn_on_action:
+    service: wake_on_lan.send_magic_packet
+    data:
+      mac: !secret livingroom_tv_mac
+      broadcast_address: !secret livingroom_tv_ip

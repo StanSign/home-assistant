@@ -1,5 +1,14 @@
 # You don't need to add the MQTT details for Home Assistant with the add-on installation, it will be auto-discovered!
 global:
-  instanceName: changeme
+  instanceName: room
   integrations:
     - homeAssistant
+    - bluetoothLowEnergy
+bluetoothLowEnergy:
+  timeout: 60
+  allowlist:
+  - '153E8C79-42FD-42A0-84FC-A44087E599EC'
+  updateFrequency: 5
+  tagOverrides:
+    153E8C79-42FD-42A0-84FC-A44087E599EC:
+      name: iPhone

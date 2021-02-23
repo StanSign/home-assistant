@@ -5,3 +5,10 @@ light:
     - light.desk_bulb_light
     - light.under_desk_strip_light
     - light.xiaomi_desk_strip
+    - group.stand_light
+
+stand_light:
+  name: Stand Light
+  entities:
+    - light.stand_bulb_right
+    - light.stand_bulb_left
