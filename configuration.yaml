@@ -50,7 +50,6 @@ automation: !include automations.yaml
 binary_sensor: !include binary_sensors.yaml
 sensor: !include sensors.yaml
 switch: !include switch.yaml
-recorder: !include recorder.yaml
 rest_command: !include rest_command.yaml
 
 discovery:

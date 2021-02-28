@@ -8,15 +8,21 @@
 study_mode:
   name: Study
   icon: mdi:lead-pencil
-game_mode:
-  name: Game
-  icon: mdi:gamepad-variant
+media_mode:
+  name: Media
+  icon: mdi:presentation-play
 sleep_mode:
   name: Sleep
   icon: mdi:power-sleep
 home_mode:
   name: Home
   icon: mdi:home
+cozy_mode:
+  name: Cozy
+  icon: mdi:fireplace
+hip_mode:
+  name: Hip
+  icon: mdi:boombox
   
 curtain:
   name: Curtain Boolean

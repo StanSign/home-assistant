@@ -819,7 +819,7 @@ views:
             template: round_button
 
           - type: "custom:button-card"
-            entity: input_boolean.game_mode
+            entity: input_boolean.media_mode
             style:
               top: 71.35%
               left: 19.776666%
@@ -1292,7 +1292,7 @@ views:
             template: round_button
 
           - type: "custom:button-card"
-            entity: input_boolean.game_mode
+            entity: input_boolean.media_mode
             style:
               top: 71.35%
               left: 19.776666%
@@ -1747,7 +1747,7 @@ views:
             template: round_button
 
           - type: "custom:button-card"
-            entity: input_boolean.game_mode
+            entity: input_boolean.media_mode
             style:
               top: 71.35%
               left: 19.776666%

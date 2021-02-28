@@ -16,35 +16,19 @@
       state: 'on'
   action:
     - scene: scene.study
+    - scene: scene.scene_stand_study
     - service: input_boolean.turn_off
       entity_id:
         - input_boolean.sleep_mode
-        - input_boolean.game_mode
+        - input_boolean.media_mode
+        - input_boolean.hip_mode
+        - input_boolean.cozy_mode
   mode: single
 
-- alias: Mood
+- alias: Media
   trigger:
     - platform: state
-      entity_id: input_boolean.study_mode
-      from: 'off'
-      to: 'on'
-  condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.home_mode
-          state: 'on'
-        - condition: state
-          entity_id: sun.sun
-          state: 'below_horizon'
-  action:
-    - scene: scene.scene_mood
-  mode: single
-
-- alias: Game
-  trigger:
-    - platform: state
-      entity_id: input_boolean.game_mode
+      entity_id: input_boolean.media_mode
       from: 'off'
       to: 'on'
   condition:
@@ -52,11 +36,13 @@
       entity_id: input_boolean.home_mode
       state: 'on'
   action:
-    - scene: scene.game
+    - scene: scene.scene_media
     - service: input_boolean.turn_off
       entity_id:
         - input_boolean.study_mode
         - input_boolean.sleep_mode
+        - input_boolean.hip_mode
+        - input_boolean.cozy_mode
   mode: single
 
 - alias: Sleep
@@ -74,7 +60,50 @@
     - service: input_boolean.turn_off
       entity_id:
         - input_boolean.study_mode
-        - input_boolean.game_mode
+        - input_boolean.media_mode
+        - input_boolean.hip_mode
+        - input_boolean.cozy_mode
+  mode: single
+
+- alias: Cozy
+  trigger:
+    - platform: state
+      entity_id: input_boolean.cozy_mode
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.home_mode
+      state: 'on'
+  action:
+    - scene: scene.scene_stand_cozy
+    - scene: scene.scene_cozy_mode
+    - service: input_boolean.turn_off
+      entity_id:
+        - input_boolean.sleep_mode
+        - input_boolean.study_mode
+        - input_boolean.hip_mode
+        - input_boolean.media_mode
+  mode: single
+
+- alias: Hip
+  trigger:
+    - platform: state
+      entity_id: input_boolean.hip_mode
+      from: 'off'
+      to: 'on'
+  condition:
+    - condition: state
+      entity_id: input_boolean.home_mode
+      state: 'on'
+  action:
+    - scene: scene.scene_hip_mode
+    - service: input_boolean.turn_off
+      entity_id:
+        - input_boolean.sleep_mode
+        - input_boolean.study_mode
+        - input_boolean.cozy_mode
+        - input_boolean.media_mode
   mode: single
 
 - alias: Shutdown input_booleans
@@ -91,8 +120,10 @@
     - service: input_boolean.turn_off
       entity_id:
         - input_boolean.sleep_mode
-        - input_boolean.game_mode
+        - input_boolean.media_mode
         - input_boolean.study_mode
+        - input_boolean.cozy_mode
+        - input_boolean.hip_mode
   mode: single
 
   # ======================================= #

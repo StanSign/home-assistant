@@ -9,54 +9,108 @@
     light.xiaomi_desk_strip:
       state: 'on'
       brightness: 255
-      color_temp: 280
+      color_temp: 150
     light.under_desk_strip_light:
       state: 'on'
       brightness: 255
-      color_temp: 400
+      color_temp: 150
 
-- id: scene_stand_mood
-  name: Scene_Mood
+- id: scene_stand_study
+  name: Scene_Stand_Study
   icon: mdi:floor-lamp
   entities:
-    light.stand_bulb_left:
+    light.stand_left:
       state: 'on'
       brightness: 255
-      color_temp: 500
-    light.stand_bulb_right:
+      color_temp: 155
+    light.stand_right:
+      state: 'on'
+      brightness: 255
+      color_temp: 155
+
+- id: scene_stand_cozy
+  name: Scene_Stand_Cozy
+  icon: mdi:fireplace
+  entities:
+    light.stand_left:
+      state: 'on'
+      brightness: 255
+      color_temp: 390
+    light.stand_right:
       state: 'on'
       brightness: 255
       color_temp: 390
 
-- id: scene_game_mode
-  name: Scene_Game
-  icon: mdi:gamepad-variant
+- id: scene_cozy_mode
+  name: Scene_Cozy
+  icon: mdi:fireplace
   entities:
     light.desk_bulb_light:
       state: 'on'
       brightness: 255
-      rgb_color:
-      - 253
-      - 11
-      - 255
+      xy_color: [0.491, 0.39]
     light.xiaomi_desk_strip:
       state: 'on'
       brightness: 255
-      rgb_color:
-      - 0
-      - 190
-      - 255
+      color_temp: 260
+    light.under_desk_strip_light:
+      state: 'on'
+      brightness: 255
+      color_temp: 500
     switch.light_switch_switch_l1:
       state: 'off'
     switch.light_switch_switch_l2:
       state: 'off'
+
+- id: scene_media_mode
+  name: Scene_Media
+  icon: mdi:presentation-play
+  entities:
+    light.xiaomi_desk_strip:
+      state: 'on'
+      brightness: 51
+      xy_color: [0.148, 0.165]
+    light.under_desk_strip_light:
+      state: 'on'
+      brightness: 102
+      xy_color: [0.235, 0.148]
+    switch.light_switch_switch_l1:
+      state: 'off'
+    switch.light_switch_switch_l2:
+      state: 'off'
+    group.stand_light:
+      state: 'off'
+    light.desk_bulb_light:
+      state: 'off'
+
+- id: scene_hip_mode
+  name: Scene_Hip
+  icon: mdi:boombox
+  entities:
     light.under_desk_strip_light:
       state: 'on'
       brightness: 255
-      rgb_color:
-      - 1
-      - 190
-      - 255
+      xy_color: [0.477, 0.196]
+    light.desk_bulb_light:
+      state: 'on'
+      brightness: 255
+      xy_color: [0.181, 0.061]
+    light.xiaomi_desk_strip:
+      state: 'on'
+      brightness: 255
+      xy_color: [0.385, 0.155]
+    light.stand_left:
+      state: 'on'
+      birghtness: 255
+      xy_color: [0.217, 0.077]
+    light.stand_right:
+      state: 'on'
+      brightness: 255
+      xy_color: [0.385, 0.155]
+    switch.light_switch_switch_l1:
+      state: 'off'
+    switch.light_switch_switch_l2:
+      state: 'off'
 
 - id: scene_sleep_mode
   name: Scene_Sleep
@@ -72,11 +126,6 @@
       state: 'off'
     light.under_desk_strip_light:
       state: 'off'
-    switch.desktop:
-      state: 'off'
-    group.stand_light:
-      state: 'on'
-      brightness: 25
 
 - id: scene_all_off
   name: Scene_Shut Down
@@ -92,16 +141,16 @@
       state: 'off'
     light.under_desk_strip_light:
       state: 'off'
-    light.stand_bulb_left:
+    light.stand_left:
       state: 'off'
-    light.stand_bulb_right:
+    light.stand_right:
       state: 'off'
 
 - id: '1609473072091'
   name: Scene_Shut_Modes_Down
   icon: mdi:cancel
   entities:
-    input_boolean.game_mode:
+    input_boolean.media_mode:
       state: 'off'
     input_boolean.sleep_mode:
       state: 'off'
