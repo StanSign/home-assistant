@@ -21,8 +21,8 @@
       layout: vertical
       cards:
         - type: "custom:button-card"
-          triggers_update: ["light.stand_bulb_left"]
-          entity: light.stand_bulb_left
+          triggers_update: ["light.stand_left"]
+          entity: light.stand_left
           name: Left
           custom_fields:
             icon_hue: &icon_hue >
@@ -46,6 +46,8 @@
           tap_action:
             action: toggle
             haptic: light
+          hold_action:
+            action: more-info
           styles:
               name: [top: 60%, left: 8%, line-height: 2vw, position: absolute]
               state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]
@@ -57,8 +59,8 @@
         - break
 
         - type: "custom:button-card"
-          triggers_update: ["light.stand_bulb_right"]
-          entity: light.stand_bulb_right
+          triggers_update: ["light.stand_right"]
+          entity: light.stand_right
           name: Right
           custom_fields:
             icon_hue: *icon_hue
@@ -78,6 +80,8 @@
           tap_action:
             action: toggle
             haptic: light
+          hold_action:
+            action: more-info
           styles:
               name: [top: 60%, left: 8%, line-height: 2vw, position: absolute]
               state: [top: 78%, left: 8%, line-height: 2vw, position: absolute]

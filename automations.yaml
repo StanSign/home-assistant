@@ -11,11 +11,9 @@
       from: 'off'
       to: 'on'
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.home_mode
-          state: 'on'
+    - condition: state
+      entity_id: input_boolean.home_mode
+      state: 'on'
   action:
     - scene: scene.study
     - service: input_boolean.turn_off
@@ -50,11 +48,9 @@
       from: 'off'
       to: 'on'
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.home_mode
-          state: 'on'
+    - condition: state
+      entity_id: input_boolean.home_mode
+      state: 'on'
   action:
     - scene: scene.game
     - service: input_boolean.turn_off
@@ -70,11 +66,9 @@
       from: 'off'
       to: 'on'
   condition:
-    - condition: and
-      conditions:
-        - condition: state
-          entity_id: input_boolean.home_mode
-          state: 'on'
+    - condition: state
+      entity_id: input_boolean.home_mode
+      state: 'on'
   action:
     - scene: scene.scene_sleep
     - service: input_boolean.turn_off
@@ -193,6 +187,9 @@
     - condition: state
       entity_id: input_boolean.morning_check
       state: 'off'
+    - condition: state
+      entity_id: input_boolean.home_mode
+      state: 'on'
   action:
     - service: script.morning_routine
   mode: single

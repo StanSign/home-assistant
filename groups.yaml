@@ -10,5 +10,5 @@ light:
 stand_light:
   name: Stand Light
   entities:
-    - light.stand_bulb_right
-    - light.stand_bulb_left
+    - light.stand_left
+    - light.stand_right

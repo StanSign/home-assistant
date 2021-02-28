@@ -29,6 +29,11 @@ lovelace:
       {url: /hacsfiles/spotify-card/spotify-card.js,                                        type: module},
       {url: /hacsfiles/lovelace-time-picker-card/time-picker-card.js,                       type: module} ]
 
+logger:
+  default: warn
+  logs:
+    homeassistant.components.rest_command: debug
+
 frontend:
   themes: !include themes.yaml
 
@@ -46,6 +51,7 @@ binary_sensor: !include binary_sensors.yaml
 sensor: !include sensors.yaml
 switch: !include switch.yaml
 recorder: !include recorder.yaml
+rest_command: !include rest_command.yaml
 
 discovery:
   ignore:
@@ -61,9 +67,6 @@ yeelight:
   devices:
     192.168.0.6:
       name: Xiaomi Desk Strip
-      save_on_change: true
-    192.168.0.13:
-      name: Stand Bulb Right
       save_on_change: true
       
 device_tracker:
@@ -95,8 +98,4 @@ wake_on_lan:
 webostv:
   host: !secret livingroom_tv_ip
   name: Living Room TV
-  turn_on_action:
-    service: wake_on_lan.send_magic_packet
-    data:
-      mac: !secret livingroom_tv_mac
-      broadcast_address: !secret livingroom_tv_ip
+

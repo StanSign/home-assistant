@@ -377,8 +377,8 @@ views:
           # ==================================== #
 
           - type: "custom:button-card"
-            triggers_update: ["light.desk_bulb_light"]
-            entity: light.stand_bulb_left
+            triggers_update: ["light.stand_left"]
+            entity: light.stand_left
             style:
               top: 64.5%
               left: 67.64%

@@ -26,14 +26,6 @@
         arg: eth0
       - type: network_out
         arg: eth0
-
-  - platform: steam_online
-    api_key: 86AF8DF0E151A052F49E134A5477BE84
-    accounts:
-      - '76561198086996983'
-      - '76561198086267709'
-      - '76561198074838957'
-      - '76561199120251534'
   
   - platform: time_date
     display_options:
