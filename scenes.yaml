@@ -5,7 +5,7 @@
     light.desk_bulb_light:
       state: 'on'
       brightness: 255
-      xy_color: [0.443, 0.379]
+      xy_color: [0.323, 0.329]
     light.xiaomi_desk_strip:
       state: 'on'
       brightness: 255
@@ -125,6 +125,8 @@
     switch.light_switch_switch_l2:
       state: 'off'
     light.under_desk_strip_light:
+      state: 'off'
+    group.stand_light:
       state: 'off'
 
 - id: scene_all_off
