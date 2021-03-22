@@ -6,6 +6,9 @@ homeassistant:
     - '/config'
   customize: !include customize.yaml
 
+recorder:
+  db_url: mysql://stansign:950707960729@core-mariadb/HA?charset=utf8
+
 lovelace:
   mode: yaml
   resources:
@@ -50,7 +53,6 @@ automation: !include automations.yaml
 binary_sensor: !include binary_sensors.yaml
 sensor: !include sensors.yaml
 switch: !include switch.yaml
-rest_command: !include rest_command.yaml
 
 discovery:
   ignore:

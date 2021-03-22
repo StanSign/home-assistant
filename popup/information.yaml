@@ -67,7 +67,7 @@
                     hass.callService('homeassistant', 'restart'); ]]]
                 template: name_action  
         
-        - break
+        - type: 'custom:layout-break'
 
         - type: entities
           title: Raspberry Pi

@@ -15,6 +15,7 @@ from .wideq.core_v2 import ClientV2
 from .wideq.device import DeviceType
 from .wideq.dishwasher import DishWasherDevice
 from .wideq.dryer import DryerDevice
+from .wideq.styler import StylerDevice
 from .wideq.washer import WasherDevice
 from .wideq.refrigerator import RefrigeratorDevice
 
@@ -30,6 +31,7 @@ import homeassistant.helpers.config_validation as cv
 
 from homeassistant import config_entries
 from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.util import Throttle
 
@@ -70,7 +72,7 @@ CONFIG_SCHEMA = vol.Schema(
     vol.All(cv.deprecated(DOMAIN), {DOMAIN: SMARTTHINQ_SCHEMA},), extra=vol.ALLOW_EXTRA,
 )
 
-
+SCAN_INTERVAL = timedelta(seconds=30)
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -127,6 +129,29 @@ class LGEAuthentication:
             _LOGGER.exception("Error connecting to ThinQ")
 
         return client
+
+
+async def async_setup(hass, config):
+    """
+    This method gets called if HomeAssistant has a valid configuration entry within
+    configurations.yaml.
+
+    Thus, in this method we simply trigger the creation of a config entry.
+
+    :return:
+    """
+    conf = config.get(DOMAIN)
+    hass.data[DOMAIN] = {}
+    hass.data[DOMAIN][ATTR_CONFIG] = conf
+
+    if conf is not None:
+        hass.async_create_task(
+            hass.config_entries.flow.async_init(
+                DOMAIN, context={"source": config_entries.SOURCE_IMPORT}, data=conf
+            )
+        )
+
+    return True
 
 
 async def async_setup_entry(hass: HomeAssistantType, config_entry):
@@ -208,59 +233,44 @@ async def async_unload_entry(hass, config_entry):
     return True
 
 
-async def async_setup(hass, config):
-    """
-    This method gets called if HomeAssistant has a valid configuration entry within
-    configurations.yaml.
-
-    Thus, in this method we simply trigger the creation of a config entry.
-
-    :return:
-    """
-    conf = config.get(DOMAIN)
-    hass.data[DOMAIN] = {}
-    hass.data[DOMAIN][ATTR_CONFIG] = conf
-
-    if conf is not None:
-        hass.async_create_task(
-            hass.config_entries.flow.async_init(
-                DOMAIN, context={"source": config_entries.SOURCE_IMPORT}, data=conf
-            )
-        )
-
-    return True
-
-
 class LGEDevice:
-    def __init__(self, device, name):
+    def __init__(self, device, hass):
         """initialize a LGE Device."""
 
         self._device = device
-        self._name = name
+        self._hass = hass
+        self._name = device.device_info.name
         self._device_id = device.device_info.id
         self._type = device.device_info.type
-        self._mac = device.device_info.macaddress
+        self._mac = device.device_info.macaddress or "N/A"
         self._firmware = device.device_info.firmware
 
         self._model = f"{device.device_info.model_name}"
         self._id = f"{self._type.name}:{self._device_id}"
 
         self._state = None
+        self._coordinator = None
         self._retry_count = 0
         self._disconnected = True
         self._not_logged = False
+        self._available = True
+        self._was_unavailable = False
         self._update_fail_count = 0
         self._not_logged_count = 0
         self._refresh_gateway = False
 
     @property
     def available(self) -> bool:
-        return self._not_logged_count <= MAX_UPDATE_FAIL_ALLOWED
+        return self._available
+
+    @property
+    def was_unavailable(self) -> bool:
+        return self._was_unavailable
 
     @property
     def assumed_state(self) -> bool:
         """Return True if unable to access real state of the entity."""
-        return self.available and self._disconnected
+        return self._available and self._disconnected
 
     @property
     def name(self) -> str:
@@ -277,6 +287,10 @@ class LGEDevice:
     @property
     def state(self):
         return self._state
+
+    @property
+    def available_features(self) -> Dict:
+        return self._device.available_features
 
     @property
     def state_attributes(self):
@@ -300,17 +314,60 @@ class LGEDevice:
 
         return data
 
-    def init_device(self):
-        if self._device.init_device_info():
-            self._state = self._device.status
-            self._model = f"{self._model}-{self._device.model_info.model_type}"
-            return True
-        return False
+    @property
+    def coordinator(self):
+        return self._coordinator
+
+    async def init_device(self):
+        """Init the device status and start coordinator."""
+        result = await self._hass.async_add_executor_job(
+            self._device.init_device_info
+        )
+        if not result:
+            return False
+        self._state = self._device.status
+        self._model = f"{self._model}-{self._device.model_info.model_type}"
+
+        # Create status update coordinator
+        await self._create_coordinator()
+
+        # Initialize device features
+        features = self._state.device_features
+
+        return True
+
+    async def _create_coordinator(self):
+        """Get the coordinator for a specific device."""
+        coordinator = DataUpdateCoordinator(
+            self._hass,
+            _LOGGER,
+            name=f"{DOMAIN}-{self._name}",
+            update_method=self.async_device_update,
+            # Polling interval. Will only be polled if there are subscribers.
+            update_interval=SCAN_INTERVAL,
+        )
+        await coordinator.async_refresh()
+        self._coordinator = coordinator
+
+    async def async_device_update(self):
+        """Async Update device state"""
+        await self._hass.async_add_executor_job(self._device_update)
+        return self._state
 
     def _critical_status(self):
         return self._not_logged_count == MAX_UPDATE_FAIL_ALLOWED or (
             self._not_logged_count > 0 and self._not_logged_count % 60 == 0
         )
+
+    def _set_available(self):
+        """Set the available status."""
+        if self._not_logged:
+            self._not_logged_count += 1
+        else:
+            self._not_logged_count = 0
+        available = self._not_logged_count <= MAX_UPDATE_FAIL_ALLOWED
+        self._was_unavailable = available and not self._available
+        self._available = available
 
     def _log_error(self, msg, *args, **kwargs):
         if self._critical_status():
@@ -357,17 +414,14 @@ class LGEDevice:
             self._not_logged = True
 
     @Throttle(MIN_TIME_BETWEEN_UPDATES)
-    def device_update(self):
+    def _device_update(self):
         """Update device state"""
         _LOGGER.debug("Updating smartthinq device %s", self.name)
 
         if self._disconnected or self._not_logged:
             if self._update_fail_count < MAX_UPDATE_FAIL_ALLOWED:
                 self._update_fail_count += 1
-            if self._not_logged:
-                self._not_logged_count += 1
-            else:
-                self._not_logged_count = 0
+            self._set_available()
 
         for iteration in range(MAX_RETRIES):
             _LOGGER.debug("Polling...")
@@ -390,7 +444,7 @@ class LGEDevice:
                         )
                         if self._not_logged_count >= 60:
                             self._refresh_gateway = True
-                        self._not_logged_count += 1
+                        self._set_available()
 
                     if self._state.is_on:
                         self._state = self._device.reset_status()
@@ -444,7 +498,7 @@ class LGEDevice:
                         # _LOGGER.debug('Status attributes: %s', l)
 
                         self._update_fail_count = 0
-                        self._not_logged_count = 0
+                        self._set_available()
                         self._retry_count = 0
                         self._state = state
 
@@ -477,30 +531,22 @@ async def lge_devices_setup(hass, client) -> dict:
         device_id = device.id
         device_name = device.name
         device_type = device.type
-        device_mac = device.macaddress
         model_name = device.model_name
-        dev = None
-        result = False
         device_count += 1
 
-        device_group = device_type
+        dev = None
         if device_type in [DeviceType.WASHER, DeviceType.TOWER_WASHER]:
-            dev = LGEDevice(WasherDevice(client, device), device_name)
-            device_group = DeviceType.WASHER
+            dev = LGEDevice(WasherDevice(client, device), hass)
         elif device_type in [DeviceType.DRYER, DeviceType.TOWER_DRYER]:
-            dev = LGEDevice(DryerDevice(client, device), device_name)
-            device_group = DeviceType.DRYER
+            dev = LGEDevice(DryerDevice(client, device), hass)
+        elif device_type == DeviceType.STYLER:
+            dev = LGEDevice(StylerDevice(client, device), hass)
         elif device_type == DeviceType.DISHWASHER:
-            dev = LGEDevice(DishWasherDevice(client, device), device_name)
-            device_group = DeviceType.DISHWASHER
+            dev = LGEDevice(DishWasherDevice(client, device), hass)
         elif device_type == DeviceType.REFRIGERATOR:
-            dev = LGEDevice(RefrigeratorDevice(client, device), device_name)
-            device_group = DeviceType.REFRIGERATOR
+            dev = LGEDevice(RefrigeratorDevice(client, device), hass)
 
-        if dev:
-            result = await hass.async_add_executor_job(dev.init_device)
-
-        if not result:
+        if not dev:
             _LOGGER.info(
                 "Found unsupported LGE Device. Name: %s - Type: %s - InfoUrl: %s",
                 device_name,
@@ -509,13 +555,21 @@ async def lge_devices_setup(hass, client) -> dict:
             )
             continue
 
-        wrapped_devices.setdefault(device_group, []).append(dev)
+        if not await dev.init_device():
+            _LOGGER.error(
+                "Error initializing LGE Device. Name: %s - Type: %s - InfoUrl: %s",
+                device_name,
+                device_type.name,
+                device.model_info_url,
+            )
+            continue
+
+        wrapped_devices.setdefault(device_type, []).append(dev)
         _LOGGER.info(
-            "LGE Device added. Name: %s - Type: %s - Model: %s - Mac: %s - ID: %s",
+            "LGE Device added. Name: %s - Type: %s - Model: %s - ID: %s",
             device_name,
             device_type.name,
             model_name,
-            device_mac,
             device_id,
         )
 

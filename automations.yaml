@@ -160,8 +160,6 @@
       entity_id: 
         - input_boolean.home_mode
         - input_boolean.study_mode
-    - service: input_boolean.turn_off
-      entity_id: input_boolean.guest
   mode: single
 
   # ======================================= #
@@ -175,6 +173,7 @@
     - platform: state
       entity_id: binary_sensor.pressure_pillow_contact
       to: 'off' # pressed
+      for: "00:00:03"
   condition:
     - condition: state
       entity_id: input_boolean.home_mode
@@ -199,12 +198,25 @@
     - condition: state
       entity_id: binary_sensor.pressure_pillow_contact
       state: 'on'
-    - "{{ states('sensor.time') >= (states.input_datetime.morning.attributes.timestamp | int) | timestamp_custom('%H:%M', False) }}"
   action:
-    - service: input_boolean.turn_on
-      entity_id:
-        - input_boolean.study_mode
-        - input_boolean.morning_check
+    - choose:
+      - conditions: 
+        - "{{ states('sensor.time') >= (states.input_datetime.morning.attributes.timestamp | int) | timestamp_custom('%H:%M', False) }}"
+        sequence:
+          - service: input_boolean.turn_on
+            target:
+              entity_id:
+                - input_boolean.study_mode
+                - input_boolean.morning_check
+      - conditions:
+        - "{{ states('sensor.time') < (states.input_datetime.morning.attributes.timestamp | int) | timestamp_custom('%H:%M', False) }}"
+        sequence:
+          - service: light.turn_on
+            data:
+              brightness: 180
+              color_temp: 500
+            target:
+              entity_id: light.under_desk_strip_light
   mode: single
 
 - alias: Morning Routine
@@ -213,7 +225,7 @@
   trigger:
     - platform: template
       value_template: "{{ states('sensor.time') == (((states.input_datetime.morning.attributes.timestamp | int ) - 20*60) | timestamp_custom('%H:%M', False)) }}"
-      # 30 minutes (1 min = 60 sec)
+      # 20 minutes (1 min = 60 sec)
   condition:
     - condition: state
       entity_id: input_boolean.morning_check
@@ -235,6 +247,7 @@
       entity_id: input_number.morning_current_state
     - service: input_boolean.turn_off
       entity_id: input_boolean.morning_check
+  mode: single
 
   # ======================================= #
   #                                         #
@@ -252,6 +265,7 @@
       data:
         entity_id: >
           {{ trigger.entity_id | replace(trigger.entity_id.split('.')[0], 'input_boolean') }}
+  mode: single
 
 - alias: Turn Off Loading Wheel-failsafe
   initial_state: true
@@ -266,21 +280,4 @@
       data:
         entity_id: >
           {{ trigger.entity_id }}
-
-  # ======================================= #
-  #                                         #
-  #                  E T C                  #
-  #                                         #
-  # ======================================= #
-
-- alias: Close Curtain After Noon
-  initial_state: true
-  trigger:
-    - platform: state
-      entity_id: sun.sun
-      to: below_horizon
-  action:
-    - service: cover.set_cover_position
-      data:
-        entity_id: cover.curtain
-        position: 0
+  mode: single
