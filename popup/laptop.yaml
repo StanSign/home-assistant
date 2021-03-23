@@ -1,0 +1,64 @@
+  action: call-service
+  service: browser_mod.popup
+  service_data:
+    title: Computer
+    deviceID: this
+    hide_header: true
+    style:
+      .: |
+         :host .content {
+           width: calc(210px + 210px);
+           max-width: 90vw;
+         }
+      $: |
+         .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+           background: none !important;
+         }
+    card:
+      type: entities
+      entities:
+        - type: "custom:bar-card"
+          width: 55%
+          height: 2em
+          decimal: 0
+          unit_of_measurement: '%'
+          positions: &pos
+            icon: outisde
+            indicator: 'off'
+            name: outside
+          severity: &sev
+            - color: '#E63917'
+              from: 0
+              to: 19
+            - color: '#E68F32'
+              from: 20
+              to: 89
+            - color: '#248042'
+              from: 90
+              to: 100
+          entity_row: true
+          entities:
+            - entity: sensor.icangjunyi_macbook_air_internal_battery_level
+              name: Battery
+              tap_action:
+                action: call-service
+                service: homeassistant.update_entity
+                service_data:
+                  entity_id: sensor.icangjunyi_macbook_air_internal_battery_level
+
+        - type: "custom:bar-card"
+          width: 55%
+          height: 2em
+          decimal: 0
+          unit_of_measurement: '%'
+          positions: *pos
+          severity: *sev
+          entity_row: true
+          entities:
+            - entity: sensor.icangjunyi_macbook_air_storage
+              name: Available Storage
+              tap_action:
+                action: call-service
+                service: homeassistant.update_entity
+                service_data:
+                  entity_id: sensor.icangjunyi_macbook_air_storage

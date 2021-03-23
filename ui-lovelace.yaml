@@ -116,7 +116,7 @@ views:
           #                                      #
           # ==================================== #
           
-          - type: custom:button-card
+          - type: "custom:button-card"
             entity: switch.desktop
             triggers_update:
               ['switch.desktop_wol', 'script.my_computer_shutdown', 'switch.desktop', 'input_boolean.desktop']
@@ -143,6 +143,65 @@ views:
 
           # ==================================== #
           #                                      #
+          #             M A C B O O K            #
+          #                                      #
+          # ==================================== #
+
+          - type: "custom:button-card"
+            entity: binary_sensor.icangjunyi_macbook_air_active
+            triggers_update: ["binary_sensor.icangjunyi_macbook_air_active"]
+            style:
+              top: 19.35%
+              left: 42.81%
+              width: 10%
+            tap_action:
+              action: none
+            name: MacBook
+            hold_action: !include popup/laptop.yaml
+            custom_fields:
+              icon_imac: >
+                [[[ const style = '<style>@keyframes animate_on{from{transform: scaleY(0);}to{transform: scaleY(1);}}.animate_on{animation: animate_on 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}@keyframes animate_off{from{transform: scaleY(1);}to{transform: scaleY(0);}}.animate_off{animation: animate_off 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}</style>';
+                const path = '<path d="M31.9 44.5c-1-.3-1.9.4-1.9-3.7h-9.9c0 4.2-.9 3.4-1.9 3.7s-.2.7-.2.7h14.1s.8-.3-.2-.7zM47.6 4.8H2.5c-1.1 0-2 .9-2 2v30.1c0 1.1.9 2 2 2h45c1.1 0 2-.9 2-2v-30a1.95 1.95 0 0 0-1.9-2.1zm-.7 26.4H3.2V7.6H47v23.6z"/>';
+                const gradient = '<linearGradient id="A" gradientUnits="userSpaceOnUse" x1="5.401" y1="34.714" x2="43.817" y2="11.74"><stop offset="0" stop-color="#64acb7"/><stop offset="1" stop-color="#7fdbe9"/></linearGradient>';
+                if (entity.state === 'on') { return `<svg viewBox="0 0 50 50"> ${style} ${gradient} <path d="M2.9,8h44.3v29.9H2.9V8z" fill="#20262890"/><path class="animate_on" d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
+                else if (entity.state === 'off') { return `<svg viewBox="0 0 50 50"> ${path} </svg>`; } ]]]
+            styles:
+              custom_fields:
+                icon_imac:
+                  [fill: "[[[ return entity.state === 'on' ? '#72757c' : '#9da0a2'; ]]]", 
+                  top: 8.5%, left: 11%, width: 3.3vw, position: absolute]
+            template: ['base']
+
+          # ==================================== #
+          #                                      #
+          #                  T V                 #
+          #                                      #
+          # ==================================== #
+
+          - type: "custom:button-card"
+            entity: media_player.living_room_tv
+            triggers_update: ["media_player.living_room_tv"]
+            style:
+              top: 37.9%
+              left: 31.81%
+              width: 10%
+            custom_fields:
+              icon_tv: &icon_tv >
+                [[[ const style = '<style>@keyframes animate_on{from{transform: scaleY(0);}to{transform: scaleY(1);}}.animate_on{animation: animate_on 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}@keyframes animate_off{from{transform: scaleY(1);}to{transform: scaleY(0);}}.animate_off{animation: animate_off 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}</style>';
+                const path = '<path d="M46 9.2v27.5H4.1V9.2H46m2.4-2.4H1.6v32.3h46.7c.1 0 .1-32.3.1-32.3zM11.9 43.2h26.3c.6 0 1.1-.4 1.1-1v-.3c0-.6-.4-1.1-1-1.1H11.9c-.6 0-1.1.4-1.1 1v.3a1.11 1.11 0 0 0 1.1 1.1z"/>';
+                const gradient = '<linearGradient id="A" gradientUnits="userSpaceOnUse" x1="5.401" y1="34.714" x2="43.817" y2="11.74"><stop offset="0" stop-color="#64acb7"/><stop offset="1" stop-color="#7fdbe9"/></linearGradient>';
+                if (entity.state === 'on') { return `<svg viewBox="0 0 50 50"> ${style} ${gradient} <path d="M2.9,8h44.3v29.9H2.9V8z" fill="#20262890"/><path class="animate_on" d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
+                else if (entity.state === 'off') { return `<svg viewBox="0 0 50 50"> ${path} </svg>`; } ]]]
+            styles: &icon_tv_styles
+              custom_fields:
+                icon_tv:
+                  [fill: "[[[ return entity.state === 'on' ? '#616161' : '#9da0a2'; ]]]", 
+                  top: 7%, left: 10.7%, width: 3.5vw, position: absolute]
+            name: TV
+            template: base
+
+          # ==================================== #
+          #                                      #
           #             C U R T A I N            #
           #                                      #
           # ==================================== #
@@ -151,7 +210,7 @@ views:
             entity: switch.curtain
             triggers_update: ["switch.curtain", "input_boolean.curtain"]
             style:
-              top: 19.35%
+              top: 37.9%
               left: 42.81%
               width: 10%
             name: Curtain
@@ -218,28 +277,6 @@ views:
                     position: absolute,
                     opacity: 0.6,
                   ]
-
-          - type: "custom:button-card"
-            entity: media_player.living_room_tv
-            triggers_update: ["media_player.living_room_tv"]
-            style:
-              top: 37.9%
-              left: 31.81%
-              width: 10%
-            custom_fields:
-              icon_tv: &icon_tv >
-                [[[ const style = '<style>@keyframes animate_on{from{transform: scaleY(0);}to{transform: scaleY(1);}}.animate_on{animation: animate_on 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}@keyframes animate_off{from{transform: scaleY(1);}to{transform: scaleY(0);}}.animate_off{animation: animate_off 1s; transform-origin: -100% 46%; animation-fill-mode: forwards;}</style>';
-                const path = '<path d="M46 9.2v27.5H4.1V9.2H46m2.4-2.4H1.6v32.3h46.7c.1 0 .1-32.3.1-32.3zM11.9 43.2h26.3c.6 0 1.1-.4 1.1-1v-.3c0-.6-.4-1.1-1-1.1H11.9c-.6 0-1.1.4-1.1 1v.3a1.11 1.11 0 0 0 1.1 1.1z"/>';
-                const gradient = '<linearGradient id="A" gradientUnits="userSpaceOnUse" x1="5.401" y1="34.714" x2="43.817" y2="11.74"><stop offset="0" stop-color="#64acb7"/><stop offset="1" stop-color="#7fdbe9"/></linearGradient>';
-                if (entity.state === 'on') { return `<svg viewBox="0 0 50 50"> ${style} ${gradient} <path d="M2.9,8h44.3v29.9H2.9V8z" fill="#20262890"/><path class="animate_on" d="M2.9,8h44.3v29.9H2.9V8z" fill="url(#A)"/> ${path} </svg>`; }
-                else if (entity.state === 'off') { return `<svg viewBox="0 0 50 50"> ${path} </svg>`; } ]]]
-            styles: &icon_tv_styles
-              custom_fields:
-                icon_tv:
-                  [fill: "[[[ return entity.state === 'on' ? '#616161' : '#9da0a2'; ]]]", 
-                  top: 7%, left: 10.7%, width: 3.5vw, position: absolute]
-            name: TV
-            template: base
 
           # ===================================================== #
           #                                                       #
